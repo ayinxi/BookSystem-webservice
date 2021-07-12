@@ -8,7 +8,6 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 
 public class TokenUtils {
     //设置过期时间
@@ -52,8 +51,6 @@ public class TokenUtils {
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
             JWTVerifier verifier = JWT.require(algorithm).build();
             DecodedJWT jwt = verifier.verify(token);
-            String username=jwt.getClaim("username").asString();
-            System.out.println(username);
             return true;
         }catch (Exception e){
             e.printStackTrace();
@@ -61,13 +58,23 @@ public class TokenUtils {
         }
     }
 
-    
+    public static Map<String, Object> parseToken(String token){
+        Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
+        JWTVerifier verifier = JWT.require(algorithm).build();
+        DecodedJWT jwt = verifier.verify(token);
+        String username=jwt.getClaim("username").asString();
+        String password=jwt.getClaim("password").asString();
+        Map<String,Object>map=new HashMap<String,Object>();
+        map.put("username",username);
+        map.put("password",password);
+        return map;
+    }
+
     public static void main(String[] args) {
         String username ="zhangsan";
         String password = "123";
         String token = generateToken(username,password);
-        System.out.println(token);
-//        token+=;
+        System.out.println(parseToken(token));
         boolean b = verify(token);
         System.out.println(b);
     }
