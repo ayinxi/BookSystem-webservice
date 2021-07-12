@@ -1,4 +1,6 @@
 package booksystem.service.Impl;
 
-public class UserServiceImpl {
+import booksystem.service.UserService;
+
+public class UserServiceImpl implements UserService {
 }

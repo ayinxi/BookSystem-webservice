@@ -1,4 +1,4 @@
 package booksystem.service;
 
-public class UserService {
+public interface UserService {
 }

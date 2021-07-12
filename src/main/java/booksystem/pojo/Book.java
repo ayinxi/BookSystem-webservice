@@ -21,9 +21,9 @@ public class Book {
         this.book_name = book_name;
         this.author = author;
         this.price = price;
-        this.volumn = volumn;
-        this.repertory = repertory;
-        this.press = press;
+        this.volumn = volumn;//销量
+        this.repertory = repertory;//库存
+        this.press = press;//出版社
         this.edition = edition;
         this.print_time = print_time;
         this.image_b = image_b;
