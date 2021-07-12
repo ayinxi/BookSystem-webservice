@@ -1,15 +1,10 @@
-package booksystem.dao;
+package booksystem.service;
 
 import booksystem.pojo.Address;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-@Mapper
-public interface AddressDao {
-
+public interface AddressService {
     //根据user_id获取所有地址
     List<Address> getAllAddress(String user_id);
     //添加一个地址

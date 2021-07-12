@@ -29,5 +29,4 @@ public class UserLogin {
         Result result=Result.ok("登录成功").put("token",token);
         return result;
     }
-
 }

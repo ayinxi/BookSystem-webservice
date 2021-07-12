@@ -16,7 +16,7 @@ public interface UserDao {
     //添加一个用户
     int addUser(User user);
     //删除一个用户
-    int deleteUser(String ID);
+    int deleteUser(String user_id);
     //更新用户
     int updateUser(User user);
 }

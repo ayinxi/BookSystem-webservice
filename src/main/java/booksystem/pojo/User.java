@@ -11,7 +11,7 @@ public class User {
     private String avatar_b;
     private String avatar_s;
     private String rgtime;//注册时间
-    private int identity;//身份:0.游客(未登录) 1.未激活用户 2.激活用户 3.商家
+    private int identity;//身份:0.用户 1.商家
     private int apply_pass;//0.未申请 1.未通过 2.已通过
     private String apply_reason;
     private String shop_id;//商家店铺id

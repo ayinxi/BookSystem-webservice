@@ -1,16 +1,10 @@
-package booksystem.dao;
+package booksystem.service;
 
 import booksystem.pojo.Book;
-import booksystem.pojo.User;
-import org.apache.ibatis.annotations.Mapper;
-import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
-@Repository
-@Mapper
-public interface BookDao {
-
+public interface BookService {
     //获取所有图书
     List<Book> getAllBook();
     //根据商家username获取图书
