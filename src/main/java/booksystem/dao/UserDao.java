@@ -1,6 +1,6 @@
-package booksystem.dao.user;
+package booksystem.dao;
 
-import booksystem.pojo.user.User;
+import booksystem.pojo.User;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 

@@ -1,4 +1,4 @@
-package booksystem.pojo.book;
+package booksystem.pojo;
 
 public class Book {
     private String id;
