@@ -1,12 +1,12 @@
 package booksystem.pojo.admin;
 
 public class Admin {
-    String id;
-    String username;
-    String password;
-    String avatar_b;
-    String avatar_s;
-    String name;
+    private String id;//id
+    private String username;//用户名
+    private String password;//密码
+    private String avatar_b;//大图路径
+    private String avatar_s;//小图路径
+    private String name;//昵称
 
     public Admin() {
     }
