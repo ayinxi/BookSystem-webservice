@@ -1,21 +1,21 @@
 package booksystem.pojo.user;
-import java.util.Date;
-public class user {
+
+public class User {
     private String id;
     private String username;
     private String password;
     private String email;
-    private int status;
-    private char activationCode;
+    private int status;//是否激活
+    private char activationCode;//激活码
     private String name;
     private String avator_b;
     private String avator_s;
-    private java.util.Date rgtime;
-    private int identity;
-    private int shop_id;
+    private String rgtime;//注册时间
+    private int identity;//身份:0.普通用户 1.商家
+    private String shop_id;//商家店铺id
 
-    public user(){}
-    public user(String id, String username, String password, String email, int status, char activationCode, String name, String avator_b, String avator_s, Date rgtime, int identity, int shop_id) {
+    public User(){}
+    public User(String id, String username, String password, String email, int status, char activationCode, String name, String avator_b, String avator_s, String rgtime, int identity, String shop_id) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -66,7 +66,7 @@ public class user {
         return avator_s;
     }
 
-    public Date getRgtime() {
+    public String getRgtime() {
         return rgtime;
     }
 
@@ -74,7 +74,7 @@ public class user {
         return identity;
     }
 
-    public int getShop_id() {
+    public String getShop_id() {
         return shop_id;
     }
 
@@ -114,7 +114,7 @@ public class user {
         this.avator_s = avator_s;
     }
 
-    public void setRgtime(Date rgtime) {
+    public void setRgtime(String rgtime) {
         this.rgtime = rgtime;
     }
 
@@ -122,7 +122,7 @@ public class user {
         this.identity = identity;
     }
 
-    public void setShop_id(int shop_id) {
+    public void setShop_id(String shop_id) {
         this.shop_id = shop_id;
     }
 

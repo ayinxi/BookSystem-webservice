@@ -17,8 +17,8 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public Admin getAdminByID(String ID) {
-        return adminDao.getAdminByID(ID);
+    public Admin getAdminByName(String username){
+        return adminDao.getAdminByName(username);
     }
 
     @Override
