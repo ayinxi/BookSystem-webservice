@@ -21,6 +21,7 @@ public class LoginFilter implements Filter{
         HttpServletResponse response = (HttpServletResponse) servletResponse;
 
         System.out.println("TestFilter,"+request.getRequestURI());
+        response.setHeader("Access-Control-Allow-Origin", "*");
 
         //执行
         filterChain.doFilter(servletRequest, servletResponse);
