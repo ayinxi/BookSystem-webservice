@@ -23,8 +23,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public int addUser(User user) {
-        return userDao.addUser(user);
+    public void addUser(String email,String password,String name) {
+        userDao.addUser(email,password,name);
     }
 
     @Override

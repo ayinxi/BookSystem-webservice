@@ -21,16 +21,30 @@ public class UserController {
         List<User> result=userService.getAllUser();
         if(result!=null)
         {
-            return Result.ok(ResultEnum.SUCCESS.getMsg());
+            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
         }else{
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }
     }
 
     //用户username查找用户
-    @RequestMapping("/admin/user/getUserByName/{username}")
-    public Result getUserByName(@PathVariable("username") String username){
+    @RequestMapping("/admin/user/getUser")
+    public Result getUserByName(@RequestParam("username") String username){
         User result=userService.getUserByName(username);
+        if(result!=null)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
+        }else{
+            return Result.error(ResultEnum.User_NOT_EXIST.getCode(),ResultEnum.User_NOT_EXIST.getMsg());
+        }
+    }
+
+    @PostMapping("/register")
+    public Result addUser(@RequestParam("password") String password,
+                          @RequestParam("email") String email,
+                          @RequestParam("name") String name){
+        userService.addUser(email,password,name);
+        User result=userService.getUserByName(email);
         if(result!=null)
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
@@ -39,22 +53,11 @@ public class UserController {
         }
     }
 
-    @RequestMapping("/insertUser")
-    public Result addUser(@RequestBody User user){
-        int result=userService.addUser(user);
-        if(result==0)
-        {
-            return Result.ok(ResultEnum.SUCCESS.getMsg());
-        }else{
-            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
-        }
-    }
-
     //删除一个用户
-    @RequestMapping("/admin/user/deleteUser/{user_id}")
-    public Result deleteUser(@PathVariable("user_id") String user_id){
+    @DeleteMapping("/admin/user/deleteUser")
+    public Result deleteUser(@RequestParam("user_id") String user_id){
         int result=userService.deleteUser(user_id);
-        if(result==0)
+        if(result!=0)
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else{
@@ -62,7 +65,7 @@ public class UserController {
         }
     }
     //更新用户
-    @RequestMapping("/updateUser")
+    @PostMapping("/updateUser")
     public Result updateUser(@RequestBody User user){
         int result=userService.updateUser(user);
         if(result==0)

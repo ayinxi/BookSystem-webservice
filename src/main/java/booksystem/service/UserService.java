@@ -10,7 +10,7 @@ public interface UserService {
     //根据用户username获取用户信息
     User getUserByName(String username);
     //添加一个用户
-    int addUser(User user);
+    void addUser(String email,String password,String name);
     //删除一个用户
     int deleteUser(String ID);
     //更新用户
