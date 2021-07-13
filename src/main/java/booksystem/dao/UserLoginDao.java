@@ -8,4 +8,7 @@ import org.springframework.stereotype.Repository;
 public interface UserLoginDao {
     //登录
     int userLogin(String username,String password);
+    int getIdentity(String username);
+    int adminLogin(String username,String password);
+
 }

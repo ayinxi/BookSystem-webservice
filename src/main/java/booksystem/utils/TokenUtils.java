@@ -15,7 +15,7 @@ public class TokenUtils {
     //token秘钥
     private static final String TOKEN_SECRET = "ZCBOOKBFKSYSTEM2021BQWE";
 
-    public static String generateToken (String username,String password){
+    public static String generateToken (String username,String password,int identity){
 
         String token = "";
         try {
@@ -33,6 +33,7 @@ public class TokenUtils {
                     .withHeader(header)
                     .withClaim("username",username)
                     .withClaim("password",password).withExpiresAt(date)
+                    .withClaim("identity",identity)
                     .sign(algorithm);
         }catch (Exception e){
             e.printStackTrace();
@@ -64,17 +65,19 @@ public class TokenUtils {
         DecodedJWT jwt = verifier.verify(token);
         String username=jwt.getClaim("username").asString();
         String password=jwt.getClaim("password").asString();
+        int identity=jwt.getClaim("identity").asInt();
         Map<String,Object>map=new HashMap<String,Object>();
         map.put("username",username);
         map.put("password",password);
+        map.put("identity",identity);
         return map;
     }
 
     public static void main(String[] args) {
-        String username ="zhangsan";
-        String password = "123";
-        String token = generateToken(username,password);
-        System.out.println(parseToken(token));
+        String username ="admin@admin.com";
+        String password = "123456";
+        String token = generateToken(username,password,2);
+        System.out.println(Integer.parseInt(parseToken(token).get("identity").toString()));
         boolean b = verify(token);
         System.out.println(b);
     }

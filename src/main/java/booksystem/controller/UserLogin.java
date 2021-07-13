@@ -19,14 +19,22 @@ public class UserLogin {
     @PostMapping ("/login")
     public Result login(@RequestParam("username") String username,
                         @RequestParam("password") String password){
-        int res=userLoginService.userLogin(username,password);
-        if(res==0){
-            Result result=Result.ok("登录失败");
-            result.put("code",201);
+        int user=userLoginService.userLogin(username,password);
+        if(user==0){
+            int admin=userLoginService.adminLogin(username,password);
+            if(admin==0){
+                Result result=Result.ok("登录失败");
+                result.put("code",201);
+                return result;
+            }
+            String token=TokenUtils.generateToken(username,password,2);
+            Result result=Result.ok("登录成功").put("token",token).put("identity",2);
             return result;
+
         }
-        String token=TokenUtils.generateToken(username,password);
-        Result result=Result.ok("登录成功").put("token",token);
+        int identity=userLoginService.getIdentity(username);
+        String token=TokenUtils.generateToken(username,password,identity);
+        Result result=Result.ok("登录成功").put("token",token).put("identity",identity);
         return result;
     }
 }

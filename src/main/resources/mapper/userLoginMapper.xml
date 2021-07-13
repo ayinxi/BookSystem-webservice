@@ -4,5 +4,11 @@
     <select id="userLogin" resultType="int">
         SELECT COUNT(id) FROM user WHERE username=#{username} AND password=#{password}
     </select>
+    <select id="getIdentity" resultType="int">
+        SELECT identity FROM user WHERE username=#{username}
+    </select>
+    <select id="adminLogin" resultType="int">
+        SELECT COUNT(id) FROM admin WHERE username=#{username} AND password=#{password}
+    </select>
 </mapper>
 
