@@ -14,9 +14,11 @@ public class Book {
     private String image_s;
     private String category_id;//目录id
     private String shop_id;//店铺id
+    private String creat_time;
+    private String update_time;
 
     public Book(){}
-    public Book(String id, String book_name, String author, double price, int volumn, int repertory, String press, int edition, String print_time, String image_b, String image_s, String category_id, String shop_id) {
+    public Book(String id, String book_name, String author, double price, int volumn, int repertory, String press, int edition, String print_time, String image_b, String image_s, String category_id, String shop_id,String creat_time,String update_time) {
         this.id = id;
         this.book_name = book_name;
         this.author = author;
@@ -30,6 +32,8 @@ public class Book {
         this.image_s = image_s;
         this.category_id = category_id;
         this.shop_id = shop_id;
+        this.creat_time = creat_time;
+        this.update_time=update_time;
     }
 
     public String getId() {
@@ -134,5 +138,21 @@ public class Book {
 
     public void setShop_id(String shop_id) {
         this.shop_id = shop_id;
+    }
+
+    public String getCreat_time() {
+        return creat_time;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setCreat_time(String creat_time) {
+        this.creat_time = creat_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
     }
 }

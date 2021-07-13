@@ -9,10 +9,12 @@ public class Order {
     private String user_id;
     private String remark;//评价
     private double rate;//评分
+    private String creat_time;
+    private String update_time;
 
     public Order(){}
 
-    public Order(String id, String order_time, double total, int status, String address_id, String user_id,String remark,double rate) {
+    public Order(String id, String order_time, double total, int status, String address_id, String user_id,String remark,double rate,String creat_time,String update_time) {
         this.id = id;
         this.order_time = order_time;
         this.total = total;
@@ -21,6 +23,8 @@ public class Order {
         this.user_id = user_id;
         this.remark=remark;
         this.rate=rate;
+        this.creat_time = creat_time;
+        this.update_time=update_time;
     }
 
     public String getId() {
@@ -85,5 +89,21 @@ public class Order {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getCreat_time() {
+        return creat_time;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setCreat_time(String creat_time) {
+        this.creat_time = creat_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
     }
 }

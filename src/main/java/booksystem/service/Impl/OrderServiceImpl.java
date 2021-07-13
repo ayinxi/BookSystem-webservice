@@ -22,4 +22,13 @@ public class OrderServiceImpl implements OrderService {
     public int addOrder(Order order) {
         return orderDao.addOrder(order);
     }
+
+    @Override
+    public List<Order> getAllOrderByShop(String shop_id) {
+        return orderDao.getAllOrderByShop(shop_id);
+    }
+    @Override
+    public List<Order> getAllOrder(){
+        return orderDao.getAllOrder();
+    }
 }

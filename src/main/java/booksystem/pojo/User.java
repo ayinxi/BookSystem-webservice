@@ -10,15 +10,17 @@ public class User {
     private String name;//昵称
     private String avatar_b;
     private String avatar_s;
-    private String rgtime;//注册时间
+    private String creat_time;//注册时间
+    private String update_time;//注册时间
     private int identity;//身份:0.用户 1.商家
     private int apply_pass;//0.未申请 1.未通过 2.已通过
     private String apply_reason;
     private String shop_id;//商家店铺id
 
+
     public User(){}
 
-    public User(String id, String username, String password, String email, int status, String activationCode, String name, String avatar_b, String avatar_s, String rgtime, int identity,int apply_pass,String apply_reason, String shop_id) {
+    public User(String id, String username, String password, String email, int status, String activationCode, String name, String avatar_b, String avatar_s, int identity,int apply_pass,String apply_reason, String shop_id,String creat_time,String update_time) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -28,7 +30,8 @@ public class User {
         this.name = name;
         this.avatar_b = avatar_b;
         this.avatar_s = avatar_s;
-        this.rgtime = rgtime;
+        this.creat_time = creat_time;
+        this.update_time=update_time;
         this.identity = identity;
         this.shop_id = shop_id;
         this.apply_reason=apply_reason;
@@ -75,10 +78,6 @@ public class User {
         return avatar_s;
     }
 
-    public String getRgtime() {
-        return rgtime;
-    }
-
     public int getIdentity() {
         return identity;
     }
@@ -123,10 +122,6 @@ public class User {
         this.avatar_s = avatar_s;
     }
 
-    public void setRgtime(String rgtime) {
-        this.rgtime = rgtime;
-    }
-
     public void setIdentity(int identity) {
         this.identity = identity;
     }
@@ -145,5 +140,21 @@ public class User {
 
     public void setApply_pass(int apply_pass) {
         this.apply_pass = apply_pass;
+    }
+
+    public String getCreat_time() {
+        return creat_time;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setCreat_time(String creat_time) {
+        this.creat_time = creat_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
     }
 }

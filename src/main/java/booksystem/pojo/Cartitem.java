@@ -5,14 +5,18 @@ public class Cartitem {
     private int sum;//数量
     private String book_id;
     private String user_id;
+    private String creat_time;
+    private String update_time;
 
     public Cartitem(){}
 
-    public Cartitem(String id, int sum, String book_id, String user_id) {
+    public Cartitem(String id, int sum, String book_id, String user_id,String creat_time,String update_time) {
         this.id = id;
         this.sum = sum;
         this.book_id = book_id;
         this.user_id = user_id;
+        this.creat_time = creat_time;
+        this.update_time=update_time;
     }
 
     public String getId() {
@@ -45,5 +49,21 @@ public class Cartitem {
 
     public void setUser_id(String user_id) {
         this.user_id = user_id;
+    }
+
+    public String getCreat_time() {
+        return creat_time;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
+    }
+
+    public void setCreat_time(String creat_time) {
+        this.creat_time = creat_time;
+    }
+
+    public void setUpdate_time(String update_time) {
+        this.update_time = update_time;
     }
 }

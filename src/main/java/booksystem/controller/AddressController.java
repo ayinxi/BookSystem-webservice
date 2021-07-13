@@ -19,12 +19,12 @@ public class AddressController {
     AddressService addressService;
 
     //根据user_id获取所有地址
-    @RequestMapping("/getAllAddress")
+    @RequestMapping("/user/getAllAddress")
     public Result getAllAddress(String user_id){
         return Result.ok().put("data",addressService.getAllAddress(user_id));
     }
     //添加一个地址
-    @RequestMapping("/addAddress")
+    @RequestMapping("/user/addAddress")
     public Result addAddress(Address address){
         int result= addressService.addAddress(address);
         if(result>0)
@@ -34,7 +34,7 @@ public class AddressController {
         return Result.ok("操作失败");
     }
     //删除一个地址
-    @RequestMapping("/deleteAddress")
+    @RequestMapping("/user/deleteAddress")
     public Result deleteAddress(String address_id){
         int result= addressService.deleteAddress(address_id);
         if(result>0)
@@ -44,7 +44,7 @@ public class AddressController {
         return Result.ok("操作失败");
     }
     //修改地址信息
-    @RequestMapping("/updateAddress")
+    @RequestMapping("/user/updateAddress")
     public Result updateAddress(Address address){
         int result= addressService.updateAddress(address);
         if(result>0)
