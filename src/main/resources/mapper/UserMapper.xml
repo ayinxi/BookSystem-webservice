@@ -2,40 +2,6 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="booksystem.dao.UserDao">
-
-    <!--    <select id="getAllStudents" resultType="com.stu.manage.demo.entity.Student">-->
-    <!--        select * from student where is_valid=1-->
-    <!--    </select>-->
-    <!--    <select id="getStudentByName" parameterType="String" resultType="com.stu.manage.demo.entity.Student">-->
-    <!--        select * from student-->
-    <!--        where student_name=#{studentName} and is_valid=1-->
-    <!--    </select>-->
-    <!--    <select id="getStudentByClass" parameterType="String" resultType="com.stu.manage.demo.entity.Student">-->
-    <!--        select * from student-->
-    <!--        where class_id=#{classId} and is_valid=1-->
-    <!--    </select>-->
-    <!--    <select id="getStudentById" parameterType="Integer" resultType="com.stu.manage.demo.entity.Student">-->
-    <!--        select * from student-->
-    <!--        where student_id=#{studentId} and is_valid=1-->
-    <!--    </select>-->
-    <!--    <select id="getStudentByGradeClass" parameterType="com.stu.manage.demo.entity.GradeClass" resultType="com.stu.manage.demo.entity.Student">-->
-    <!--        select * from student-->
-    <!--        where class_id=#{classId} and grade_id=#{gradeId} and is_valid=1-->
-    <!--    </select>-->
-    <!--    <select id="getStudentByIdCard" parameterType="String" resultType="com.stu.manage.demo.entity.Student">-->
-    <!--        select * from student-->
-    <!--        where id_card=#{idCard} and is_valid=1-->
-    <!--    </select>-->
-    <!--    <update id="updateStudent"  parameterType="com.stu.manage.demo.entity.Student">-->
-    <!--        update student set-->
-    <!--        id_card=#{idCard},-->
-    <!--        grade_id=#{gradeId}-->
-    <!--        class_id=#{classId},-->
-    <!--        student_name=#{studentName},-->
-    <!--        sex=#{sex}-->
-    <!--        where student_id=#{studentId} and is_valid=1-->
-    <!--    </update>-->
-
     <select id="getAllUser" resultType="booksystem.pojo.User">
         select * from user
     </select>
@@ -44,22 +10,17 @@
         select * from user where username=#{username}
      </select>
 
-    <select id="addUser" parameterType="booksystem.pojo.User" resultType="booksystem.pojo.User">
-        update
-    </select>
+    <insert id="addUser" parameterType="booksystem.pojo.User">
+        INSERT INTO user(id,username,password,email,status,activationCode,name,avatar_b,avatar_s,identity,apply_reason,apply_pass,shop_id,creat_time,update_time)
+        VALUES(MD5(UUID()),#{username},#{password},#{email},0,null,#{name},"http://47.94.131.208:8888/img/original/avatar.jpg","http://47.94.131.208:8888/img/compression/avatar.jpg",0,null,0,null,now(),now());
+    </insert>
 
-    <update id="updateUser"  parameterType="booksystem.pojo.User" resultType="int">
-        update user set
-        password=#{password},
-        name=#{name},
-        avatar_b=#{avatar_b}
-        where user_id=#{user_id} ADD username=#{username}
+    <update id="updateUser"  parameterType="booksystem.pojo.User">
+        update user set password=#{password},name=#{name},avatar_b=#{avatar_b},update_time=now() where id=#{user_id} and username=#{username}
     </update>
 
     <update id="deleteUser" parameterType="String">
-        update student set
-            is_valid = '0'
-        where student_id=#{studentId} and is_valid=1
+        delete from user where id=#{user_id}
     </update>
 
 </mapper>
