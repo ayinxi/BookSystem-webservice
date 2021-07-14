@@ -10,7 +10,12 @@ public enum ResultEnum {
     DATA_IS_NULL(3,"数据为空"),
     DELETE_FAIL(5,"删除失败"),
     UPDATE_FAIL(6,"更新失败"),
-    VERIFY_FAIL(7,"验证失败")
+    VERIFY_FAIL(7,"验证失败"),
+    AUTHORITY_FAIL(8,"无权限访问"),
+    TOKEN_FAIL(9,"token错误或已过期"),
+    TOKEN_IS_NULL(10,"token为空"),
+    LOGIN_FAIL(11,"登录失败"),
+
     ;
     private Integer code;
     private String msg;

@@ -11,16 +11,16 @@ import java.util.Map;
 
 public class TokenUtils {
     //设置过期时间
-    private static final long EXPIRE_DATE=30*60*100000;
+    private static final long EXPIRE_DATE=60*60*1000;
     //token秘钥
     private static final String TOKEN_SECRET = "ZCBOOKBFKSYSTEM2021BQWE";
 
     public static String generateToken (String username,String password,int identity){
-
         String token = "";
         try {
             //过期时间
             Date date = new Date(System.currentTimeMillis()+EXPIRE_DATE);
+            System.out.println(date.getTime());
             //秘钥及加密算法
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
             //设置头部信息
@@ -71,6 +71,14 @@ public class TokenUtils {
         map.put("password",password);
         map.put("identity",identity);
         return map;
+    }
+
+    public static String refresh(String token){
+        Map<String,Object>map=parseToken(token);
+        token=generateToken(map.get("username").toString(),
+                            map.get("password").toString(),
+                            Integer.parseInt(map.get("identity").toString()));
+        return token;
     }
 
     public static void main(String[] args) {

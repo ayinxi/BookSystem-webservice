@@ -1,6 +1,7 @@
 package booksystem.interceptor;
 
 
+import booksystem.utils.ResultEnum;
 import booksystem.utils.TokenUtils;
 import org.json.JSONObject;
 import org.springframework.stereotype.Component;
@@ -15,6 +16,9 @@ import java.util.Map;
 
 @Component
 public class LoginFilter implements Filter{
+    final String[] allowUrl={
+            "/login","/register"
+    };
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -28,37 +32,67 @@ public class LoginFilter implements Filter{
         System.out.println("TestFilter,"+request.getRequestURI());
         response.setHeader("Access-Control-Allow-Origin", "*");
 
-        Map<String,String> map = new HashMap<>();
+        Map<String,Object> map = new HashMap<>();
         String url =  ((HttpServletRequest)servletRequest).getRequestURI();
         if(url != null){
             //登录请求直接放行
-            if("/login".equals(url)){
+            boolean isAllowUrl=false;
+            for(int i=0;i<allowUrl.length;i++){
+                if(allowUrl[i].equals(url))
+                    isAllowUrl=true;
+            }
+            if(isAllowUrl){
                 filterChain.doFilter(servletRequest,servletResponse);
                 return;
             }else{
                 //其他请求验证token
                 String token = ((HttpServletRequest)servletRequest).getHeader("token");
-                if(true){
+                if(token!=null){
                     //token验证结果
-                    int verify  = 1;
-                    if(verify != 1){
+                    boolean verify  = TokenUtils.verify(token);
+                    if(!verify){
                         //验证失败
-                        if(verify == 2){
-                            map.put("errorMsg","token已过期");
-                        }else if(verify == 0){
-                            map.put("errorMsg","用户信息验证失败");
-                        }
-                    }else if(verify  == 1){
+                        map.put("msg",ResultEnum.TOKEN_FAIL.getMsg());
+                        map.put("code", ResultEnum.TOKEN_FAIL.getCode());
+                    }else if(verify){
                         //token验证结果
-                    int identity=Integer.parseInt(TokenUtils.parseToken(token).get("identity").toString());
-                    System.out.println("该身份权限为："+identity);
-                        //验证成功，放行
-                        filterChain.doFilter(servletRequest,servletResponse);
-                        return;
+                        int identity=Integer.parseInt(TokenUtils.parseToken(token).get("identity").toString());
+                        boolean authority=true;
+                        System.out.println("该身份权限为："+identity);
+                        String[] str=url.split("/");
+                        for(int i=0;i<str.length;i++){
+                            System.out.println(str[i]);
+                        }
+                        if (identity==0){
+                            if(str[0].equals("shop")||str[0].equals("admin")){
+                                map.put("msg",ResultEnum.AUTHORITY_FAIL.getMsg());
+                                map.put("code",ResultEnum.AUTHORITY_FAIL.getCode());
+                                authority=false;
+                            }
+
+                        }else if(identity==1){
+                            if(str[0].equals("admin")){
+                                map.put("msg",ResultEnum.AUTHORITY_FAIL.getMsg());
+                                map.put("code",ResultEnum.AUTHORITY_FAIL.getCode());
+                                authority=false;
+                            }
+                        }else if(identity==2){
+
+                        }else {
+                            authority=false;
+                        }
+                        //验证成功，且有权限
+                        if(authority){
+                            token=TokenUtils.refresh(token);
+                            response.setHeader("token",token);
+                            filterChain.doFilter(servletRequest,servletResponse);
+                            return;
+                        }
                     }
                 }else{
                     //token为空的返回
-                    map.put("errorMsg","未携带token信息");
+                    map.put("msg",ResultEnum.TOKEN_IS_NULL.getMsg());
+                    map.put("code",ResultEnum.TOKEN_IS_NULL.getCode());
                 }
             }
             JSONObject jsonObject = new JSONObject(map);
