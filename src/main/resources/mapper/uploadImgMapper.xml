@@ -1,13 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="booksystem.dao.UploadImgDao">
-    <select id="userLogin" resultType="int">
-        SELECT COUNT(id) FROM user WHERE username=#{username} AND password=#{password}
-    </select>
-    <select id="getIdentity" resultType="int">
-        SELECT identity FROM user WHERE username=#{username}
-    </select>
-    <select id="adminLogin" resultType="int">
-        SELECT COUNT(id) FROM admin WHERE username=#{username} AND password=#{password}
+    <update id="updateImgUrl">
+        UPDATE avatar_b,avatar_s SET avatar_b=#{url_b},avatar_s=#{url_s} WHERE username=#{username}
+    </update>
+
+    <select id="getImgUrl" resultType="String">
+        SELECT avatar_b FROM user WHERE username=#{username}
     </select>
 </mapper>

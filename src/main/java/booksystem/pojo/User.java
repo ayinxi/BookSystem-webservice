@@ -16,11 +16,9 @@ public class User {
     private int apply_pass;//0.未申请 1.未通过 2.已通过
     private String apply_reason;
     private String shop_id;//商家店铺id
+    private String access_time;
 
-
-    public User(){}
-
-    public User(String id, String username, String password, String email, int status, String activationCode, String name, String avatar_b, String avatar_s, int identity,int apply_pass,String apply_reason, String shop_id,String create_time,String update_time) {
+    public User(String id, String username, String password, String email, int status, String activationCode, String name, String avatar_b, String avatar_s, String create_time, String update_time, int identity, int apply_pass, String apply_reason, String shop_id, String access_time) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -31,12 +29,16 @@ public class User {
         this.avatar_b = avatar_b;
         this.avatar_s = avatar_s;
         this.create_time = create_time;
-        this.update_time=update_time;
+        this.update_time = update_time;
         this.identity = identity;
+        this.apply_pass = apply_pass;
+        this.apply_reason = apply_reason;
         this.shop_id = shop_id;
-        this.apply_reason=apply_reason;
-        this.apply_pass=apply_pass;
+        this.access_time = access_time;
     }
+
+    public User(){}
+
 
     public String getApply_reason() {
         return apply_reason;
@@ -56,6 +58,22 @@ public class User {
 
     public String getEmail() {
         return email;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public String getAccess_time() {
+        return access_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    public void setAccess_time(String access_time) {
+        this.access_time = access_time;
     }
 
     public int getStatus() {
@@ -142,16 +160,8 @@ public class User {
         this.apply_pass = apply_pass;
     }
 
-    public String getCreat_time() {
-        return create_time;
-    }
-
     public String getUpdate_time() {
         return update_time;
-    }
-
-    public void setCreat_time(String creat_time) {
-        this.create_time = creat_time;
     }
 
     public void setUpdate_time(String update_time) {

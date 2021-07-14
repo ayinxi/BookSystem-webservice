@@ -28,7 +28,7 @@ public class UserController {
     }
 
     //用户username查找用户
-    @RequestMapping("/admin/user/getByUsername")
+    @RequestMapping("/user/getByUsername")
     public Result getUserByName(@RequestParam("username") String username){
         User result=userService.getUserByName(username);
         if(result!=null)
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     //用户user_id查找用户
-    @RequestMapping("/admin/user/getByID")
+    @RequestMapping("/user/getByID")
     public Result getUserByID(@RequestParam("user_id") String user_id){
         User result=userService.getUserByID(user_id);
         if(result!=null)
@@ -93,4 +93,5 @@ public class UserController {
             return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
         }
     }
+
 }
