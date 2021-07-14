@@ -108,4 +108,5 @@ public class UserController {
             return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
         }
     }
+
 }

@@ -7,6 +7,6 @@ import org.springframework.stereotype.Repository;
 @Repository
 @Mapper
 public interface UploadImgDao {
-    void updateImgUrl(String username,String url);
+    void updateImgUrl(String username,String url_b,String url_s);
     String getImgUrl(String username);
 }

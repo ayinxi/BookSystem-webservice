@@ -83,7 +83,7 @@ public class TokenUtils {
     public static void main(String[] args) {
         String username ="admin@admin.com";
         String password = "123456";
-        String token = generateToken(username,password,2);
+        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMzQ1NiIsImlkZW50aXR5IjowLCJleHAiOjE2MjYyNDcyNjYsInVzZXJuYW1lIjoidGVzdDFAYWRtaW4uY29tIn0.mM6bdS8VVNPrMeJM5dodtRjc95PW48pPu3zbbLo7uZM";
         System.out.println(Integer.parseInt(parseToken(token).get("identity").toString()));
         boolean b = verify(token);
         System.out.println(b);
