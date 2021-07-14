@@ -28,9 +28,21 @@ public class UserController {
     }
 
     //用户username查找用户
-    @RequestMapping("/admin/user/getUser")
+    @RequestMapping("/admin/user/getByUsername")
     public Result getUserByName(@RequestParam("username") String username){
         User result=userService.getUserByName(username);
+        if(result!=null)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
+        }else{
+            return Result.error(ResultEnum.User_NOT_EXIST.getCode(),ResultEnum.User_NOT_EXIST.getMsg());
+        }
+    }
+
+    //用户user_id查找用户
+    @RequestMapping("/admin/user/getByID")
+    public Result getUserByID(@RequestParam("user_id") String user_id){
+        User result=userService.getUserByID(user_id);
         if(result!=null)
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
@@ -43,21 +55,27 @@ public class UserController {
     public Result addUser(@RequestParam("password") String password,
                           @RequestParam("email") String email,
                           @RequestParam("name") String name){
-        userService.addUser(email,password,name);
         User result=userService.getUserByName(email);
         if(result!=null)
         {
-            return Result.ok(ResultEnum.SUCCESS.getMsg());
-        }else{
-            return Result.error(ResultEnum.User_NOT_EXIST.getCode(),ResultEnum.User_NOT_EXIST.getMsg());
+            return Result.error(ResultEnum.User_IS_EXISTS.getCode(),ResultEnum.User_IS_EXISTS.getMsg());
+        }else {
+            userService.addUser(email, password, name);
+            result = userService.getUserByName(email);
+            if (result != null) {
+                return Result.ok(ResultEnum.SUCCESS.getMsg());
+            } else {
+                return Result.error(ResultEnum.User_NOT_EXIST.getCode(), ResultEnum.User_NOT_EXIST.getMsg());
+            }
         }
     }
 
     //删除一个用户
-    @DeleteMapping("/admin/user/deleteUser")
+    @DeleteMapping("/admin/user/delete")
     public Result deleteUser(@RequestParam("user_id") String user_id){
-        int result=userService.deleteUser(user_id);
-        if(result!=0)
+        userService.deleteUser(user_id);
+        User result=userService.getUserByID(user_id);
+        if(result==null)
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else{
@@ -68,7 +86,7 @@ public class UserController {
     @PostMapping("/updateUser")
     public Result updateUser(@RequestBody User user){
         int result=userService.updateUser(user);
-        if(result==0)
+        if(result!=0)
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else{

@@ -10,8 +10,12 @@
         select * from user where username=#{username}
      </select>
 
+    <select id="getUserByID" parameterType="String" resultType="booksystem.pojo.User">
+        select * from user where id=#{user_id}
+    </select>
+
     <insert id="addUser">
-        INSERT INTO user(id,username,password,email,status,activationCode,name,avatar_b,avatar_s,identity,apply_reason,apply_pass,shop_id,creat_time,update_time)
+        INSERT INTO user(id,username,password,email,status,activationCode,name,avatar_b,avatar_s,identity,apply_reason,apply_pass,shop_id,create_time,update_time)
         VALUES(MD5(UUID()),#{email},#{password},#{email},0,null,#{name},"http://47.94.131.208:8888/img/original/avatar.jpg","http://47.94.131.208:8888/img/compression/avatar.jpg",0,null,0,null,now(),now());
     </insert>
 
