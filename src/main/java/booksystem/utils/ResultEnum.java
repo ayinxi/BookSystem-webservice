@@ -15,7 +15,7 @@ public enum ResultEnum {
     TOKEN_FAIL(9,"token错误或已过期"),
     TOKEN_IS_NULL(10,"token为空"),
     LOGIN_FAIL(11,"登录失败"),
-
+    REGISTER_FAIL(12,"注册失败")
     ;
     private Integer code;
     private String msg;

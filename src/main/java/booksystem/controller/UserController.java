@@ -28,7 +28,7 @@ public class UserController {
     }
 
     //用户username查找用户
-    @RequestMapping("/admin/user/getByUsername")
+    @RequestMapping("/user/getByUsername")
     public Result getUserByName(@RequestParam("username") String username){
         User result=userService.getUserByName(username);
         if(result!=null)
@@ -40,7 +40,7 @@ public class UserController {
     }
 
     //用户user_id查找用户
-    @RequestMapping("/admin/user/getByID")
+    @RequestMapping("/user/getByID")
     public Result getUserByID(@RequestParam("user_id") String user_id){
         User result=userService.getUserByID(user_id);
         if(result!=null)
@@ -51,22 +51,37 @@ public class UserController {
         }
     }
 
-    @PostMapping("/register")
-    public Result addUser(@RequestParam("password") String password,
-                          @RequestParam("email") String email,
-                          @RequestParam("name") String name){
-        User result=userService.getUserByName(email);
-        if(result!=null)
+    @PostMapping("/sendEmail")
+    @ResponseBody
+    public Result sendEmail(@RequestParam("password") String password,
+                            @RequestParam("email") String email,
+                            @RequestParam("name") String name){
+        User result1=userService.getUserByName(email);
+        if(result1!=null)
         {
             return Result.error(ResultEnum.User_IS_EXISTS.getCode(),ResultEnum.User_IS_EXISTS.getMsg());
         }else {
-            userService.addUser(email, password, name);
-            result = userService.getUserByName(email);
-            if (result != null) {
+            int result = userService.sendMimeMail(password, email, name);
+            if (result == 1) {
                 return Result.ok(ResultEnum.SUCCESS.getMsg());
             } else {
-                return Result.error(ResultEnum.User_NOT_EXIST.getCode(), ResultEnum.User_NOT_EXIST.getMsg());
+                return Result.error(ResultEnum.REGISTER_FAIL.getCode(), ResultEnum.REGISTER_FAIL.getMsg());
             }
+        }
+    }
+
+    @PostMapping("/register")
+    @ResponseBody
+    public Result register(@RequestParam("password") String password,
+                           @RequestParam("email") String email,
+                           @RequestParam("name") String name,
+                           @RequestParam("activationCode") String activationCode) {
+        userService.register(password, email, name, activationCode);
+        User result = userService.getUserByName(email);
+        if (result != null) {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        } else {
+            return Result.error(ResultEnum.User_NOT_EXIST.getCode(), ResultEnum.User_NOT_EXIST.getMsg());
         }
     }
 
