@@ -28,10 +28,9 @@ public class LoginFilter implements Filter{
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
-
-        System.out.println("TestFilter,"+request.getRequestURI());
         response.setHeader("Access-Control-Allow-Origin", "*");
 
+        System.out.println("接收访问: "+request.getRequestURI());
         Map<String,Object> map = new HashMap<>();
         String url =  ((HttpServletRequest)servletRequest).getRequestURI();
         if(url != null){
@@ -58,20 +57,16 @@ public class LoginFilter implements Filter{
                         //token验证结果
                         int identity=Integer.parseInt(TokenUtils.parseToken(token).get("identity").toString());
                         boolean authority=true;
-                        System.out.println("该身份权限为："+identity);
                         String[] str=url.split("/");
-                        for(int i=0;i<str.length;i++){
-                            System.out.println(str[i]);
-                        }
                         if (identity==0){
-                            if(str[0].equals("shop")||str[0].equals("admin")){
+                            if(str[1].equals("shop")||str[1].equals("admin")){
                                 map.put("msg",ResultEnum.AUTHORITY_FAIL.getMsg());
                                 map.put("code",ResultEnum.AUTHORITY_FAIL.getCode());
                                 authority=false;
                             }
 
                         }else if(identity==1){
-                            if(str[0].equals("admin")){
+                            if(str[1].equals("admin")){
                                 map.put("msg",ResultEnum.AUTHORITY_FAIL.getMsg());
                                 map.put("code",ResultEnum.AUTHORITY_FAIL.getCode());
                                 authority=false;
@@ -86,6 +81,7 @@ public class LoginFilter implements Filter{
                             token=TokenUtils.refresh(token);
                             response.setHeader("token",token);
                             filterChain.doFilter(servletRequest,servletResponse);
+                            System.out.println("访问token正确，且有权限继续访问");
                             return;
                         }
                     }
@@ -104,6 +100,7 @@ public class LoginFilter implements Filter{
             pw.write(jsonObject.toString());
             pw.flush();
             pw.close();
+            System.out.println("该访问出错");
         }
 
         //执行

@@ -2,6 +2,7 @@ package booksystem.controller;
 
 import booksystem.service.UserLoginService;
 import booksystem.utils.Result;
+import booksystem.utils.ResultEnum;
 import booksystem.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
@@ -23,8 +24,7 @@ public class UserLogin {
         if(user==0){
             int admin=userLoginService.adminLogin(username,password);
             if(admin==0){
-                Result result=Result.ok("登录失败");
-                result.put("code",201);
+                Result result=Result.error(ResultEnum.LOGIN_FAIL.getCode(),ResultEnum.LOGIN_FAIL.getMsg());
                 return result;
             }
             String token=TokenUtils.generateToken(username,password,2);

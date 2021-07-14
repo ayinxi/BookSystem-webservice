@@ -20,7 +20,6 @@ public class TokenUtils {
         try {
             //过期时间
             Date date = new Date(System.currentTimeMillis()+EXPIRE_DATE);
-            System.out.println(date.getTime());
             //秘钥及加密算法
             Algorithm algorithm = Algorithm.HMAC256(TOKEN_SECRET);
             //设置头部信息
