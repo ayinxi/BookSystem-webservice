@@ -2,6 +2,10 @@ server:
   port: 8088
 
 spring:
+  servlet:
+    multipart:
+      max-file-size: 30MB
+      max-request-size: 30MB
   datasource:
     username: root
     password: "#MySQL100419544#"
