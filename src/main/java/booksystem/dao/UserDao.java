@@ -23,4 +23,5 @@ public interface UserDao {
     //更新用户激活状态和激活码
     int updateStatus(String username,int status);
     int updateCode(String username,String activationCode);
+    int updateTime(String username);
 }

@@ -20,10 +20,12 @@ public interface UserService {
     //更新用户激活状态和激活码
     int updateStatus(String username,int status);
     int updateCode(String username,String activationCode);
+    int updateTime(String username);
     //发送邮件
     int sendMimeMail( String password,String email,String name);
     //生成随机激活码
     String randomCode();
     //注册用户
     int register(String password,String email,String name,String activationCode);
+
 }

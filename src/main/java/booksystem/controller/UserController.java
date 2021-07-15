@@ -55,33 +55,36 @@ public class UserController {
     @ResponseBody
     public Result sendEmail(@RequestParam("password") String password,
                             @RequestParam("email") String email,
-                            @RequestParam("name") String name){
-        User result1=userService.getUserByName(email);
-        if(result1!=null)
-        {
-            return Result.error(ResultEnum.User_IS_EXISTS.getCode(),ResultEnum.User_IS_EXISTS.getMsg());
+                            @RequestParam("name") String name) {
+        int result = userService.sendMimeMail(password, email, name);
+        if (result == 1) {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        } else if(result==-1){
+            return Result.error(ResultEnum.User_IS_EXISTS.getCode(), ResultEnum.User_IS_EXISTS.getMsg());
         }else {
-            int result = userService.sendMimeMail(password, email, name);
-            if (result == 1) {
-                return Result.ok(ResultEnum.SUCCESS.getMsg());
-            } else {
-                return Result.error(ResultEnum.REGISTER_FAIL.getCode(), ResultEnum.REGISTER_FAIL.getMsg());
-            }
+            return Result.error(ResultEnum.REGISTER_FAIL.getCode(), ResultEnum.REGISTER_FAIL.getMsg());
         }
     }
 
     @PostMapping("/register")
-    @ResponseBody
     public Result register(@RequestParam("password") String password,
                            @RequestParam("email") String email,
                            @RequestParam("name") String name,
                            @RequestParam("activationCode") String activationCode) {
-        userService.register(password, email, name, activationCode);
-        User result = userService.getUserByName(email);
-        if (result != null) {
+        int result=userService.register(password, email, name, activationCode);
+        if (result ==2) {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
-        } else {
-            return Result.error(ResultEnum.User_NOT_EXIST.getCode(), ResultEnum.User_NOT_EXIST.getMsg());
+        } else if(result==1){
+            return Result.error(ResultEnum.CODE_FAIL.getCode(), ResultEnum.CODE_FAIL.getMsg());
+        }else if(result==0)
+        {
+            return Result.error(ResultEnum.EMAIL_FAIL.getCode(), ResultEnum.EMAIL_FAIL.getMsg());
+        }else if(result==-1)
+        {
+            return Result.error(ResultEnum.Code_OUTTIME.getCode(), ResultEnum.Code_OUTTIME.getMsg());
+        }else
+        {
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
         }
     }
 
@@ -108,5 +111,4 @@ public class UserController {
             return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
         }
     }
-
 }
