@@ -13,12 +13,10 @@ public class User {
     private String create_time;//注册时间
     private String update_time;//注册时间
     private int identity;//身份:0.用户 1.商家
-    private int apply_pass;//0.未申请 1.未通过 2.已通过
-    private String apply_reason;
     private String shop_id;//商家店铺id
     private String access_time;
 
-    public User(String id, String username, String password, String email, int status, String activationCode, String name, String avatar_b, String avatar_s, String create_time, String update_time, int identity, int apply_pass, String apply_reason, String shop_id, String access_time) {
+    public User(String id, String username, String password, String email, int status, String activationCode, String name, String avatar_b, String avatar_s, String create_time, String update_time, int identity, String shop_id, String access_time) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -31,8 +29,6 @@ public class User {
         this.create_time = create_time;
         this.update_time = update_time;
         this.identity = identity;
-        this.apply_pass = apply_pass;
-        this.apply_reason = apply_reason;
         this.shop_id = shop_id;
         this.access_time = access_time;
     }
@@ -40,9 +36,6 @@ public class User {
     public User(){}
 
 
-    public String getApply_reason() {
-        return apply_reason;
-    }
 
     public String getId() {
         return id;
@@ -146,18 +139,6 @@ public class User {
 
     public void setShop_id(String shop_id) {
         this.shop_id = shop_id;
-    }
-
-    public void setApply_reason(String apply_reason) {
-        this.apply_reason = apply_reason;
-    }
-
-    public int getApply_pass() {
-        return apply_pass;
-    }
-
-    public void setApply_pass(int apply_pass) {
-        this.apply_pass = apply_pass;
     }
 
     public String getUpdate_time() {

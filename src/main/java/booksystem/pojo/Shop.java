@@ -6,6 +6,8 @@ public class Shop {
     private String avatar_s;
     private String shop_name;
     private double rate;//评分
+    private int apply_pass;//1.已提交未审核 2.通过 3.拒绝
+    private String apply_reason;
     private String creat_time;
     private String update_time;
 
@@ -19,6 +21,22 @@ public class Shop {
         this.creat_time = creat_time;
         this.update_time=update_time;
         this.rate=rate;
+    }
+
+    public int getApply_pass() {
+        return apply_pass;
+    }
+
+    public String getApply_reason() {
+        return apply_reason;
+    }
+
+    public void setApply_pass(int apply_pass) {
+        this.apply_pass = apply_pass;
+    }
+
+    public void setApply_reason(String apply_reason) {
+        this.apply_reason = apply_reason;
     }
 
     public void setId(String id) {

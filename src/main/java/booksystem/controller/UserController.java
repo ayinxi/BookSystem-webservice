@@ -62,7 +62,7 @@ public class UserController {
         } else if(result==-1){
             return Result.error(ResultEnum.User_IS_EXISTS.getCode(), ResultEnum.User_IS_EXISTS.getMsg());
         }else {
-            return Result.error(ResultEnum.REGISTER_FAIL.getCode(), ResultEnum.REGISTER_FAIL.getMsg());
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
         }
     }
 
@@ -84,7 +84,7 @@ public class UserController {
             return Result.error(ResultEnum.Code_OUTTIME.getCode(), ResultEnum.Code_OUTTIME.getMsg());
         }else
         {
-            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+            return Result.error(ResultEnum.REGISTER_FAIL.getCode(), ResultEnum.REGISTER_FAIL.getMsg());
         }
     }
 
