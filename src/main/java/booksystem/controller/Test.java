@@ -24,7 +24,9 @@ public class Test {
 
     @RequestMapping(value="/test/upload",method=RequestMethod.POST)
     @ResponseBody
-    public String uploadImg(@RequestParam("img") MultipartFile img,String username) {
+    public String uploadImg(@RequestParam("img") MultipartFile img, ServletRequest request) {
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
         // 判断文件是否为空
         if(!img.isEmpty()) {
             uploadImgService.uploadImg(img,username);
