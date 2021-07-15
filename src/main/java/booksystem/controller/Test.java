@@ -24,12 +24,10 @@ public class Test {
 
     @RequestMapping(value="/test/upload",method=RequestMethod.POST)
     @ResponseBody
-    public String uploadImg(@RequestParam("img") MultipartFile img) {
-        String contentType = img.getContentType();    // 获取文件的类型
-        System.out.println("文件类型为：" +  contentType);
+    public String uploadImg(@RequestParam("img") MultipartFile img,String username) {
         // 判断文件是否为空
         if(!img.isEmpty()) {
-            uploadImgService.uploadImg(img);
+            uploadImgService.uploadImg(img,username);
         }
             return "SUCCESS";
         }
