@@ -7,6 +7,7 @@ import java.util.List;
 public interface UserService {
     //获取所有用户
     List<User> getAllUser();
+    int getAllUserNum();
     //根据用户username获取用户信息
     User getUserByName(String username);
     User getUserByID(String user_id);
@@ -21,6 +22,7 @@ public interface UserService {
     int updateStatus(String username,int status);
     int updateCode(String username,String activationCode);
     int updateTime(String username);
+    int updateIdentity(String username,int identity);
     //发送邮件
     int sendMimeMail( String password,String email,String name);
     //生成随机激活码

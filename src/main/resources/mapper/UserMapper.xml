@@ -6,6 +6,10 @@
         select * from user
     </select>
 
+    <select id="getAllUserNum" resultType="int">
+        select count(*) from user
+    </select>
+
     <select id="getUserByName" parameterType="String" resultType="booksystem.pojo.User">
         select * from user where username=#{username}
      </select>
@@ -15,8 +19,8 @@
     </select>
 
     <insert id="addUser">
-        INSERT INTO user(id,username,password,email,status,activationCode,name,avatar_b,avatar_s,identity,shop_id,create_time,update_time,access_time)
-        VALUES(MD5(UUID()),#{email},#{password},#{email},0,null,#{name},"http://47.94.131.208:8888/img/original/avatar.jpg","http://47.94.131.208:8888/img/compression/avatar.jpg",0,null,now(),now(),now());
+        INSERT INTO user(id,username,password,email,status,activationCode,name,avatar_b,avatar_s,identity,create_time,update_time,access_time)
+        VALUES(MD5(UUID()),#{email},#{password},#{email},0,null,#{name},"http://47.94.131.208:8888/img/original/avatar.jpg","http://47.94.131.208:8888/img/compression/avatar.jpg",0,now(),now(),now());
     </insert>
 
     <update id="updateUser"  parameterType="booksystem.pojo.User">
@@ -33,6 +37,11 @@
     <update id="updateTime" >
         update user set update_time=now() where username=#{username}
     </update>
+
+    <update id="updateIdentity" >
+        update user set identity =#{identity } where username=#{username}
+    </update>
+
     <update id="deleteUser" parameterType="String">
         delete from user where id=#{user_id}
     </update>

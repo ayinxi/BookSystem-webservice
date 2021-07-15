@@ -13,10 +13,9 @@ public class User {
     private String create_time;//注册时间
     private String update_time;//注册时间
     private int identity;//身份:0.用户 1.商家
-    private String shop_id;//商家店铺id
     private String access_time;
 
-    public User(String id, String username, String password, String email, int status, String activationCode, String name, String avatar_b, String avatar_s, String create_time, String update_time, int identity, String shop_id, String access_time) {
+    public User(String id, String username, String password, String email, int status, String activationCode, String name, String avatar_b, String avatar_s, String create_time, String update_time, int identity, String access_time) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -29,7 +28,6 @@ public class User {
         this.create_time = create_time;
         this.update_time = update_time;
         this.identity = identity;
-        this.shop_id = shop_id;
         this.access_time = access_time;
     }
 
@@ -93,10 +91,6 @@ public class User {
         return identity;
     }
 
-    public String getShop_id() {
-        return shop_id;
-    }
-
     public void setId(String id) {
         this.id = id;
     }
@@ -135,10 +129,6 @@ public class User {
 
     public void setIdentity(int identity) {
         this.identity = identity;
-    }
-
-    public void setShop_id(String shop_id) {
-        this.shop_id = shop_id;
     }
 
     public String getUpdate_time() {

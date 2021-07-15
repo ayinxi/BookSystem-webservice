@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="booksystem.dao.ShopDao">
+    <select id="getShop" resultType="booksystem.pojo.Shop">
+        SELECT * FROM shop WHERE apply_pass=#{apply_pass1} OR apply_pass=#{apply_pass2} OR apply_pass=#{apply_pass3} ORDER BY update_time DESC
+    </select>
+
+    <select id="getShopNum"  resultType="int">
+        select count(*) from shop where apply_pass=#{apply_pass}
+    </select>
+
+    <update id="updatePass" >
+        update shop set apply_pass=#{apply_pass} where user_id=#{user_id}
+    </update>
+
+</mapper>

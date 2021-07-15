@@ -32,6 +32,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public int getAllUserNum() {
+        return userDao.getAllUserNum();
+    }
+
+    @Override
     public User getUserByName(String username) {
         return userDao.getUserByName(username);
     }
@@ -70,6 +75,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public int updateTime(String username) {
         return userDao.updateTime(username);
+    }
+
+    @Override
+    public int updateIdentity(String username,int identity) {
+        return userDao.updateIdentity(username,identity);
     }
 
     @Override

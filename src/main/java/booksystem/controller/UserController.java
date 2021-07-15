@@ -16,7 +16,7 @@ public class UserController {
     UserService userService;
 
     //获取所有用户
-    @RequestMapping("/admin/user/getAllUser")
+    @RequestMapping("/admin/getAllUser")
     public Result getAllUser(){
         List<User> result=userService.getAllUser();
         if(result!=null)
@@ -24,6 +24,18 @@ public class UserController {
             return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
         }else{
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+    }
+
+    //获取所有用户数量
+    @RequestMapping("/admin/getAllUserNum")
+    public Result getAllUserNum(){
+        int result=userService.getAllUserNum();
+        if(result>=0)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
+        }else{
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
         }
     }
 
@@ -66,7 +78,7 @@ public class UserController {
         }
     }
 
-    @PostMapping("/register")
+    @PostMapping("/registerUser")
     public Result register(@RequestParam("password") String password,
                            @RequestParam("email") String email,
                            @RequestParam("name") String name,
@@ -89,7 +101,7 @@ public class UserController {
     }
 
     //删除一个用户
-    @DeleteMapping("/admin/user/delete")
+    @DeleteMapping("/deleteUser")
     public Result deleteUser(@RequestParam("user_id") String user_id){
         userService.deleteUser(user_id);
         User result=userService.getUserByID(user_id);

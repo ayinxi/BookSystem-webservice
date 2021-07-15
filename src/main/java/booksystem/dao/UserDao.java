@@ -11,6 +11,7 @@ import java.util.List;
 public interface UserDao {
     //获取所有用户
     List<User> getAllUser();
+    int getAllUserNum();
     //根据用户username获取用户信息
     User getUserByName(String username);
     User getUserByID(String user_id);
@@ -24,4 +25,5 @@ public interface UserDao {
     int updateStatus(String username,int status);
     int updateCode(String username,String activationCode);
     int updateTime(String username);
+    int updateIdentity(String username,int identity);
 }
