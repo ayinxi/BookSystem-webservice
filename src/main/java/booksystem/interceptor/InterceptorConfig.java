@@ -2,6 +2,7 @@ package booksystem.interceptor;
 
 
 import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
@@ -13,4 +14,5 @@ public class InterceptorConfig extends WebMvcConfigurationSupport {
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/**");
         super.addInterceptors(registry);
     }
+
 }

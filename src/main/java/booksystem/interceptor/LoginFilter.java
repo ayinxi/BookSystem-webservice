@@ -29,6 +29,8 @@ public class LoginFilter implements Filter{
         HttpServletRequest request = (HttpServletRequest) servletRequest;
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.setHeader("Access-Control-Allow-Origin", "*");
+        response.setHeader("Access-Control-Allow-Headers", "token");
+        //跨域允许的header
 
         System.out.println("接收访问: "+request.getRequestURI());
         Map<String,Object> map = new HashMap<>();
