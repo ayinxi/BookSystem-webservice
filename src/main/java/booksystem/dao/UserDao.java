@@ -19,8 +19,8 @@ public interface UserDao {
     void addUser(String email,String password,String name,int status,String activationCode);
     //删除一个用户
     void deleteUser(String user_id);
-    //更新用户
-    int updateUser(User user);
+    //更新用户信息
+    int updateUser(String username,String password,String name);
     //更新用户激活状态和激活码
     int updateStatus(String username,int status);
     int updateCode(String username,String activationCode);

@@ -18,7 +18,10 @@ public enum ResultEnum {
     REGISTER_FAIL(12,"注册失败"),
     CODE_FAIL(13,"验证码错误"),
     EMAIL_FAIL(14,"邮箱信息错误"),
-    Code_OUTTIME(15,"验证码过期")
+    Code_OUTTIME(15,"验证码过期"),
+    SHOP_IS_EXISTS(16,"店铺已存在"),
+    SHOP_IS_APPLY(17,"店铺在审核")
+
     ;
     private Integer code;
     private String msg;

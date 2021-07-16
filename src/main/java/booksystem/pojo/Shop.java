@@ -24,7 +24,7 @@ public class Shop {
         this.shopper_name = shopper_name;
         this.shop_name = shop_name;
         this.rate = rate;
-        this.apply_pass = apply_pass;//申请：1.已提交未审核 2.通过3.拒绝4.已注销
+        this.apply_pass = apply_pass;//申请：1.已提交未审核 2.拒绝 3.未注销 4.已注销
         this.apply_reason = apply_reason;
         this.check_opinion = check_opinion;
         this.create_time = create_time;

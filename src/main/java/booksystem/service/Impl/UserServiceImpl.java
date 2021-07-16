@@ -26,6 +26,7 @@ public class UserServiceImpl implements UserService {
     @Value("${spring.mail.username}")
     String from;
     ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
+
     @Override
     public List<User> getAllUser() {
         return userDao.getAllUser();
@@ -51,15 +52,14 @@ public class UserServiceImpl implements UserService {
         userDao.addUser(email,password,name,status,activationCode);
     }
 
-
     @Override
     public void deleteUser(String user_id) {
         userDao.deleteUser(user_id);
     }
 
     @Override
-    public int updateUser(User user) {
-        return userDao.updateUser(user);
+    public int updateUser(String username,String password,String name) {
+        return userDao.updateUser(username,password,name);
     }
 
     @Override
@@ -85,12 +85,20 @@ public class UserServiceImpl implements UserService {
     @Override
     public int sendMimeMail(String password, String email, String name) {
         try{
+            if(email==null|| email.isEmpty())
+            {
+                return 2;
+            }
             User user=userDao.getUserByName(email);
-            if(user!=null)
+            if(user.getStatus()==1)
             {
                 //用户已存在
                 return -1;
             }else {
+                if(user!=null)
+                {
+                    userDao.deleteUser(user.getId());
+                }
                 userDao.addUser(email,password,name,0,null);
                 SimpleMailMessage mailMessage = new SimpleMailMessage();
                 mailMessage.setSubject("【教我编程图书商城】验证码邮件");//主题

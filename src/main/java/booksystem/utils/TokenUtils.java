@@ -81,11 +81,20 @@ public class TokenUtils {
     }
 
     public static void main(String[] args) {
-        String username ="admin@admin.com";
-        String password = "123456";
-        String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMzQ1NiIsImlkZW50aXR5IjowLCJleHAiOjE2MjYyNDcyNjYsInVzZXJuYW1lIjoidGVzdDFAYWRtaW4uY29tIn0.mM6bdS8VVNPrMeJM5dodtRjc95PW48pPu3zbbLo7uZM";
-        System.out.println(Integer.parseInt(parseToken(token).get("identity").toString()));
+        String username ="user@qq.com";
+        String password = "123";
+        String token = generateToken(username,password,0);
+        System.out.println(token);
         boolean b = verify(token);
         System.out.println(b);
     }
 }
+//管理员
+//admin@admin.com
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMzQ1NiIsImlkZW50aXR5IjoyLCJleHAiOjE2MjcxNjUwNTcsInVzZXJuYW1lIjoiYWRtaW5AYWRtaW4uY29tIn0.sh3AXKzcg_wCP9YH_MtiHrCOJWEDKl-nEDAS31ETNiw
+//商家
+//shopper@qq.com
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMyIsImlkZW50aXR5IjoxLCJleHAiOjE2MjcxNjUxNjIsInVzZXJuYW1lIjoic2hvcHBlckBxcS5jb20ifQ.lHaAQg083ohz3KwVI5yj0Voygv90gjcapR82lXYZqkU
+//普通用户
+//user@qq.com
+//eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJwYXNzd29yZCI6IjEyMyIsImlkZW50aXR5IjowLCJleHAiOjE2MjcxNjUyMjgsInVzZXJuYW1lIjoidXNlckBxcS5jb20ifQ.R2xIVlvz2RHw1wqUcBQ9FlDrQdvUACFjXhlIHQo7upQ
