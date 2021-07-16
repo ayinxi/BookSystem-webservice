@@ -2,27 +2,51 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 
 <mapper namespace="booksystem.dao.ShopDao">
-    <select id="getShop" resultType="booksystem.pojo.Shop">
-        SELECT * FROM shop WHERE apply_pass=#{apply_pass1} OR apply_pass=#{apply_pass2} OR apply_pass=#{apply_pass3} ORDER BY update_time DESC
+<!--    <select id="getShop" resultType="booksystem.pojo.Shop">-->
+<!--        SELECT * FROM shop WHERE apply_pass=#{apply_pass1} OR apply_pass=#{apply_pass2} OR apply_pass=#{apply_pass3} ORDER BY update_time DESC-->
+<!--    </select>-->
+
+<!--    <select id="getShopNum"  resultType="int">-->
+<!--        select count(*) from shop where apply_pass=#{apply_pass}-->
+<!--    </select>-->
+
+<!--    <select id="getShopByUser"  resultType="booksystem.pojo.Shop">-->
+<!--        select * from shop where user_id=#{user_id} and apply_pass=#{apply_pass}-->
+<!--    </select>-->
+
+<!--    <update id="updatePass" >-->
+<!--        update shop set apply_pass=#{apply_pass} where user_id=#{user_id}-->
+<!--    </update>-->
+
+<!--    <insert id="addShop">-->
+<!--        INSERT INTO shop(id,user_id,avatar_b,avatar_s,shopper_name,shop_name,rate,apply_pass,apply_reason,check_opinion,create_time,update_time)-->
+<!--        VALUES(MD5(UUID()),#{user_id},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},#{rate},#{apply_pass},#{apply_reason},#{check_opinion},now(),now());-->
+<!--    </insert>-->
+
+    <select id="getApplyShop" resultType="booksystem.pojo.Shop">
+        SELECT * FROM shop WHERE apply_status=#{apply_status} ORDER BY update_time DESC
+    </select>
+
+    <select id="getExistShop" resultType="booksystem.pojo.Shop">
+        SELECT * FROM shop WHERE exist_status=#{exist_status} ORDER BY update_time DESC
     </select>
 
     <select id="getShopNum"  resultType="int">
-        select count(*) from shop where apply_pass=#{apply_pass}
+        select count(*) from shop where apply_status=#{apply_status} and pass_status=#{pass_status} and exist_status=#{exist_status}
     </select>
 
-    <select id="getShopByUser"  resultType="booksystem.pojo.Shop">
-        select * from shop where user_id=#{user_id} and apply_pass=#{apply_pass}
+    <select id="getShopByUser" resultType="booksystem.pojo.Shop">
+        SELECT * FROM shop WHERE user_id=(select id from user where username=#{username}) ORDER BY update_time DESC
     </select>
 
-    <update id="updatePass" >
-        update shop set apply_pass=#{apply_pass} where user_id=#{user_id}
-    </update>
+    <select id="getShopByUserAndStatus" resultType="booksystem.pojo.Shop">
+        SELECT * FROM shop WHERE user_id=(select id from user where username=#{username}) and apply_status=#{apply_status} and pass_status=#{pass_status} and exist_status=#{exist_status} ORDER BY update_time DESC
+    </select>
 
     <insert id="addShop">
-        INSERT INTO shop(id,user_id,avatar_b,avatar_s,shopper_name,shop_name,rate,apply_pass,apply_reason,check_opinion,create_time,update_time)
-        VALUES(MD5(UUID()),#{user_id},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},#{rate},#{apply_pass},#{apply_reason},#{check_opinion},now(),now());
+        INSERT INTO shop(id,user_id,avatar_b,avatar_s,shopper_name,shop_name,rate,apply_status,apply_reason,pass_status,check_opinion,exist_status,create_time,update_time)
+        VALUES(MD5(UUID()),#{user_id},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},#{rate},#{apply_status},#{apply_reason},#{pass_status},#{check_opinion},#{exist_status},now(),now());
     </insert>
-
 
 
 </mapper>
