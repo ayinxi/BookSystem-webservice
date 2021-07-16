@@ -132,7 +132,7 @@ public class UserController {
         int result=userService.updateUser(username,password,name);
         if(!img.isEmpty()&&result!=0)
         {
-            uploadImgService.uploadImg(img,username);
+            uploadImgService.uploadUserImg(img,username);
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else{
             return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());

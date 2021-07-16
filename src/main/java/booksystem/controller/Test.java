@@ -18,7 +18,8 @@ public class Test {
     @Autowired
     UploadImgService uploadImgService;
     @GetMapping("/test")
-    public String test(){
+    public String test() throws Exception{
+//        throw new Exception("test");
         return "5201314";
     }
 
@@ -29,7 +30,7 @@ public class Test {
         String username= TokenUtils.parseToken(token).get("username").toString();
         // 判断文件是否为空
         if(!img.isEmpty()) {
-            uploadImgService.uploadImg(img,username);
+            uploadImgService.uploadUserImg(img,username);
         }
             return "SUCCESS";
         }

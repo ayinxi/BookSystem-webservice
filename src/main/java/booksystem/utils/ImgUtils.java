@@ -4,6 +4,7 @@ import booksystem.pojo.FtpServer;
 import net.coobird.thumbnailator.Thumbnails;
 import org.apache.commons.net.ftp.FTPClient;
 import org.apache.commons.net.ftp.FTP;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.io.*;
 import java.util.Locale;
@@ -89,33 +90,65 @@ public class ImgUtils {
         return file;
     }
 
+    public static File multipartFileToFile(MultipartFile multipartFile){
+        File file=null;
+        try{
+            String fileName = multipartFile.getOriginalFilename();//原文件名
+            String prefix=fileName.substring(fileName.lastIndexOf("."));// 获取文件后缀
+            file = File.createTempFile(String.valueOf(UUID.randomUUID()).
+                    replace("-","").toUpperCase(Locale.ROOT), prefix);
+
+            multipartFile.transferTo(file);
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return file;
+    }
+    public static void deleteImg(String url){
+        try {
+            FTPClient ftpClient = new FTPClient();
+            ftpClient.connect(FtpServer.hostname, 21);// 创建ftp连接，默认21端口
+            ftpClient.login(FtpServer.User, FtpServer.Password);
+            ftpClient.deleteFile(url);
+
+            ftpClient.logout();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+    }
+    public static String uploadImg(File imgFile,String url){
+        String fileUrl="";
+        try {
+
+            FTPClient ftpClient = new FTPClient();
+            ftpClient.connect(FtpServer.hostname, 21);// 创建ftp连接，默认21端口
+            ftpClient.login(FtpServer.User, FtpServer.Password);
+
+            //开始传图片
+            FileInputStream inputStream = new FileInputStream(imgFile);
+            ftpClient.enterLocalPassiveMode();
+            ftpClient.changeWorkingDirectory(FtpServer.imgUrl+url);
+            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
+            ftpClient.storeFile(imgFile.getName(), inputStream);
+            fileUrl=FtpServer.accessUrl+url+"/"+imgFile.getName();//地址
+
+            ftpClient.logout();
+        }catch (IOException e){
+            e.printStackTrace();
+        }
+        return fileUrl;
+    }
+
     public static void main(String[] args) {
         //测试用
         try {
-            // 创建一个FtpClient对象
+
             FTPClient ftpClient = new FTPClient();
-            // 创建ftp连接，默认21端口
-            ftpClient.connect(FtpServer.hostname, 21);
-            // 登录ftp服务器，使用用户名和密码
+            ftpClient.connect(FtpServer.hostname, 21);// 创建ftp连接，默认21端口
             ftpClient.login(FtpServer.User, FtpServer.Password);
-            // 上传文件
-            // 读取本地文件
 
+            ftpClient.deleteFile("/usr/local/tomcat/img/sb.jpg");
 
-            File file=new File("C:\\Users\\86150\\Pictures\\background\\6323AD2DD6FB0F40309384EDDCA414D8.jpg");
-            File compressedFile=compressPicture(file,1,0.15,".jpg");
-
-            FileInputStream inputStream = new FileInputStream(compressedFile);
-
-            // 被动模式：服务端开放端口给客户端用
-            ftpClient.enterLocalPassiveMode();
-            // 设置上传的路径
-            ftpClient.changeWorkingDirectory(FtpServer.imgUrl);
-            // 修改上传文件的格式，采用二进制的方式
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            //（服务器文档名，上传文档的inputStream）
-            ftpClient.storeFile("sb.jpg", inputStream);
-            // 关闭连接
             ftpClient.logout();
         }catch (IOException e){
             e.printStackTrace();

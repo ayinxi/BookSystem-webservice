@@ -22,6 +22,8 @@ import java.util.List;
 public class ShopController {
     @Autowired
     ShopService shopService;
+    @Autowired
+    UploadImgService uploadImgService;
 
     //获取审核过的店铺
     @RequestMapping("/admin/getCheckShop")
@@ -128,9 +130,9 @@ public class ShopController {
         if(result==1)
         {
 
-//            if (!img.isEmpty()) {
-//            uploadImgService.uploadImg(img, username);
-//       }
+            if (!img.isEmpty()) {
+            uploadImgService.uploadShopImg(img, username);
+       }
             return Result.ok(ResultEnum.SUCCESS.getMsg());
 
         }else if(result==-1)

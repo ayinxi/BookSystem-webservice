@@ -25,59 +25,80 @@ public class UploadImgServiceImpl implements UploadImgService {
 
     @Autowired
     UploadImgDao uploadImgDao;
-    @Override
-    public void updateImgUrl(String username,String url_b,String url_s) {
-        uploadImgDao.updateImgUrl(username,url_b,url_s);
-    }
 
-    @Override
-    public String uploadImg(MultipartFile multipartFile,String username) {
-        String fileUrl_b="";
-        String fileUrl_s="";
-        try {
-            String fileName = multipartFile.getOriginalFilename();//原文件名
-            String prefix=fileName.substring(fileName.lastIndexOf("."));// 获取文件后缀
-            final File imgFile = File.createTempFile(String.valueOf(UUID.randomUUID()).
-                    replace("-","").toUpperCase(Locale.ROOT), prefix);
+    //上传原图
+    public String uploadOriginalImg(MultipartFile multipartFile,String fileUrl_b){
+        fileUrl_b=fileUrl_b.replace("http://47.94.131.208:8888/img","");
 
-            multipartFile.transferTo(imgFile);
-            FTPClient ftpClient = new FTPClient();
-            ftpClient.connect(FtpServer.hostname, 21);// 创建ftp连接，默认21端口
-            ftpClient.login(FtpServer.User, FtpServer.Password);
-
-            //开始传图片
-            FileInputStream inputStream = new FileInputStream(imgFile);
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.changeWorkingDirectory(FtpServer.imgUrl+"/original");
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            ftpClient.storeFile(imgFile.getName(), inputStream);
-            fileUrl_b=FtpServer.accessUrl+"/original"+"/"+imgFile.getName();//原图地址
-
-            //压缩图片
-            File compressedFile= ImgUtils.compressPicture(imgFile,1,0.1,prefix);
-            FileInputStream inputStream_s = new FileInputStream(compressedFile);
-
-            //开始传图片
-            ftpClient.enterLocalPassiveMode();
-            ftpClient.changeWorkingDirectory(FtpServer.imgUrl+"/compression");
-            ftpClient.setFileType(FTP.BINARY_FILE_TYPE);
-            ftpClient.storeFile(compressedFile.getName(), inputStream_s);
-            fileUrl_s=FtpServer.accessUrl+"/compression"+"/"+imgFile.getName();//压缩图地址
-
-            //上传到数据库
-            updateImgUrl(username,fileUrl_b,fileUrl_s);
-
-            ftpClient.logout();
-        }catch (IOException e){
-            e.printStackTrace();
+        //先删除原来的图片
+        if(!(fileUrl_b.isEmpty()||fileUrl_b.equals("/original/avatar.jpg"))) {
+            ImgUtils.deleteImg(FtpServer.imgUrl + fileUrl_b);
         }
+
+        File imgFile=ImgUtils.multipartFileToFile(multipartFile);
+        String prefix=imgFile.getName().substring(imgFile.getName().lastIndexOf("."));
+        fileUrl_b=ImgUtils.uploadImg(imgFile,"/original");        //上传原图
+
         return fileUrl_b;
     }
 
+    //上传压缩图
+    public String uploadCompressImg(MultipartFile multipartFile,String fileUrl_s){
+        fileUrl_s=fileUrl_s.replace("http://47.94.131.208:8888/img","");
 
+        //先删除原来的图片
+        if(!(fileUrl_s.isEmpty()||fileUrl_s.equals("/compression/avatar.jpg"))) {
+            ImgUtils.deleteImg(FtpServer.imgUrl + fileUrl_s);
+        }
+
+        File imgFile=ImgUtils.multipartFileToFile(multipartFile);
+        String prefix=imgFile.getName().substring(imgFile.getName().lastIndexOf("."));
+        File compressedFile= ImgUtils.compressPicture(imgFile,1,0.1,prefix);
+        fileUrl_s=ImgUtils.uploadImg(imgFile,"/compression");        //上传压缩图
+
+        return fileUrl_s;
+    }
 
     @Override
-    public String getImgUrl(String username) {
-        return uploadImgDao.getImgUrl(username);
+    public String uploadUserImg(MultipartFile multipartFile,String username) {
+        String fileUrl_b=uploadImgDao.getUserImgUrl(username).get("avatar_b").toString();
+        String fileUrl_s=uploadImgDao.getUserImgUrl(username).get("avatar_s").toString();
+
+        fileUrl_b=uploadOriginalImg(multipartFile,fileUrl_b);
+        fileUrl_s=uploadOriginalImg(multipartFile,fileUrl_s);
+
+        //上传到数据库
+        uploadImgDao.updateUserImgUrl(username,fileUrl_b,fileUrl_s);
+
+        return fileUrl_b;
     }
+
+    @Override
+    public String uploadShopImg(MultipartFile img, String username) {
+        String fileUrl_b=uploadImgDao.getShopImgUrl(username).get("avatar_b").toString();
+        String fileUrl_s=uploadImgDao.getShopImgUrl(username).get("avatar_s").toString();
+
+        fileUrl_b=uploadOriginalImg(img,fileUrl_b);
+        fileUrl_s=uploadOriginalImg(img,fileUrl_s);
+
+        //上传到数据库
+        uploadImgDao.updateShopImgUrl(username,fileUrl_b,fileUrl_s);
+
+        return fileUrl_b;
+    }
+
+    @Override
+    public String uploadBookImg(MultipartFile img, String username) {
+        String fileUrl_b=uploadImgDao.getBookImgUrl(username).get("avatar_b").toString();
+        String fileUrl_s=uploadImgDao.getBookImgUrl(username).get("avatar_s").toString();
+
+        fileUrl_b=uploadOriginalImg(img,fileUrl_b);
+        fileUrl_s=uploadOriginalImg(img,fileUrl_s);
+
+        //上传到数据库
+        uploadImgDao.updateBookImgUrl(username,fileUrl_b,fileUrl_s);
+
+        return fileUrl_b;
+    }
+
 }
