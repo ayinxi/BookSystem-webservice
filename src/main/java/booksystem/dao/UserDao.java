@@ -26,4 +26,5 @@ public interface UserDao {
     int updateCode(String username,String activationCode);
     int updateTime(String username);
     int updateIdentity(String username,int identity);
+    int accessTime(String username);
 }

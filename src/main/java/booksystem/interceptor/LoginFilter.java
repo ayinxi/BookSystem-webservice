@@ -1,9 +1,13 @@
 package booksystem.interceptor;
 
 
+import booksystem.dao.AdminDao;
+import booksystem.dao.UserDao;
 import booksystem.utils.ResultEnum;
+import booksystem.utils.LogUtils;
 import booksystem.utils.TokenUtils;
 import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import javax.servlet.*;
@@ -19,6 +23,11 @@ public class LoginFilter implements Filter{
     final String[] allowUrl={
             "/login","/register","/test","/sendEmail"
     };
+    @Autowired
+    UserDao userDao;
+    @Autowired
+    AdminDao adminDao;
+
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {
 
@@ -32,7 +41,8 @@ public class LoginFilter implements Filter{
         response.setHeader("Access-Control-Allow-Headers", "token");
         //跨域允许的header
 
-        System.out.println("接收访问: "+request.getRequestURI());
+        System.out.println(LogUtils.getNowTime()+"接收访问: "+request.getRequestURI());
+        System.out.println(LogUtils.getNowTime()+"请求方式: "+request.getMethod());
         Map<String,Object> map = new HashMap<>();
         String url =  ((HttpServletRequest)servletRequest).getRequestURI();
         if(url != null){
@@ -82,8 +92,16 @@ public class LoginFilter implements Filter{
                         if(authority){
                             token=TokenUtils.refresh(token);
                             response.setHeader("token",token);
+
+                            String username=TokenUtils.parseToken(token).get("username").toString();
                             filterChain.doFilter(servletRequest,servletResponse);
-                            System.out.println("访问token正确，且有权限继续访问");
+                            System.out.println(LogUtils.getNowTime()+"访问用户: "+username);
+
+                            if(identity==0||identity==1){
+                                userDao.accessTime(username);
+                            }else if(identity==2){
+                                adminDao.accessTime(username);
+                            }
                             return;
                         }
                     }
@@ -102,7 +120,7 @@ public class LoginFilter implements Filter{
             pw.write(jsonObject.toString());
             pw.flush();
             pw.close();
-            System.out.println("该访问出错");
+            System.out.println(LogUtils.getNowTime()+request.getRequestURI()+" 访问出错");
         }
 
         //执行

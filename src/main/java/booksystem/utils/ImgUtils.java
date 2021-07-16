@@ -24,7 +24,6 @@ public class ImgUtils {
             ByteArrayOutputStream outputStream= new ByteArrayOutputStream(imageBytes.length);
             Thumbnails.of(inputStream).scale(1f).outputQuality(quality).toOutputStream(outputStream);
             imageBytes = outputStream.toByteArray();
-            System.out.println(srcSize / 1024+" "+imageBytes.length / 1024);
             //" 图片原大小={}kb | 压缩后大小={}kb",
         } catch (Exception e) {
             e.printStackTrace();

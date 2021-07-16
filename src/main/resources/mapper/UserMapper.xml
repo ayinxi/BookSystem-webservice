@@ -46,4 +46,8 @@
         delete from user where id=#{user_id}
     </update>
 
+    <update id="accessTime">
+        update user set access_time=now() where username=#{username}
+    </update>
+
 </mapper>

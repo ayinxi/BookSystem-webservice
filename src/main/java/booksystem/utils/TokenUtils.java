@@ -53,7 +53,6 @@ public class TokenUtils {
             DecodedJWT jwt = verifier.verify(token);
             return true;
         }catch (Exception e){
-            e.printStackTrace();
             return  false;
         }
     }
