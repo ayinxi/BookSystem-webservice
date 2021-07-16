@@ -18,7 +18,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
     @Override
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
-        System.out.println(LogUtils.getNowTime()+"访问参数: "+ LogUtils.getParams(request));
+
     }
 
     @Override

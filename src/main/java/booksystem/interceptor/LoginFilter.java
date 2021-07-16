@@ -41,8 +41,11 @@ public class LoginFilter implements Filter{
         response.setHeader("Access-Control-Allow-Headers", "token");
         //跨域允许的header
 
+        System.out.println("\n--------------------------------欢迎访问“教我编程图书商城“------------------------------------");
         System.out.println(LogUtils.getNowTime()+"接收访问: "+request.getRequestURI());
         System.out.println(LogUtils.getNowTime()+"请求方式: "+request.getMethod());
+        System.out.println(LogUtils.getNowTime()+"访问参数: "+ LogUtils.getParams(request));
+        
         Map<String,Object> map = new HashMap<>();
         String url =  ((HttpServletRequest)servletRequest).getRequestURI();
         if(url != null){
@@ -92,11 +95,10 @@ public class LoginFilter implements Filter{
                         if(authority){
                             token=TokenUtils.refresh(token);
                             response.setHeader("token",token);
-
                             String username=TokenUtils.parseToken(token).get("username").toString();
-                            filterChain.doFilter(servletRequest,servletResponse);
                             System.out.println(LogUtils.getNowTime()+"访问用户: "+username);
 
+                            filterChain.doFilter(servletRequest,servletResponse);
                             if(identity==0||identity==1){
                                 userDao.accessTime(username);
                             }else if(identity==2){
