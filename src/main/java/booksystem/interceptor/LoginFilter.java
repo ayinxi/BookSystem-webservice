@@ -17,7 +17,7 @@ import java.util.Map;
 @Component
 public class LoginFilter implements Filter{
     final String[] allowUrl={
-            "/login","/register","/test"
+            "/login","/register","/test","/sendEmail"
     };
     @Override
     public void init(FilterConfig filterConfig) throws ServletException {

@@ -17,9 +17,9 @@ import java.io.IOException;
 public class Test {
     @Autowired
     UploadImgService uploadImgService;
-    @GetMapping("/test/{lala}")
-    public String test(@PathVariable String lala){
-        return lala+"5201314";
+    @GetMapping("/test")
+    public String test(){
+        return "5201314";
     }
 
     @RequestMapping(value="/test/upload",method=RequestMethod.POST)
