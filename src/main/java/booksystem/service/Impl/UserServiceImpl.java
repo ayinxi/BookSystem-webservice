@@ -84,40 +84,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public int sendMimeMail(String password, String email, String name) {
-        try{
-            if(email==null|| email.isEmpty())
-            {
+        try {
+            if (email == null||email.isEmpty()) {
                 return 2;
             }
-            User user=userDao.getUserByName(email);
-            if(user.getStatus()==1)
-            {
-                //用户已存在
-                return -1;
-            }else {
-                if(user!=null)
-                {
+            User user = userDao.getUserByName(email);
+            if (user != null) {
+                if (user.getStatus() == 0) {
                     userDao.deleteUser(user.getId());
                 }
-                userDao.addUser(email,password,name,0,null);
-                SimpleMailMessage mailMessage = new SimpleMailMessage();
-                mailMessage.setSubject("【教我编程图书商城】验证码邮件");//主题
-                //生成随机数
-                String Code = randomCode();
-                //更新验证码
-                userDao.updateCode(email, Code);
-
-                mailMessage.setText("亲爱的用户：\n" +"     您好！您正在使用邮箱验证，本次请求的验证码为："+ Code+"，本验证码5分钟内有效，请在5分钟内完成验证。" +
-                        "（请勿泄露此验证码）如非本人操作，请忽略该邮件。（这是一封自动发送的邮件，请不要直接回复)\n"+"                                                            " +
-                        "                                                     教我编程图书商城" );//内容
-                mailMessage.setTo(email);//发给谁
-
-                mailMessage.setFrom(from);//你自己的邮箱
-
-                mailSender.send(mailMessage);//发送
-                userDao.updateTime(email);
-                return 1;
+                else {
+                    return -1;//用户已存在
+                }
             }
+            userDao.addUser(email, password, name, 0, null);
+            SimpleMailMessage mailMessage = new SimpleMailMessage();
+            mailMessage.setSubject("【教我编程图书商城】验证码邮件");//主题
+            //生成随机数
+            String Code = randomCode();
+            //更新验证码
+            userDao.updateCode(email, Code);
+
+            mailMessage.setText("亲爱的用户：\n" + "     您好！您正在使用邮箱验证，本次请求的验证码为：" + Code + "，本验证码5分钟内有效，请在5分钟内完成验证。" +
+                    "（请勿泄露此验证码）如非本人操作，请忽略该邮件。（这是一封自动发送的邮件，请不要直接回复)\n" + "                                                            " +
+                    "                                                     教我编程图书商城");//内容
+            mailMessage.setTo(email);//发给谁
+
+            mailMessage.setFrom(from);//你自己的邮箱
+
+            mailSender.send(mailMessage);//发送
+            userDao.updateTime(email);
+            return 1;
         }catch (Exception e){
             e.printStackTrace();
             return 0;

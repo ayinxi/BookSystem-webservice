@@ -80,7 +80,8 @@ public class UserController {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         } else if(result==-1){
             return Result.error(ResultEnum.User_IS_EXISTS.getCode(), ResultEnum.User_IS_EXISTS.getMsg());
-        }else if(result ==2){
+        }
+        else if(result ==2){
             return Result.error(ResultEnum.EMAIL_FAIL.getCode(), ResultEnum.EMAIL_FAIL.getMsg());
         }
         else{
