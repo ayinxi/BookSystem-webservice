@@ -1,12 +1,17 @@
 package booksystem.controller;
 
 import booksystem.pojo.User;
+import booksystem.service.UploadImgService;
 import booksystem.service.UserService;
 import booksystem.utils.Result;
 import booksystem.utils.ResultEnum;
+import booksystem.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 
 @RestController
@@ -14,6 +19,8 @@ public class UserController {
 
     @Autowired
     UserService userService;
+    @Autowired
+    UploadImgService uploadImgService;
 
     //获取所有用户
     @RequestMapping("/admin/getAllUser")
@@ -73,7 +80,10 @@ public class UserController {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         } else if(result==-1){
             return Result.error(ResultEnum.User_IS_EXISTS.getCode(), ResultEnum.User_IS_EXISTS.getMsg());
-        }else {
+        }else if(result ==2){
+            return Result.error(ResultEnum.EMAIL_FAIL.getCode(), ResultEnum.EMAIL_FAIL.getMsg());
+        }
+        else{
             return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
         }
     }
@@ -112,12 +122,16 @@ public class UserController {
             return Result.error(ResultEnum.DELETE_FAIL.getCode(),ResultEnum.DELETE_FAIL.getMsg());
         }
     }
-    //更新用户
+
+    //更新用户 少了地址的更新
     @PostMapping("/updateUser")
-    public Result updateUser(@RequestBody User user){
-        int result=userService.updateUser(user);
-        if(result!=0)
+    public Result updateUser(@RequestParam("password") String password, @RequestParam("name") String name, @RequestParam("img") MultipartFile img, ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int result=userService.updateUser(username,password,name);
+        if(!img.isEmpty()&&result!=0)
         {
+            uploadImgService.uploadImg(img,username);
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else{
             return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());

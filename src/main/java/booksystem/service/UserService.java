@@ -17,7 +17,7 @@ public interface UserService {
     //删除用户
     void deleteUser(String user_id);
     //更新用户
-    int updateUser(User user);
+    int updateUser(String username,String password,String name);
     //更新用户激活状态和激活码
     int updateStatus(String username,int status);
     int updateCode(String username,String activationCode);

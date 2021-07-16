@@ -10,8 +10,19 @@
         select count(*) from shop where apply_pass=#{apply_pass}
     </select>
 
+    <select id="getShopByUser"  resultType="booksystem.pojo.Shop">
+        select * from shop where user_id=#{user_id} and apply_pass=#{apply_pass}
+    </select>
+
     <update id="updatePass" >
         update shop set apply_pass=#{apply_pass} where user_id=#{user_id}
     </update>
+
+    <insert id="addShop">
+        INSERT INTO shop(id,user_id,avatar_b,avatar_s,shopper_name,shop_name,rate,apply_pass,apply_reason,check_opinion,create_time,update_time)
+        VALUES(MD5(UUID()),#{user_id},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},#{rate},#{apply_pass},#{apply_reason},#{check_opinion},now(),now());
+    </insert>
+
+
 
 </mapper>

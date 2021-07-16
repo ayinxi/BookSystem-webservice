@@ -12,7 +12,7 @@ public interface ShopDao {
     List<Shop> getShop(int apply_pass1,int apply_pass2,int apply_pass3);
     int getShopNum(int apply_pass);
     //根据user_id获取店铺信息
-    Shop getShopByUser(String user_id);
+    List<Shop> getShopByUser(String user_id,int apply_pass);
     //添加
     void addShop(Shop shop);
     //根据user_id删除店铺
