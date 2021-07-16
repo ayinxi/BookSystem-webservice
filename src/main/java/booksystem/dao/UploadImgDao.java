@@ -11,7 +11,7 @@ import java.util.HashMap;
 public interface UploadImgDao {
     void updateUserImgUrl(String username,String url_b,String url_s);
     void updateShopImgUrl(String username,String url_b,String url_s);
-    void updateBookImgUrl(String username,String url_b,String url_s);
+    void updateBookImgUrl(String book_id,String url_b,String url_s);
     HashMap<String,Object> getUserImgUrl(String username);
     HashMap<String,Object> getShopImgUrl(String username);
     HashMap<String,Object> getBookImgUrl(String book_id);

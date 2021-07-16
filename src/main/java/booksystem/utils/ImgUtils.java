@@ -13,13 +13,12 @@ import java.util.UUID;
 public class ImgUtils {
 
     public static File compressPicture(
-            File imgFile, long desFileSize, Double quality,String prefix)
+            File imgFile, Double quality,String prefix)
     {
         byte[] imageBytes=fileToByte(imgFile);
         if (imageBytes == null || imageBytes.length <= 0) {
             return byteToFile(imageBytes,prefix);
         }
-        long srcSize = imageBytes.length;
         try {
             ByteArrayInputStream inputStream = new ByteArrayInputStream(imageBytes);
             ByteArrayOutputStream outputStream= new ByteArrayOutputStream(imageBytes.length);
