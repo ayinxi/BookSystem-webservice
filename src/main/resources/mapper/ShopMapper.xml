@@ -43,10 +43,20 @@
         SELECT * FROM shop WHERE user_id=(select id from user where username=#{username}) and apply_status=#{apply_status} and pass_status=#{pass_status} and exist_status=#{exist_status} ORDER BY update_time DESC
     </select>
 
+    <select id="getShopById" resultType="booksystem.pojo.Shop">
+        SELECT * FROM shop WHERE id=#{shop_id} ORDER BY update_time DESC
+    </select>
+
     <insert id="addShop">
         INSERT INTO shop(id,user_id,avatar_b,avatar_s,shopper_name,shop_name,rate,apply_status,apply_reason,pass_status,check_opinion,exist_status,create_time,update_time)
         VALUES(MD5(UUID()),#{user_id},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},#{rate},#{apply_status},#{apply_reason},#{pass_status},#{check_opinion},#{exist_status},now(),now());
     </insert>
 
+    <update id="updateShop"  parameterType="booksystem.pojo.Shop">
+        update shop set shopper_name=#{shopper_name},shop_name=#{shop_name},rate=#{rate},
+                        apply_status=#{apply_status},apply_reason=#{apply_reason},pass_status=#{pass_status},
+                        check_opinion=#{check_opinion},exist_status=#{exist_status},create_time=#{create_time},update_time=now()
+        where id=#{id}
+    </update>
 
 </mapper>

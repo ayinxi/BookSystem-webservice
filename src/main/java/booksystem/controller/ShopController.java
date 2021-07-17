@@ -9,9 +9,7 @@ import booksystem.utils.Result;
 import booksystem.utils.ResultEnum;
 import booksystem.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
@@ -122,7 +120,7 @@ public class ShopController {
     }
 
     //店铺注册
-    @RequestMapping("/registerShop")
+    @PostMapping("/registerShop")
     public Result register(@RequestParam("shopper_name") String shopper_name,@RequestParam("shop_name") String shop_name,@RequestParam("apply_reason") String apply_reason,@RequestParam("img") MultipartFile img, ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
@@ -148,8 +146,21 @@ public class ShopController {
         }
     }
 
-//    //店铺注销 根据user_id删除店铺
-//    public Result deleteShop(String username){
-//        return null;
-//    }
+    @DeleteMapping("/logoutShop")
+    //店铺注销 根据username注销店铺
+    public Result deleteShop(ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int result=shopService.deleteShop(username);
+        if (result == 1) {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        } else if(result==-1){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(), ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        else if(result==0){
+            return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
+        }else {
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+        }
+    }
 }
