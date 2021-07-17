@@ -1,6 +1,7 @@
 package booksystem.service;
 
 import booksystem.pojo.Shop;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -22,10 +23,13 @@ public interface ShopService {
     List<Shop> getShopByUserAndStatus(String username,int apply_status,int pass_status,int exist_status);
 
     //注册账号
-    int registerShop(String username,String shopper_name,String shop_name,String apply_reason);
+    int registerShop(String username, String shopper_name, String shop_name, String apply_reason);
 
-    //审核
-    int CheckShop(String username,int pass_status,String check_opinion);
+    //审核是否通过
+    int checkShop(String username,int pass_status,String check_opinion);
+
+    //修改申请
+    int updateShopApply(String username,String shopper_name,String shop_name,String apply_reason);
 
     //注销店铺
     int deleteShop(String username);

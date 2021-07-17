@@ -66,8 +66,8 @@ public class ShopServiceImpl implements ShopService {
         List<Shop> shop1 = shopDao.getShopByUserAndStatus(username, 2, 1, 1);
         if (!shop1.isEmpty())
             return -1;//已有店铺
-        //查找是否在审核的店铺
 
+        //查找是否在审核的店铺
         List<Shop> shop2 = shopDao.getShopByUserAndStatus(username, 1, -1, -1);
         if (!shop2.isEmpty())
             return 2;//已在申请店铺
@@ -78,15 +78,11 @@ public class ShopServiceImpl implements ShopService {
         Shop shop = new Shop(null, user_id, "http://47.94.131.208:8888/img/original/avatar.jpg", "http://47.94.131.208:8888/img/compression/avatar.jpg",
                 shopper_name, shop_name, 5.0, 1, apply_reason, -1, null, -1, null, null);
         shopDao.addShop(shop);
-
-        //检验是否有在未审核的店铺
-        if (!shopDao.getShopByUserAndStatus(username, 1, -1, -1).isEmpty())
-            return 1;//数据库添加成功
-        return 0;//添加失败
+        return 1;//添加失败
     }
 
     @Override
-    public int CheckShop(String username, int pass_status, String check_opinion) {
+    public int checkShop(String username, int pass_status, String check_opinion) {
         //获取要审核的店铺信息 此使为未审核状态
         List<Shop> shopList=shopDao.getShopByUserAndStatus(username,1,-1,-1);
         if(shopList.isEmpty())
@@ -99,7 +95,7 @@ public class ShopServiceImpl implements ShopService {
             //已审核2 通过1 未注销1
             shop.setApply_status(2);
             shop.setPass_status(1);
-            shop.setExist_status(2);
+            shop.setExist_status(1);
             shop.setCheck_opinion(check_opinion);
             shopDao.updateShop(shop);
         }else if(pass_status==2)//拒绝
@@ -109,11 +105,26 @@ public class ShopServiceImpl implements ShopService {
             shop.setPass_status(2);
             shop.setExist_status(-1);
             shop.setCheck_opinion(check_opinion);
+            shopDao.updateShop(shop);
         }
-
-        if(shopDao.getShopById(shop.getId()).getPass_status()!=-1||shopDao.getShopById(shop.getId()).getExist_status()!=2)
-            return 0;//注销失败
         return 1;//成功
+    }
+
+    @Override
+    public int updateShopApply(String username, String shopper_name, String shop_name, String apply_reason) {
+        //默认已经有在申请的店铺了
+        List<Shop> shopList = shopDao.getShopByUserAndStatus(username, 1, -1, -1);
+        if (shopList.isEmpty())
+            return -1;//没有在申请店铺 无需修改
+
+        //因为一个账号只允许一个未审核的存在  所以未审核的店铺信息存储在shop中
+        Shop shop=shopList.get(0);
+        //修改信息
+        shop.setShopper_name(shopper_name);
+        shop.setShop_name(shop_name);
+        shop.setApply_reason(apply_reason);
+        shopDao.updateShop(shop);
+        return 1;
     }
 
     //注销店铺

@@ -1,10 +1,8 @@
 package booksystem.controller;
 
 import booksystem.pojo.Shop;
-import booksystem.pojo.User;
 import booksystem.service.ShopService;
 import booksystem.service.UploadImgService;
-import booksystem.service.UserService;
 import booksystem.utils.Result;
 import booksystem.utils.ResultEnum;
 import booksystem.utils.TokenUtils;
@@ -121,18 +119,20 @@ public class ShopController {
 
     //店铺注册
     @PostMapping("/registerShop")
-    public Result register(@RequestParam("shopper_name") String shopper_name,@RequestParam("shop_name") String shop_name,@RequestParam("apply_reason") String apply_reason,@RequestParam("img") MultipartFile img, ServletRequest request){
+    public Result register(@RequestParam("shopper_name") String shopper_name,
+                           @RequestParam("shop_name") String shop_name,
+                           @RequestParam("apply_reason") String apply_reason,
+                           @RequestParam("img") MultipartFile img,
+                           ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
         int result=shopService.registerShop(username,shopper_name,shop_name,apply_reason);
         if(result==1)
         {
-
             if (!img.isEmpty()) {
-            uploadImgService.uploadShopImg(img, username);
-       }
+                uploadImgService.uploadShopImg(img, username);
+            }
             return Result.ok(ResultEnum.SUCCESS.getMsg());
-
         }else if(result==-1)
         {
             return Result.error(ResultEnum.SHOP_IS_EXISTS.getCode(),ResultEnum.SHOP_IS_EXISTS.getMsg());
@@ -143,6 +143,57 @@ public class ShopController {
         }else
         {
             return Result.error(ResultEnum.REGISTER_FAIL.getCode(),ResultEnum.REGISTER_FAIL.getMsg());
+        }
+    }
+
+    //审核是否通过
+    @PostMapping("/admin/checkShop")
+    public Result checkShop(@RequestParam("username") String username,
+                            @RequestParam("pass_status") int pass_status,
+                            @RequestParam("check_opinion") String check_opinion,
+                            ServletRequest request){
+        int result=shopService.checkShop(username,pass_status,check_opinion);
+        if(result==1)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+
+        }else if(result==-1)
+        {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+
+        }else
+        {
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
+        }
+    }
+
+    //申请信息修改
+    @PostMapping("/updateShopApply")
+    public Result updateShopApply(@RequestParam("shopper_name") String shopper_name,
+                           @RequestParam("shop_name") String shop_name,
+                           @RequestParam("apply_reason") String apply_reason,
+                           @RequestParam("img") MultipartFile img,
+                           ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int result=shopService.updateShopApply(username,shopper_name,shop_name,apply_reason);
+
+        List<Shop> shopList=shopService.getShopByUserAndStatus(username,1,-1,-1);
+        Shop shop=shopList.get(0);
+        System.out.println(shop.toString());
+        if(result==1)
+        {
+            if (!img.isEmpty()) {
+                uploadImgService.uploadShopImg(img, shop.getId());
+            }
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        }else if(result==-1)
+        {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+
+        }else
+        {
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
         }
     }
 

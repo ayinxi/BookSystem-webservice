@@ -40,7 +40,9 @@
     </select>
 
     <select id="getShopByUserAndStatus" resultType="booksystem.pojo.Shop">
-        SELECT * FROM shop WHERE user_id=(select id from user where username=#{username}) and apply_status=#{apply_status} and pass_status=#{pass_status} and exist_status=#{exist_status} ORDER BY update_time DESC
+        SELECT * FROM shop WHERE user_id=(select id from user where username=#{username})
+                             and apply_status=#{apply_status} and pass_status=#{pass_status}
+                             and exist_status=#{exist_status} ORDER BY update_time DESC
     </select>
 
     <select id="getShopById" resultType="booksystem.pojo.Shop">
@@ -49,7 +51,8 @@
 
     <insert id="addShop">
         INSERT INTO shop(id,user_id,avatar_b,avatar_s,shopper_name,shop_name,rate,apply_status,apply_reason,pass_status,check_opinion,exist_status,create_time,update_time)
-        VALUES(MD5(UUID()),#{user_id},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},#{rate},#{apply_status},#{apply_reason},#{pass_status},#{check_opinion},#{exist_status},now(),now());
+        VALUES(MD5(UUID()),#{user_id},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},
+               #{rate},#{apply_status},#{apply_reason},#{pass_status},#{check_opinion},#{exist_status},now(),now());
     </insert>
 
     <update id="updateShop"  parameterType="booksystem.pojo.Shop">
