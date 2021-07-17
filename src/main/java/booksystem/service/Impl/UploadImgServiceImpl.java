@@ -21,7 +21,7 @@ public class UploadImgServiceImpl implements UploadImgService {
     //上传原图
     public String uploadOriginalImg(File imgFile,String fileUrl_b){
         fileUrl_b=fileUrl_b.replace("http://47.94.131.208:8888/img","");
-        
+
         //先删除原来的图片
         if(!(fileUrl_b.isEmpty()||fileUrl_b.equals("/original/avatar.jpg"))) {
             ImgUtils.deleteImg(FtpServer.imgUrl + fileUrl_b);
@@ -82,8 +82,8 @@ public class UploadImgServiceImpl implements UploadImgService {
 
     @Override
     public String uploadBookImg(MultipartFile img, String book_id) {
-        String fileUrl_b=uploadImgDao.getBookImgUrl(book_id).get("image_b").toString();
-        String fileUrl_s=uploadImgDao.getBookImgUrl(book_id).get("image_s").toString();
+        String fileUrl_b=uploadImgDao.getBookImgUrlById(book_id).get("image_b").toString();
+        String fileUrl_s=uploadImgDao.getBookImgUrlById(book_id).get("image_s").toString();
 
         File imgFile=ImgUtils.multipartFileToFile(img);
 
@@ -94,6 +94,40 @@ public class UploadImgServiceImpl implements UploadImgService {
         uploadImgDao.updateBookImgUrl(book_id,fileUrl_b,fileUrl_s);
 
         return fileUrl_b;
+    }
+
+    public void deleteImg(String fileUrl_b,String fileUrl_s){
+        fileUrl_s=fileUrl_s.replace("http://47.94.131.208:8888/img","");
+        fileUrl_b=fileUrl_b.replace("http://47.94.131.208:8888/img","");
+
+        //删除图片
+        if(!(fileUrl_b.isEmpty()||fileUrl_b.equals("/original/avatar.jpg"))) {
+            ImgUtils.deleteImg(FtpServer.imgUrl + fileUrl_b);
+        }
+        if(!(fileUrl_s.isEmpty()||fileUrl_s.equals("/compression/avatar.jpg"))) {
+            ImgUtils.deleteImg(FtpServer.imgUrl + fileUrl_s);
+        }
+    }
+
+    @Override
+    public void deleteUserImg(String user_id) {
+        String fileUrl_b=uploadImgDao.getUserImgUrlById(user_id).get("avatar_b").toString();
+        String fileUrl_s=uploadImgDao.getUserImgUrlById(user_id).get("avatar_s").toString();
+        deleteImg(fileUrl_b,fileUrl_s);
+    }
+
+    @Override
+    public void deleteShopImg(String shop_id) {
+        String fileUrl_b=uploadImgDao.getShopImgUrlById(shop_id).get("avatar_b").toString();
+        String fileUrl_s=uploadImgDao.getShopImgUrlById(shop_id).get("avatar_s").toString();
+        deleteImg(fileUrl_b,fileUrl_s);
+    }
+
+    @Override
+    public void deleteBookImg(String book_id) {
+        String fileUrl_b=uploadImgDao.getBookImgUrlById(book_id).get("image_b").toString();
+        String fileUrl_s=uploadImgDao.getBookImgUrlById(book_id).get("image_s").toString();
+        deleteImg(fileUrl_b,fileUrl_s);
     }
 
 }

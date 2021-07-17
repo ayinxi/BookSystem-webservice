@@ -2,6 +2,7 @@ package booksystem.service.Impl;
 
 import booksystem.dao.UserDao;
 import booksystem.pojo.User;
+import booksystem.service.UploadImgService;
 import booksystem.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
     UserDao userDao;
     @Autowired
     JavaMailSender mailSender;
+    @Autowired
+    UploadImgService uploadImgService;
+
     @Value("${spring.mail.username}")
     String from;
     ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(10);
@@ -54,6 +58,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void deleteUser(String user_id) {
+        uploadImgService.deleteUserImg(user_id);
         userDao.deleteUser(user_id);
     }
 

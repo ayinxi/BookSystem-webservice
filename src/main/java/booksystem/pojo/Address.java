@@ -86,4 +86,18 @@ public class Address {
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
     }
+
+    @Override
+    public String toString() {
+        return "Address{" +
+                "id='" + id + '\'' +
+                ", address='" + address + '\'' +
+                ", name='" + name + '\'' +
+                ", phone='" + phone + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", status=" + status +
+                ", creat_time='" + creat_time + '\'' +
+                ", update_time='" + update_time + '\'' +
+                '}';
+    }
 }

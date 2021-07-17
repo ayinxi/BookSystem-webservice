@@ -124,9 +124,12 @@ public class UserController {
         }
     }
 
-    //更新用户 少了地址的更新
+    //更新用户
     @PostMapping("/updateUser")
-    public Result updateUser(@RequestParam("password") String password, @RequestParam("name") String name, @RequestParam("img") MultipartFile img, ServletRequest request){
+    public Result updateUser(@RequestParam("password") String password,
+                             @RequestParam("name") String name,
+                             @RequestParam("img") MultipartFile img,
+                             ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
         int result=userService.updateUser(username,password,name);
