@@ -5,7 +5,7 @@
         UPDATE user SET avatar_b=#{url_b},avatar_s=#{url_s} WHERE username=#{username}
     </update>
     <update id="updateShopImgUrl">
-        UPDATE shop SET avatar_b=#{url_b},avatar_s=#{url_s} WHERE user_id=(SELECT id FROM user WHERE username=#{username})
+        UPDATE shop SET avatar_b=#{url_b},avatar_s=#{url_s} WHERE id=#{shop_id}
     </update>
     <update id="updateBookImgUrl">
         UPDATE book SET image_b=#{url_b},image_s=#{url_s} WHERE WHERE id=#{book_id};

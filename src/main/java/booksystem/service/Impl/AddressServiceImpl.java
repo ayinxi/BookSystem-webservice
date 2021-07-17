@@ -17,18 +17,9 @@ public class AddressServiceImpl implements AddressService {
         return addressDao.getAllAddress(user_id);
     }
 
-    @Override
-    public int addAddress(Address address) {
-        return addressDao.addAddress(address);
-    }
 
     @Override
-    public int deleteAddress(String address_id) {
-        return addressDao.deleteAddress(address_id);
-    }
-
-    @Override
-    public int updateAddress(Address address) {
+    public int updateAddress(Address[] address) {
         return addressDao.updateAddress(address);
     }
 }

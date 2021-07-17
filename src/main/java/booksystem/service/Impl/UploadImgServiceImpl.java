@@ -65,9 +65,9 @@ public class UploadImgServiceImpl implements UploadImgService {
     }
 
     @Override
-    public String uploadShopImg(MultipartFile img, String username) {
-        String fileUrl_b=uploadImgDao.getShopImgUrl(username).get("avatar_b").toString();
-        String fileUrl_s=uploadImgDao.getShopImgUrl(username).get("avatar_s").toString();
+    public String uploadShopImg(MultipartFile img, String shop_id) {
+        String fileUrl_b=uploadImgDao.getShopImgUrlById(shop_id).get("avatar_b").toString();
+        String fileUrl_s=uploadImgDao.getShopImgUrlById(shop_id).get("avatar_s").toString();
 
         File imgFile=ImgUtils.multipartFileToFile(img);
 
@@ -75,7 +75,7 @@ public class UploadImgServiceImpl implements UploadImgService {
         fileUrl_s=uploadCompressImg(imgFile,fileUrl_s);
 
         //上传到数据库
-        uploadImgDao.updateShopImgUrl(username,fileUrl_b,fileUrl_s);
+        uploadImgDao.updateShopImgUrl(shop_id,fileUrl_b,fileUrl_s);
 
         return fileUrl_b;
     }
