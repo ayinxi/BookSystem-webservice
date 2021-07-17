@@ -127,10 +127,14 @@ public class ShopController {
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
         int result=shopService.registerShop(username,shopper_name,shop_name,apply_reason);
+
+        List<Shop> shopList=shopService.getShopByUserAndStatus(username,1,-1,-1);
+        Shop shop=shopList.get(0);
+
         if(result==1)
         {
             if (!img.isEmpty()) {
-                uploadImgService.uploadShopImg(img, username);
+                uploadImgService.uploadShopImg(img, shop.getId());
             }
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else if(result==-1)
