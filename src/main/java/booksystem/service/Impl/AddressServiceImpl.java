@@ -19,7 +19,22 @@ public class AddressServiceImpl implements AddressService {
 
 
     @Override
-    public int updateAddress(Address[] address) {
-        return addressDao.updateAddress(address);
+    public void updateAddress(String id,String address,String name,String phone) {
+        addressDao.updateAddress(id,address,name,phone);
+    }
+
+    @Override
+    public void insertAddress(String address, String name, String phone, String username) {
+        addressDao.insertAddress(address,name,phone,username);
+    }
+
+    @Override
+    public void deleteAddress(String id) {
+        addressDao.deleteAddress(id);
+    }
+
+    @Override
+    public void setDefault(String id) {
+        addressDao.setDefault(id);
     }
 }

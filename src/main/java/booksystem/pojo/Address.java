@@ -7,19 +7,19 @@ public class Address {
     private String phone;
     private String user_id;
     private int status;//是否为默认地址
-    private String creat_time;
+    private String create_time;
     private String update_time;
 
     public Address(){}
 
-    public Address(String id, String address, String name, String phone, String user_id, int status,String creat_time,String update_time) {
+    public Address(String id, String address, String name, String phone, String user_id, int status,String create_time,String update_time) {
         this.id = id;
         this.address = address;
         this.name = name;
         this.phone = phone;
         this.user_id = user_id;
         this.status = status;
-        this.creat_time = creat_time;
+        this.create_time = create_time;
         this.update_time=update_time;
     }
 
@@ -71,16 +71,16 @@ public class Address {
         this.status = status;
     }
 
-    public String getCreat_time() {
-        return creat_time;
+    public String getCreate_time() {
+        return create_time;
     }
 
     public String getUpdate_time() {
         return update_time;
     }
 
-    public void setCreat_time(String creat_time) {
-        this.creat_time = creat_time;
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
     public void setUpdate_time(String update_time) {
@@ -96,7 +96,7 @@ public class Address {
                 ", phone='" + phone + '\'' +
                 ", user_id='" + user_id + '\'' +
                 ", status=" + status +
-                ", creat_time='" + creat_time + '\'' +
+                ", creat_time='" + create_time + '\'' +
                 ", update_time='" + update_time + '\'' +
                 '}';
     }

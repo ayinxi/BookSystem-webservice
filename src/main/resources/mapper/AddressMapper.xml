@@ -3,8 +3,24 @@
 
 <mapper namespace="booksystem.dao.AddressDao">
 
-    <select id="getUserByName" resultType="booksystem.pojo.User">
-        select * from address where user_id=#{user_id}
+    <select id="getAllAddress" resultType="booksystem.pojo.Address">
+        select * from address where user_id=(select id from user where username=#{username})
     </select>
+
+
+    <update id="updateAddress" parameterType="booksystem.pojo.Address">
+        update address set address=#{address},name=#{name},phone=#{phone} where id=#{id}
+    </update>
+
+    <insert id="insertAddress">
+        insert into address(id,address,name,phone,user_id,status,create_time,update_time)
+        values(MD5(UUID()),#{address},#{name},#{phone},(select id from user where username=#{username}),0,now(),now())
+    </insert>
+    <update id="setDefault">
+        update address set status=0 where status=1;update address set status=1 where id=#{id};
+    </update>
+    <delete id="deleteAddress">
+        delete from address where id=#{id}
+    </delete>
 
 </mapper>

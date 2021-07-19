@@ -21,7 +21,7 @@ import java.util.Map;
 @Component
 public class LoginFilter implements Filter{
     final String[] allowUrl={
-            "/login","/register","/test","/sendEmail"
+            "/login","/registerUser","/test","/sendEmail"
     };
     @Autowired
     UserDao userDao;
