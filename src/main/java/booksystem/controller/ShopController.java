@@ -117,7 +117,8 @@ public class ShopController {
         List<Shop> result=shopService.getShopByUserAndStatus(username,2,1,1);
         if(!result.isEmpty())
         {
-            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
+            Shop shop=result.get(0);
+            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",shop);
         }else
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
     }
