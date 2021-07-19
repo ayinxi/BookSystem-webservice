@@ -94,7 +94,7 @@ public class ShopController {
     }
 
     //根据username获取所有状态的店铺信息
-    @RequestMapping("/getAllShopByUsername")
+    @RequestMapping("/user/getAllShop")
     public Result getShopByUsername(@RequestParam("username")String username)
     {
         List<Shop> result=shopService.getShopByUser(username);
@@ -106,7 +106,7 @@ public class ShopController {
     }
 
     //根据username获取现有的店铺信息
-    @RequestMapping("/getPassShopByUsername")
+    @RequestMapping("/shop/getPassed")
     public Result getPassShopByUsername(@RequestParam("username")String username)
     {
         List<Shop> result=shopService.getShopByUserAndStatus(username,2,1,1);
@@ -220,7 +220,7 @@ public class ShopController {
     }
 
     //店铺修改
-    @PostMapping("/user/updateShop")
+    @PostMapping("/shop/updateShop")
     public Result updateShop(@RequestParam("shopper_name") String shopper_name,
                                   @RequestParam("shop_name") String shop_name,
                                   @RequestParam("img") MultipartFile img,
@@ -248,7 +248,7 @@ public class ShopController {
     }
 
     //店铺注销 根据username注销店铺
-    @DeleteMapping("/logoutShop")
+    @DeleteMapping("/shop/logoutShop")
     public Result deleteShop(@RequestParam("username") String username){
         int result=shopService.deleteShop(username);
         if (result == 1) {

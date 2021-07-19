@@ -19,14 +19,16 @@ import java.util.List;
 public class AddressController {
     @Autowired
     AddressService addressService;
-
+    
     //根据user_id获取所有地址
-    @RequestMapping("/user/getAllAddress")
-    public Result getAllAddress(@RequestParam("username") String username){
+    @RequestMapping("/user/address/getAll")
+    public Result getAllAddress(ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
         return Result.ok().put("data",addressService.getAllAddress(username));
     }
     //添加一个地址
-    @PostMapping("/user/addAddress")
+    @PostMapping("/user/address/add")
     public Result addAddress(@RequestParam("address") String address,
                              @RequestParam("name") String name,
                              @RequestParam("phone") String phone,
@@ -37,13 +39,13 @@ public class AddressController {
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
     //删除一个地址
-    @DeleteMapping("/user/deleteAddress")
+    @DeleteMapping("/user/address/delete")
     public Result deleteAddress(@RequestParam("addressId") String addressId){
         addressService.deleteAddress(addressId);
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
     //修改地址信息
-    @PostMapping("/user/updateAddress")
+    @PostMapping("/user/address/update")
     public Result updateAddress(
             @RequestParam("addressId") String addressId,
             @RequestParam("address") String address,

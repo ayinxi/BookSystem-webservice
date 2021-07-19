@@ -9,7 +9,7 @@
 
 
     <update id="updateAddress" parameterType="booksystem.pojo.Address">
-        update address set address=#{address},name=#{name},phone=#{phone} where id=#{id}
+        update address set address=#{address},name=#{name},phone=#{phone},update_time=now() where id=#{id}
     </update>
 
     <insert id="insertAddress">
@@ -17,7 +17,8 @@
         values(MD5(UUID()),#{address},#{name},#{phone},(select id from user where username=#{username}),0,now(),now())
     </insert>
     <update id="setDefault">
-        update address set status=0 where status=1;update address set status=1 where id=#{id};
+        update address set status=0 where status=1;
+        update address set status=1,update_time=now() where id=#{id};
     </update>
     <delete id="deleteAddress">
         delete from address where id=#{id}
