@@ -75,7 +75,7 @@ public class ShopServiceImpl implements ShopService {
         User user=userDao.getUserByName(username);
         String user_id=user.getId();
         //apply:1 pass:-1 exsit:-1 已提交未审核、审核状态为无效、存在状态为无效
-        Shop shop = new Shop(null, user_id, "http://47.94.131.208:8888/img/original/avatar.jpg", "http://47.94.131.208:8888/img/compression/avatar.jpg",
+        Shop shop = new Shop(null, user_id, username,"http://47.94.131.208:8888/img/original/avatar.jpg", "http://47.94.131.208:8888/img/compression/avatar.jpg",
                 shopper_name, shop_name, 5.0, 1, apply_reason, -1, null, -1, null, null);
         shopDao.addShop(shop);
         return 1;//添加成功

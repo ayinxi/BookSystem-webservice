@@ -4,6 +4,7 @@ import booksystem.pojo.Category;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 
 @Repository
@@ -18,4 +19,6 @@ public interface CategoryDao {
     int deleteCategory(String main_category,String second_category);
     //更新目录名
     int updateCategory(Category category);
+    //通过二级目录和一级目录查找
+    List<Category> getCategory(String main_category,String second_category);
 }

@@ -10,6 +10,7 @@ package booksystem.pojo;
 public class Shop {
     private String id;
     private String user_id;//商家id
+    private String username;
     private String avatar_b;
     private String avatar_s;
     private String shopper_name;//店主名
@@ -25,9 +26,10 @@ public class Shop {
 
     public Shop(){}
 
-    public Shop(String id, String user_id, String avatar_b, String avatar_s, String shopper_name, String shop_name, double rate, int apply_status, String apply_reason, int pass_status, String check_opinion, int exist_status, String create_time, String update_time) {
+    public Shop(String id, String user_id, String username, String avatar_b, String avatar_s, String shopper_name, String shop_name, double rate, int apply_status, String apply_reason, int pass_status, String check_opinion, int exist_status, String create_time, String update_time) {
         this.id = id;
         this.user_id = user_id;
+        this.username = username;
         this.avatar_b = avatar_b;
         this.avatar_s = avatar_s;
         this.shopper_name = shopper_name;
@@ -154,23 +156,11 @@ public class Shop {
         this.update_time = update_time;
     }
 
-    @Override
-    public String toString() {
-        return "Shop{" +
-                "id='" + id + '\'' +
-                ", user_id='" + user_id + '\'' +
-                ", avatar_b='" + avatar_b + '\'' +
-                ", avatar_s='" + avatar_s + '\'' +
-                ", shopper_name='" + shopper_name + '\'' +
-                ", shop_name='" + shop_name + '\'' +
-                ", rate=" + rate +
-                ", apply_status=" + apply_status +
-                ", apply_reason='" + apply_reason + '\'' +
-                ", pass_status=" + pass_status +
-                ", check_opinion='" + check_opinion + '\'' +
-                ", exist_status=" + exist_status +
-                ", create_time='" + create_time + '\'' +
-                ", update_time='" + update_time + '\'' +
-                '}';
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }

@@ -8,9 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
-
+@RestController
 public class CategoryController {
     @Autowired
     CategoryService categoryService;
@@ -30,16 +31,30 @@ public class CategoryController {
     //添加一级目录
     @PostMapping("/category/addMain")
     public Result addMainCategory(@RequestParam("main_category") String main_category){
-        categoryService.addMainCategory(main_category);
-        return Result.ok(ResultEnum.SUCCESS.getMsg());
+        int result=categoryService.addMainCategory(main_category);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else if(result==0)
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        else if(result==-1)
+            return Result.error(ResultEnum.CATEGORY_IS_EXIST.getCode(),ResultEnum.CATEGORY_IS_EXIST.getMsg());
+        else
+            return  Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
     }
 
     //添加二级目录
     @PostMapping("/category/addSecond")
     public Result addSecondCategory(@RequestParam("main_category") String main_category,
                                     @RequestParam("second_category") String second_category){
-        categoryService.addSecondCategory(main_category,second_category);
-        return Result.ok(ResultEnum.SUCCESS.getMsg());
+        int result=categoryService.addSecondCategory(main_category,second_category);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else if(result==0)
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        else if(result==-1)
+            return Result.error(ResultEnum.CATEGORY_IS_EXIST.getCode(),ResultEnum.CATEGORY_IS_EXIST.getMsg());
+        else
+            return  Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
     }
 
     //删除一级目录

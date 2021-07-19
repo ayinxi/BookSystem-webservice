@@ -30,8 +30,8 @@
     </select>
 
     <insert id="addShop">
-        INSERT INTO shop(id,user_id,avatar_b,avatar_s,shopper_name,shop_name,rate,apply_status,apply_reason,pass_status,check_opinion,exist_status,create_time,update_time)
-        VALUES(MD5(UUID()),#{user_id},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},
+        INSERT INTO shop(id,user_id,username,avatar_b,avatar_s,shopper_name,shop_name,rate,apply_status,apply_reason,pass_status,check_opinion,exist_status,create_time,update_time)
+        VALUES(MD5(UUID()),#{user_id},#{username},#{avatar_b},#{avatar_s},#{shopper_name},#{shop_name},
                #{rate},#{apply_status},#{apply_reason},#{pass_status},#{check_opinion},#{exist_status},now(),now());
     </insert>
 

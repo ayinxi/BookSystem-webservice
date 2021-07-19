@@ -253,11 +253,36 @@ public class ShopController {
         }
     }
 
+    //店铺修改
+    @PostMapping("/admin/updateShop")
+    public Result updateShopAdmin(@RequestParam("username")String username,
+                                  @RequestParam("shopper_name") String shopper_name,
+                             @RequestParam("shop_name") String shop_name,
+                             @RequestParam("img") MultipartFile img){
+
+        int result=shopService.updateShop(username,shopper_name,shop_name);
+        if(result==1)
+        {
+            List<Shop> shopList=shopService.getShopByUserAndStatus(username,2,1,1);
+            Shop shop=shopList.get(0);
+            if (!img.isEmpty()) {
+                uploadImgService.uploadShopImg(img, shop.getId());
+            }
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        }else if(result==-1)
+        {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+
+        }else
+        {
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
+        }
+    }
+
     //店铺注销 根据username注销店铺
     @DeleteMapping("/shop/logoutShop")
-    public Result deleteShop(@RequestParam("user_id") String user_id){
-        User user=userService.getUserByID(user_id);
-        int result=shopService.deleteShop(user.getUsername());
+    public Result deleteShop(@RequestParam("username") String username){
+        int result=shopService.deleteShop(username);
         if (result == 1) {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         } else if(result==-1){

@@ -20,7 +20,8 @@ public enum ResultEnum {
     EMAIL_FAIL(14,"邮箱信息错误"),
     Code_OUTTIME(15,"验证码过期"),
     SHOP_IS_EXISTS(16,"店铺已存在"),
-    SHOP_IS_APPLY(17,"店铺在审核")
+    SHOP_IS_APPLY(17,"店铺在审核"),
+    CATEGORY_IS_EXIST(18,"目录已存在")
 
     ;
     private Integer code;

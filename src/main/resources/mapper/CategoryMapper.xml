@@ -6,6 +6,10 @@
         select * from category order by update_time
     </select>
 
+    <select id="getCategory" resultType="booksystem.pojo.Category">
+        select * from category where main_category=#{main_category} and second_category=#{second_category} order by update_time
+    </select>
+
     <insert id="addCategory" >
         insert into category(id,main_category,second_category,status,create_time,update_time)
         values(MD5(UUID()),#{main_category},#{second_category},0,now(),now())
