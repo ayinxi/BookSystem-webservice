@@ -72,9 +72,6 @@ public class BookController {
                           @RequestParam("category_id")String category_id,
                           @RequestParam("shop_id")String shop_id,
                           @RequestParam("img") MultipartFile img) {
-        if(img==null){
-            return Result.error(ResultEnum.IMG_IS_NULL.getCode(),ResultEnum.IMG_IS_NULL.getMsg());
-        }
         String book_id=bookService.selectBook(book_name,author,price,press,edition,print_time,category_id,shop_id);
         if(!(book_id==null)){
             return Result.error(ResultEnum.REPEAT_ADD.getCode(),ResultEnum.REPEAT_ADD.getMsg());
