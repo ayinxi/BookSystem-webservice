@@ -113,9 +113,14 @@ public class UserController {
 
     //删除一个用户
     @DeleteMapping("/deleteUser")
-    public Result deleteUser(@RequestParam("user_id") String user_id){
-        userService.deleteUser(user_id);
-        User result=userService.getUserByID(user_id);
+    public Result deleteUser(@RequestParam("username") String username){
+        User user=userService.getUserByName(username);
+        if(user==null)
+        {
+            return Result.error(ResultEnum.User_NOT_EXIST.getCode(),ResultEnum.User_NOT_EXIST.getMsg());
+        }
+        userService.deleteUser(user.getId());
+        User result=userService.getUserByName(username);
         if(result==null)
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg());

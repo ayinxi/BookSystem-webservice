@@ -129,6 +129,7 @@ public class ShopController {
         int result=shopService.registerShop(username,shopper_name,shop_name,apply_reason);
 
         List<Shop> shopList=shopService.getShopByUserAndStatus(username,1,-1,-1);
+
         Shop shop=shopList.get(0);
 
         if(result==1)
@@ -154,8 +155,7 @@ public class ShopController {
     @PostMapping("/admin/checkShop")
     public Result checkShop(@RequestParam("username") String username,
                             @RequestParam("pass_status") int pass_status,
-                            @RequestParam("check_opinion") String check_opinion,
-                            ServletRequest request){
+                            @RequestParam("check_opinion") String check_opinion){
         int result=shopService.checkShop(username,pass_status,check_opinion);
         if(result==1)
         {
@@ -172,7 +172,7 @@ public class ShopController {
     }
 
     //申请信息修改
-    @PostMapping("/updateShopApply")
+    @PostMapping("/user/updateShopApply")
     public Result updateShopApply(@RequestParam("shopper_name") String shopper_name,
                            @RequestParam("shop_name") String shop_name,
                            @RequestParam("apply_reason") String apply_reason,
@@ -183,8 +183,12 @@ public class ShopController {
         int result=shopService.updateShopApply(username,shopper_name,shop_name,apply_reason);
 
         List<Shop> shopList=shopService.getShopByUserAndStatus(username,1,-1,-1);
+        if(shopList.isEmpty())
+        {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
         Shop shop=shopList.get(0);
-        System.out.println(shop.toString());
+
         if(result==1)
         {
             if (!img.isEmpty()) {
@@ -201,11 +205,59 @@ public class ShopController {
         }
     }
 
-    @DeleteMapping("/logoutShop")
-    //店铺注销 根据username注销店铺
-    public Result deleteShop(ServletRequest request){
+    //取消申请
+    @PostMapping("/user/cancelShopApply")
+    public Result cancelShopApply(ServletRequest request){
+
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
+        int result=shopService.cancelShopApply(username);
+        if(result==1)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+
+        }else if(result==-1)
+        {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+
+        }else
+        {
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
+        }
+    }
+
+    //店铺修改
+    @PostMapping("/user/updateShop")
+    public Result updateShop(@RequestParam("shopper_name") String shopper_name,
+                                  @RequestParam("shop_name") String shop_name,
+                                  @RequestParam("img") MultipartFile img,
+                                  ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int result=shopService.updateShop(username,shopper_name,shop_name);
+
+        List<Shop> shopList=shopService.getShopByUserAndStatus(username,2,1,1);
+        Shop shop=shopList.get(0);
+
+        if(result==1)
+        {
+            if (!img.isEmpty()) {
+                uploadImgService.uploadShopImg(img, shop.getId());
+            }
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        }else if(result==-1)
+        {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+
+        }else
+        {
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
+        }
+    }
+
+    //店铺注销 根据username注销店铺
+    @DeleteMapping("/logoutShop")
+    public Result deleteShop(@RequestParam("username") String username){
         int result=shopService.deleteShop(username);
         if (result == 1) {
             return Result.ok(ResultEnum.SUCCESS.getMsg());

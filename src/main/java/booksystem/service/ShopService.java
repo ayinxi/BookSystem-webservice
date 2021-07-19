@@ -31,7 +31,13 @@ public interface ShopService {
     //修改申请
     int updateShopApply(String username,String shopper_name,String shop_name,String apply_reason);
 
+    //取消申请
+    int cancelShopApply(String username);
+
     //注销店铺
     int deleteShop(String username);
+
+    //更新店铺信息
+    int updateShop(String username,String shopper_name,String shop_name);
 
 }

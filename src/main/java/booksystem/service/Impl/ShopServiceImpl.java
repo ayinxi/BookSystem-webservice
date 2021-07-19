@@ -78,7 +78,7 @@ public class ShopServiceImpl implements ShopService {
         Shop shop = new Shop(null, user_id, "http://47.94.131.208:8888/img/original/avatar.jpg", "http://47.94.131.208:8888/img/compression/avatar.jpg",
                 shopper_name, shop_name, 5.0, 1, apply_reason, -1, null, -1, null, null);
         shopDao.addShop(shop);
-        return 1;//添加失败
+        return 1;//添加成功
     }
 
     @Override
@@ -98,6 +98,7 @@ public class ShopServiceImpl implements ShopService {
             shop.setExist_status(1);
             shop.setCheck_opinion(check_opinion);
             shopDao.updateShop(shop);
+            userDao.updateIdentity(username,1);//更新身份变为商家
         }else if(pass_status==2)//拒绝
         {
             //已审核2 拒绝2 无效-1
@@ -127,6 +128,22 @@ public class ShopServiceImpl implements ShopService {
         return 1;
     }
 
+    @Override
+    public int cancelShopApply(String username) {
+        //默认已经有在申请的店铺了
+        List<Shop> shopList = shopDao.getShopByUserAndStatus(username, 1, -1, -1);
+        if (shopList.isEmpty())
+            return -1;//没有在申请店铺 无需修改
+        //因为一个账号只允许一个未审核的存在  所以未审核的店铺信息存储在shop中
+        Shop shop=shopList.get(0);
+        //修改信息
+        shop.setApply_status(3);
+        shop.setPass_status(-1);
+        shop.setExist_status(-1);
+        shopDao.updateShop(shop);
+        return 1;
+    }
+
     //注销店铺
     @Override
     public int deleteShop(String username) {
@@ -141,9 +158,25 @@ public class ShopServiceImpl implements ShopService {
         shop.setPass_status(-1);
         shop.setExist_status(2);
         shopDao.updateShop(shop);
+        userDao.updateIdentity(username,0);//更新身份变为普通用户
 
-        if(shopDao.getShopById(shop.getId()).getPass_status()!=-1||shopDao.getShopById(shop.getId()).getExist_status()!=2)
+        if(shopDao.getShopById(shop.getId()).getPass_status()!=-1&&shopDao.getShopById(shop.getId()).getExist_status()!=2)
             return 0;//注销失败
         return 1;//成功
+    }
+
+    @Override
+    public int updateShop(String username, String shopper_name, String shop_name) {
+        //获取要修改的店铺信息 此使为未注销状态
+        List<Shop> shopList=shopDao.getShopByUserAndStatus(username,2,1,1);
+        if(shopList.isEmpty())
+            return -1;//数据为空
+        //因为只允许一个未注销的存在  所以未注销的店铺信息存储在shop中
+        Shop shop=shopList.get(0);
+        //修改信息
+        shop.setShopper_name(shopper_name);
+        shop.setShop_name(shop_name);
+        shopDao.updateShop(shop);
+        return 1;
     }
 }
