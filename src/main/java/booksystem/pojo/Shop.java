@@ -153,4 +153,24 @@ public class Shop {
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
     }
+
+    @Override
+    public String toString() {
+        return "Shop{" +
+                "id='" + id + '\'' +
+                ", user_id='" + user_id + '\'' +
+                ", avatar_b='" + avatar_b + '\'' +
+                ", avatar_s='" + avatar_s + '\'' +
+                ", shopper_name='" + shopper_name + '\'' +
+                ", shop_name='" + shop_name + '\'' +
+                ", rate=" + rate +
+                ", apply_status=" + apply_status +
+                ", apply_reason='" + apply_reason + '\'' +
+                ", pass_status=" + pass_status +
+                ", check_opinion='" + check_opinion + '\'' +
+                ", exist_status=" + exist_status +
+                ", create_time='" + create_time + '\'' +
+                ", update_time='" + update_time + '\'' +
+                '}';
+    }
 }

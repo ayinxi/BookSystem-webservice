@@ -4,17 +4,19 @@ public class Category {
     private String id;
     private String main_category;
     private String second_category;
-    private String creat_time;
+    private boolean status;
+    private String create_time;
     private String update_time;
 
     public Category(){}
 
-    public Category(String id, String main_category, String second_category,String creat_time,String update_time) {
+    public Category(String id, String main_category, String second_category, boolean status, String create_time, String update_time) {
         this.id = id;
         this.main_category = main_category;
         this.second_category = second_category;
-        this.creat_time = creat_time;
-        this.update_time=update_time;
+        this.status = status;
+        this.create_time = create_time;
+        this.update_time = update_time;
     }
 
     public String getId() {
@@ -41,16 +43,24 @@ public class Category {
         this.second_category = second_category;
     }
 
-    public String getCreat_time() {
-        return creat_time;
+    public boolean isStatus() {
+        return status;
+    }
+
+    public String getCreate_time() {
+        return create_time;
     }
 
     public String getUpdate_time() {
         return update_time;
     }
 
-    public void setCreat_time(String creat_time) {
-        this.creat_time = creat_time;
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
     public void setUpdate_time(String update_time) {

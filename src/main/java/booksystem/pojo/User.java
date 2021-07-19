@@ -138,4 +138,23 @@ public class User {
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
     }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id='" + id + '\'' +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", email='" + email + '\'' +
+                ", status=" + status +
+                ", activationCode='" + activationCode + '\'' +
+                ", name='" + name + '\'' +
+                ", avatar_b='" + avatar_b + '\'' +
+                ", avatar_s='" + avatar_s + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", update_time='" + update_time + '\'' +
+                ", identity=" + identity +
+                ", access_time='" + access_time + '\'' +
+                '}';
+    }
 }

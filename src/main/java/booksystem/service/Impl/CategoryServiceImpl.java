@@ -21,22 +21,22 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public int addMainCategory(String main_category) {
-        return categoryDao.addMainCategory(main_category);
+        return categoryDao.addCategory(main_category,null);
     }
 
     @Override
     public int addSecondCategory(String main_category, String second_category) {
-        return categoryDao.addSecondCategory(main_category,second_category);
+        return categoryDao.addCategory(main_category,second_category);
     }
 
     @Override
     public int deleteMainCategory(String main_category) {
-        return categoryDao.deleteMainCategory(main_category);
+        return categoryDao.deleteCategory(main_category,null);
     }
 
     @Override
     public int deleteSecondCategory(String main_category, String second_category) {
-        return categoryDao.deleteSecondCategory(main_category, second_category);
+        return categoryDao.deleteCategory(main_category, second_category);
     }
 
     @Override

@@ -1,8 +1,10 @@
 package booksystem.controller;
 
 import booksystem.pojo.Shop;
+import booksystem.pojo.User;
 import booksystem.service.ShopService;
 import booksystem.service.UploadImgService;
+import booksystem.service.UserService;
 import booksystem.utils.Result;
 import booksystem.utils.ResultEnum;
 import booksystem.utils.TokenUtils;
@@ -12,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
@@ -20,6 +23,8 @@ public class ShopController {
     ShopService shopService;
     @Autowired
     UploadImgService uploadImgService;
+    @Autowired
+    UserService userService;
 
     //获取审核过的店铺
     @RequestMapping("/admin/getCheckShop")
@@ -249,8 +254,9 @@ public class ShopController {
 
     //店铺注销 根据username注销店铺
     @DeleteMapping("/shop/logoutShop")
-    public Result deleteShop(@RequestParam("username") String username){
-        int result=shopService.deleteShop(username);
+    public Result deleteShop(@RequestParam("user_id") String user_id){
+        User user=userService.getUserByID(user_id);
+        int result=shopService.deleteShop(user.getUsername());
         if (result == 1) {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         } else if(result==-1){

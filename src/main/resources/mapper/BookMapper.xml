@@ -4,19 +4,19 @@
 <mapper namespace="booksystem.dao.BookDao">
 
     <select id="getAllBook" resultType="booksystem.pojo.Book">
-        SELECT * FROM book ORDER BY volumn DESC
+        SELECT * FROM book ORDER BY volume DESC
     </select>
 
     <select id="getBookByShop" parameterType="String" resultType="booksystem.pojo.Book">
-        SELECT * FROM book where shop_id=(select id from shop where apply_status=2 and pass_status=1 and exist_status=1 and user_id=(select id from user where username=#{username}))ORDER BY volumn DESC
+        SELECT * FROM book where shop_id=(select id from shop where apply_status=2 and pass_status=1 and exist_status=1 and user_id=(select id from user where username=#{username}))ORDER BY volume DESC
     </select>
 
     <select id="getBookByName" parameterType="String" resultType="booksystem.pojo.Book">
-        SELECT * FROM book where book_name=#{book_name} ORDER BY volumn DESC
+        SELECT * FROM book where book_name=#{book_name} ORDER BY volume DESC
     </select>
 
     <select id="getBookByPress" parameterType="String" resultType="booksystem.pojo.Book">
-        SELECT * FROM book where press=#{press} ORDER BY volumn DESC
+        SELECT * FROM book where press=#{press} ORDER BY volume DESC
     </select>
 
     <update id="updateBook">

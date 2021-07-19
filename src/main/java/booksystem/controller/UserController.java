@@ -26,7 +26,7 @@ public class UserController {
     @RequestMapping("/admin/getAllUser")
     public Result getAllUser(){
         List<User> result=userService.getAllUser();
-        if(result!=null)
+        if(!result.isEmpty())
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
         }else{

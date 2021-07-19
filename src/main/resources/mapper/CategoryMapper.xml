@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="booksystem.dao.CategoryDao">
+    <select id="getAllCategory" resultType="booksystem.pojo.Category">
+        select * from category order by update_time
+    </select>
+
+    <insert id="addCategory" >
+        insert into category(id,main_category,second_category,status,create_time,update_time)
+        values(MD5(UUID()),#{main_category},#{second_category},0,now(),now())
+    </insert>
+
+    <delete id="deleteCategory">
+        delete from category where main_category=#{main_category} and second_category=#{second_category}
+    </delete>
+
+    <update id="updateCategory" parameterType="booksystem.pojo.Category">
+        update category set main_category=#{main_category} and second_category=#{second_category} and status=#{status} and update_time=now()
+        where id=#{category_id}
+    </update>
+
+</mapper>
