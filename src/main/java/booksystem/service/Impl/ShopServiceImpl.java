@@ -169,7 +169,7 @@ public class ShopServiceImpl implements ShopService {
     public int updateShop(String username, String shopper_name, String shop_name) {
         //获取要修改的店铺信息 此使为未注销状态
         List<Shop> shopList=shopDao.getShopByUserAndStatus(username,2,1,1);
-        if(shopList.isEmpty())
+        if(shopList.size()==0)
             return -1;//数据为空
         //因为只允许一个未注销的存在  所以未注销的店铺信息存储在shop中
         Shop shop=shopList.get(0);

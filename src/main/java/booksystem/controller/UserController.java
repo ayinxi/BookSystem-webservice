@@ -133,13 +133,25 @@ public class UserController {
     @PostMapping("/updateUser")
     public Result updateUser(@RequestParam("password") String password,
                              @RequestParam("name") String name,
-                             @RequestParam("img") MultipartFile img,
                              ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
         int result=userService.updateUser(username,password,name);
-        if(!img.isEmpty()&&result!=0)
+        if(result!=0)
         {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        }else{
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+        }
+    }
+
+    //修改头像
+    @PostMapping("/updateAvatar")
+    public Result updateAvatar(@RequestParam("img") MultipartFile img,
+                             ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        if(!img.isEmpty()){
             uploadImgService.uploadUserImg(img,username);
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else{

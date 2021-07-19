@@ -34,8 +34,8 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public List<Book> getBookByName(String bookname) {
-        return bookDao.getBookByName(bookname);
+    public List<Book> getBookByName(String book_name) {
+        return bookDao.getBookByName(book_name);
     }
 
     @Override
@@ -43,10 +43,6 @@ public class BookServiceImpl implements BookService {
         return bookDao.getBookByPress(press);
     }
 
-    @Override
-    public int mutiAddBook(List<Book> book_list) {
-        return bookDao.mutiAddBook(book_list);
-    }
 
     @Override
     public int addBook(Book book) {
@@ -58,10 +54,6 @@ public class BookServiceImpl implements BookService {
         return bookDao.deleteBook(book_id);
     }
 
-    @Override
-    public int mutiDeleteBook(String[] Book_Ids) {
-        return bookDao.mutiDeleteBook(Book_Ids);
-    }
 
     @Override
     public int updateBook(Book book) {

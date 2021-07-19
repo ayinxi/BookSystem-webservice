@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="booksystem.dao.BookDao">
+
+    <select id="getAllBook" resultType="booksystem.pojo.Book">
+        SELECT * FROM book ORDER BY volumn DESC
+    </select>
+
+    <select id="getBookByShop" parameterType="String" resultType="booksystem.pojo.Book">
+        SELECT * FROM book where shop_id=(select id from shop where apply_status=2 and pass_status=1 and exist_status=1 and user_id=(select id from user where username=#{username}))ORDER BY volumn DESC
+    </select>
+
+    <select id="getBookByName" parameterType="String" resultType="booksystem.pojo.Book">
+        SELECT * FROM book where book_name=#{book_name} ORDER BY volumn DESC
+    </select>
+
+    <select id="getBookByPress" parameterType="String" resultType="booksystem.pojo.Book">
+        SELECT * FROM book where press=#{press} ORDER BY volumn DESC
+    </select>
+
+    <update id="updateBook">
+        update book set book_name=#{book_name},author=#{author},price=#{price},volumn=#{volumn},
+                        repertory=#{repertory},press=#{press},edition=#{edition},print_time=#{print_time},
+                        image_b=#{image_b},image_s=#{image_s},category_id=#{category_id},shop_id=#{category_id},create_time=#{create_time},update_time=now()
+        where id=#{id}
+    </update>
+
+    <insert id="addBook">
+        INSERT INTO book(id,book_name,author,price,volume,repertory,press,edition,
+                         print_time,image_b,image_s,category_id,shop_id,create_time,update_time)
+        VALUES(MD5(UUID()),#{book_name},#{author},#{price},#{volume},#{repertory},
+               #{press},#{edition},#{print_time},#{image_b},#{image_s},#{category_id},#{shop_id},now(),now());
+    </insert>
+
+    <update id="deleteBook" parameterType="String">
+        delete from book where id=#{book_id}
+    </update>
+
+</mapper>

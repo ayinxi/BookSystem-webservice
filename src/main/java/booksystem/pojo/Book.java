@@ -5,7 +5,7 @@ public class Book {
     private String book_name;
     private String author;
     private double price;
-    private int volumn;//销量
+    private int volume;//销量
     private int repertory;//库存
     private String press;//出版社
     private int edition;//版本
@@ -14,16 +14,16 @@ public class Book {
     private String image_s;
     private String category_id;//目录id
     private String shop_id;//店铺id
-    private String creat_time;
+    private String create_time;
     private String update_time;
 
     public Book(){}
-    public Book(String id, String book_name, String author, double price, int volumn, int repertory, String press, int edition, String print_time, String image_b, String image_s, String category_id, String shop_id,String creat_time,String update_time) {
+    public Book(String id, String book_name, String author, double price, int volume, int repertory, String press, int edition, String print_time, String image_b, String image_s, String category_id, String shop_id,String create_time,String update_time) {
         this.id = id;
         this.book_name = book_name;
         this.author = author;
         this.price = price;
-        this.volumn = volumn;//销量
+        this.volume = volume;//销量
         this.repertory = repertory;//库存
         this.press = press;//出版社
         this.edition = edition;
@@ -32,7 +32,7 @@ public class Book {
         this.image_s = image_s;
         this.category_id = category_id;
         this.shop_id = shop_id;
-        this.creat_time = creat_time;
+        this.create_time = create_time;
         this.update_time=update_time;
     }
 
@@ -52,8 +52,8 @@ public class Book {
         return price;
     }
 
-    public int getVolumn() {
-        return volumn;
+    public int getVolume() {
+        return volume;
     }
 
     public int getRepertory() {
@@ -104,8 +104,8 @@ public class Book {
         this.price = price;
     }
 
-    public void setVolumn(int volumn) {
-        this.volumn = volumn;
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 
     public void setRepertory(int repertory) {
@@ -140,16 +140,16 @@ public class Book {
         this.shop_id = shop_id;
     }
 
-    public String getCreat_time() {
-        return creat_time;
+    public String getCreate_time() {
+        return create_time;
     }
 
     public String getUpdate_time() {
         return update_time;
     }
 
-    public void setCreat_time(String creat_time) {
-        this.creat_time = creat_time;
+    public void setCreat_time(String create_time) {
+        this.create_time = create_time;
     }
 
     public void setUpdate_time(String update_time) {

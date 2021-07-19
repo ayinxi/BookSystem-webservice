@@ -128,12 +128,10 @@ public class ShopController {
         String username= TokenUtils.parseToken(token).get("username").toString();
         int result=shopService.registerShop(username,shopper_name,shop_name,apply_reason);
 
-        List<Shop> shopList=shopService.getShopByUserAndStatus(username,1,-1,-1);
-
-        Shop shop=shopList.get(0);
-
         if(result==1)
         {
+            List<Shop> shopList=shopService.getShopByUserAndStatus(username,1,-1,-1);
+            Shop shop=shopList.get(0);
             if (!img.isEmpty()) {
                 uploadImgService.uploadShopImg(img, shop.getId());
             }
@@ -182,15 +180,10 @@ public class ShopController {
         String username= TokenUtils.parseToken(token).get("username").toString();
         int result=shopService.updateShopApply(username,shopper_name,shop_name,apply_reason);
 
-        List<Shop> shopList=shopService.getShopByUserAndStatus(username,1,-1,-1);
-        if(shopList.isEmpty())
-        {
-            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
-        }
-        Shop shop=shopList.get(0);
-
         if(result==1)
         {
+            List<Shop> shopList=shopService.getShopByUserAndStatus(username,1,-1,-1);
+            Shop shop=shopList.get(0);
             if (!img.isEmpty()) {
                 uploadImgService.uploadShopImg(img, shop.getId());
             }
@@ -236,11 +229,10 @@ public class ShopController {
         String username= TokenUtils.parseToken(token).get("username").toString();
         int result=shopService.updateShop(username,shopper_name,shop_name);
 
-        List<Shop> shopList=shopService.getShopByUserAndStatus(username,2,1,1);
-        Shop shop=shopList.get(0);
-
         if(result==1)
         {
+            List<Shop> shopList=shopService.getShopByUserAndStatus(username,2,1,1);
+            Shop shop=shopList.get(0);
             if (!img.isEmpty()) {
                 uploadImgService.uploadShopImg(img, shop.getId());
             }

@@ -20,18 +20,14 @@ public interface BookDao {
     //根据目录名字获取图书
     List<Book>getBookByCategory(String category);
     //根据图书名获取图书
-    List<Book>getBookByName(String bookname);
+    List<Book>getBookByName(String book_name);
     //根据图书出版社获取图书
     List<Book>getBookByPress(String press);
 
-    //批量添加
-    int mutiAddBook(List<Book> book_list);
-    //单次添加
+    //添加
     int addBook(Book book);
-    //单次删除
+    //删除
     int deleteBook(String book_id);
-    //批量删除
-    int mutiDeleteBook(String[] Book_Ids);
     //更新图书信息
     int updateBook(Book book);
 }
