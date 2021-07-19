@@ -3,13 +3,11 @@ package booksystem.controller;
 import booksystem.pojo.Book;
 import booksystem.pojo.User;
 import booksystem.service.BookService;
+import booksystem.service.UploadImgService;
 import booksystem.utils.Result;
 import booksystem.utils.ResultEnum;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -19,6 +17,8 @@ import java.util.List;
 public class BookController {
     @Autowired
     BookService bookService;
+    @Autowired
+    UploadImgService uploadImgService;
 //
 //    @RequestMapping("/book/getAll")
 //    public Result getAllBook() {
@@ -61,19 +61,29 @@ public class BookController {
 //        return null;
 //    }
 //
-    @RequestMapping("/book/addBook")
-    public Result addBook(@RequestParam("username")String book_name,
-                          @RequestParam("username")String author,
-                          @RequestParam("username")double price,
-                          @RequestParam("username")int volume,
-                          @RequestParam("username")int repertory,
-                          @RequestParam("username")String press,
-                          @RequestParam("username")int edition,
-                          @RequestParam("username")String print_time,
-                          @RequestParam("username")String category_id,
-                          @RequestParam("username")String shop_id,
+    @PostMapping("/book/addBook")
+    public Result addBook(@RequestParam("book_name")String book_name,
+                          @RequestParam("author")String author,
+                          @RequestParam("price")double price,
+                          @RequestParam("repertory")int repertory,
+                          @RequestParam("press")String press,
+                          @RequestParam("edition")String edition,
+                          @RequestParam("print_time")String print_time,
+                          @RequestParam("category_id")String category_id,
+                          @RequestParam("shop_id")String shop_id,
                           @RequestParam("img") MultipartFile img) {
-        return null;
+        if(img==null){
+            return Result.error(ResultEnum.IMG_IS_NULL.getCode(),ResultEnum.IMG_IS_NULL.getMsg());
+        }
+        String book_id=bookService.selectBook(book_name,author,price,press,edition,print_time,category_id,shop_id);
+        if(!(book_id==null)){
+            return Result.error(ResultEnum.REPEAT_ADD.getCode(),ResultEnum.REPEAT_ADD.getMsg());
+        }
+        bookService.addBook(book_name,author,price,repertory,press,edition,print_time,category_id,shop_id);
+        book_id=bookService.selectBook(book_name,author,price,press,edition,print_time,category_id,shop_id);
+        uploadImgService.uploadBookImg(img,book_id);
+
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 //
 //    @RequestMapping("/deleteBook")

@@ -37,4 +37,10 @@
         delete from book where id=#{book_id}
     </update>
 
+    <select id="selectBook" resultType="String">
+        select id from book where book_name=#{book_name} and author=#{author} and price=#{price}
+        and press=#{press} and edition=#{edition} and print_time=#{print_time}
+        and category_id=#{category_id} and shop_id=#{shop_id}
+    </select>
+
 </mapper>

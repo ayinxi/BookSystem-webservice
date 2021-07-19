@@ -42,9 +42,9 @@ public class LoginFilter implements Filter{
         //跨域允许的header
 
         System.out.println("\n--------------------------------欢迎访问“教我编程图书商城“------------------------------------");
-        System.out.println(LogUtils.getNowTime()+"接收访问: "+request.getRequestURI());
+        System.out.println(LogUtils.getNowTime()+"访问地址: "+request.getRequestURI());
         System.out.println(LogUtils.getNowTime()+"请求方式: "+request.getMethod());
-//        System.out.println(LogUtils.getNowTime()+"访问参数: "+ LogUtils.getParams(request));
+        System.out.println(LogUtils.getNowTime()+"访问参数: "+ LogUtils.getParams(request));
         Map<String,Object> map = new HashMap<>();
         String url =  ((HttpServletRequest)servletRequest).getRequestURI();
         if(url != null){

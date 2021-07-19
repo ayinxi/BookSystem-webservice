@@ -44,9 +44,14 @@ public class BookServiceImpl implements BookService {
 //    }
 
     @Override
-    public int addBook(String book_name, String author, double price, int volume, int repertory, String press, int edition, String print_time, String category_id, String shop_id) {
-        Book book=new Book(null,book_name,author,price,volume,repertory,press,edition,print_time,null,null,category_id,shop_id,null,null);
+    public int addBook(String book_name, String author, double price, int repertory, String press, String edition, String print_time, String category_id, String shop_id) {
+        Book book=new Book(null,book_name,author,price,0,repertory,press,edition,print_time,"null","null",category_id,shop_id,null,null);
         return bookDao.addBook(book);
+    }
+
+    @Override
+    public String selectBook(String book_name, String author, double price, String press, String edition, String print_time, String category_id, String shop_id) {
+        return bookDao.selectBook(book_name,author,price,press,edition,print_time,category_id,shop_id);
     }
 
 

@@ -8,7 +8,7 @@
         UPDATE shop SET avatar_b=#{url_b},avatar_s=#{url_s} WHERE id=#{shop_id}
     </update>
     <update id="updateBookImgUrl">
-        UPDATE book SET image_b=#{url_b},image_s=#{url_s} WHERE WHERE id=#{book_id};
+        UPDATE book SET image_b=#{url_b},image_s=#{url_s} WHERE id=#{book_id};
     </update>
 
     <select id="getUserImgUrl" resultType="java.util.HashMap">

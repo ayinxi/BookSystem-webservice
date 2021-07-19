@@ -19,7 +19,7 @@ import java.util.List;
 public class AddressController {
     @Autowired
     AddressService addressService;
-    
+
     //根据user_id获取所有地址
     @RequestMapping("/user/address/getAll")
     public Result getAllAddress(ServletRequest request){
@@ -55,7 +55,7 @@ public class AddressController {
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 
-    @PostMapping("/user/setDefault")
+    @PostMapping("/user/address/setDefault")
     public Result setDefault(@RequestParam("addressId") String addressId){
         addressService.setDefault(addressId);
         return Result.ok(ResultEnum.SUCCESS.getMsg());

@@ -8,7 +8,7 @@ public class Book {
     private int volume;//销量
     private int repertory;//库存
     private String press;//出版社
-    private int edition;//版本
+    private String edition;//版本
     private String print_time;
     private String image_b;
     private String image_s;
@@ -18,7 +18,7 @@ public class Book {
     private String update_time;
 
     public Book(){}
-    public Book(String id, String book_name, String author, double price, int volume, int repertory, String press, int edition, String print_time, String image_b, String image_s, String category_id, String shop_id,String create_time,String update_time) {
+    public Book(String id, String book_name, String author, double price, int volume, int repertory, String press, String edition, String print_time, String image_b, String image_s, String category_id, String shop_id,String create_time,String update_time) {
         this.id = id;
         this.book_name = book_name;
         this.author = author;
@@ -64,7 +64,7 @@ public class Book {
         return press;
     }
 
-    public int getEdition() {
+    public String getEdition() {
         return edition;
     }
 
@@ -86,6 +86,14 @@ public class Book {
 
     public String getShop_id() {
         return shop_id;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public String getUpdate_time() {
+        return update_time;
     }
 
     public void setId(String id) {
@@ -116,7 +124,7 @@ public class Book {
         this.press = press;
     }
 
-    public void setEdition(int edition) {
+    public void setEdition(String edition) {
         this.edition = edition;
     }
 
@@ -140,19 +148,32 @@ public class Book {
         this.shop_id = shop_id;
     }
 
-    public String getCreate_time() {
-        return create_time;
-    }
-
-    public String getUpdate_time() {
-        return update_time;
-    }
-
-    public void setCreat_time(String create_time) {
+    public void setCreate_time(String create_time) {
         this.create_time = create_time;
     }
 
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
+    }
+
+    @Override
+    public String toString() {
+        return "Book{" +
+                "id='" + id + '\'' +
+                ", book_name='" + book_name + '\'' +
+                ", author='" + author + '\'' +
+                ", price=" + price +
+                ", volume=" + volume +
+                ", repertory=" + repertory +
+                ", press='" + press + '\'' +
+                ", edition='" + edition + '\'' +
+                ", print_time='" + print_time + '\'' +
+                ", image_b='" + image_b + '\'' +
+                ", image_s='" + image_s + '\'' +
+                ", category_id='" + category_id + '\'' +
+                ", shop_id='" + shop_id + '\'' +
+                ", create_time='" + create_time + '\'' +
+                ", update_time='" + update_time + '\'' +
+                '}';
     }
 }

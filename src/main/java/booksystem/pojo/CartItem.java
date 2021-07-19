@@ -1,6 +1,6 @@
 package booksystem.pojo;
 
-public class Cartitem {
+public class CartItem {
     private String id;
     private int sum;//数量
     private String book_id;
@@ -8,9 +8,9 @@ public class Cartitem {
     private String creat_time;
     private String update_time;
 
-    public Cartitem(){}
+    public CartItem(){}
 
-    public Cartitem(String id, int sum, String book_id, String user_id,String creat_time,String update_time) {
+    public CartItem(String id, int sum, String book_id, String user_id, String creat_time, String update_time) {
         this.id = id;
         this.sum = sum;
         this.book_id = book_id;

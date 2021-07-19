@@ -21,7 +21,10 @@ public enum ResultEnum {
     Code_OUTTIME(15,"验证码过期"),
     SHOP_IS_EXISTS(16,"店铺已存在"),
     SHOP_IS_APPLY(17,"店铺在审核"),
-    CATEGORY_IS_EXIST(18,"目录已存在")
+    CATEGORY_IS_EXIST(18,"目录已存在"),
+    IMG_IS_NULL(18,"图片为空"),
+    REPEAT_ADD(19,"重复添加")
+
 
     ;
     private Integer code;
