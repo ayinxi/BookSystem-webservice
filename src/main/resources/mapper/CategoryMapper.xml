@@ -3,7 +3,7 @@
 
 <mapper namespace="booksystem.dao.CategoryDao">
     <select id="getAllCategory" resultType="booksystem.pojo.Category">
-        select * from category order by update_time
+        select *from category where FIND_IN_SET(id,GET_CHILD_NODE(999))
     </select>
 
     <select id="getCategory" resultType="booksystem.pojo.Category">

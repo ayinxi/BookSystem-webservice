@@ -12,13 +12,13 @@ import java.util.List;
 public interface CategoryDao {
     //获取所有目录
     List<Category> getAllCategory();
-    //添加目录
-    int addCategory(String main_category,String second_category);
-
-    //删除目录
-    int deleteCategory(String main_category,String second_category);
-    //更新目录名
-    int updateCategory(Category category);
-    //通过二级目录和一级目录查找
-    List<Category> getCategory(String main_category,String second_category);
+//    //添加目录
+//    int addCategory(String pid,String category_name);
+//
+//    //删除目录
+//    int deleteCategory(String id,String category_name);
+//    //更新目录名
+//    int updateCategory(Category category);
+//    //通过二级目录和一级目录查找
+//    List<Category> getCategory(String id,String category_name);
 }

@@ -30,4 +30,7 @@ public interface ShopDao {
 
     //更新店铺(不包括头像和店铺id和user_id)
     void updateShop(Shop shop);
+
+    //更新创建时间 用于获取审核时间
+    void updateCreateTime(String shop_id);
 }

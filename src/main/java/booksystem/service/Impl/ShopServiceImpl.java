@@ -97,7 +97,6 @@ public class ShopServiceImpl implements ShopService {
             shop.setPass_status(1);
             shop.setExist_status(1);
             shop.setCheck_opinion(check_opinion);
-            shopDao.updateShop(shop);
             userDao.updateIdentity(username,1);//更新身份变为商家
         }else if(pass_status==2)//拒绝
         {
@@ -106,8 +105,9 @@ public class ShopServiceImpl implements ShopService {
             shop.setPass_status(2);
             shop.setExist_status(-1);
             shop.setCheck_opinion(check_opinion);
-            shopDao.updateShop(shop);
         }
+        shopDao.updateShop(shop);
+        shopDao.updateCreateTime(shop.getId());
         return 1;//成功
     }
 
@@ -153,9 +153,9 @@ public class ShopServiceImpl implements ShopService {
             return -1;//数据为空
         //因为只允许一个未注销的存在  所以未注销的店铺信息存储在shop中
         Shop shop=shopList.get(0);
-        //更改为注销状态 已审核2 无效-1 注销2
+        //更改为注销状态 已审核2 通过1 注销2
         shop.setApply_status(2);
-        shop.setPass_status(-1);
+        shop.setPass_status(1);
         shop.setExist_status(2);
         shopDao.updateShop(shop);
         userDao.updateIdentity(username,0);//更新身份变为普通用户

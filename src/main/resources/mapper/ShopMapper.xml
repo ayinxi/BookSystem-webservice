@@ -42,4 +42,8 @@
         where id=#{id}
     </update>
 
+    <update id="updateCreateTime" parameterType="String">
+        update shop set update_time=now() where id=#{shop_id}
+    </update>
+
 </mapper>
