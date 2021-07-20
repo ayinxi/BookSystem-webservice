@@ -39,6 +39,7 @@ public class LoginFilter implements Filter{
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         response.setHeader("Access-Control-Allow-Origin", "*");
         response.setHeader("Access-Control-Allow-Headers", "token");
+        response.setHeader("Access-Control-Allow-Methods", "GET,POST,OPTIONS,PUT,DELETE");
         //跨域允许的header
 
         System.out.println("\n--------------------------------欢迎访问“教我编程图书商城“------------------------------------");

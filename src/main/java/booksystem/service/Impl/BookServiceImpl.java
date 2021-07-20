@@ -7,6 +7,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
+
 @Service
 public class BookServiceImpl implements BookService {
 
@@ -14,9 +16,9 @@ public class BookServiceImpl implements BookService {
     BookDao bookDao;
 
 //    @Override
-//    public List<Book> getAllBook() {
-//        return bookDao.getAllBook();
-//    }
+    public Map<String,Object> getAllBook() {
+        return bookDao.getAllBook();
+    }
 //
 //    @Override
 //    public List<Book> getBookByShop(String username) {

@@ -12,8 +12,8 @@ import java.util.List;
 @Mapper
 public interface BookDao {
 
-//    //获取所有图书
-//    HashMap<String,Object> getAllBook();
+    //获取所有图书
+    HashMap<String,Object> getAllBook();
 //    //根据商家username获取图书
 //    HashMap<String,Object> getBookByShop(String username);
 //    //根据订单id获取图书

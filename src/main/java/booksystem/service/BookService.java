@@ -3,10 +3,11 @@ package booksystem.service;
 import booksystem.pojo.Book;
 
 import java.util.List;
+import java.util.Map;
 
 public interface BookService {
-//    //获取所有图书
-//    List<Book> getAllBook();
+    //获取所有图书
+    Map<String,Object> getAllBook();
 //    //根据商家username获取图书
 //    List<Book>getBookByShop(String username);
 //    //根据订单id获取图书
