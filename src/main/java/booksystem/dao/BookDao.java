@@ -28,9 +28,12 @@ public interface BookDao {
     //添加
     int addBook(Book book);
     //查找用户
-    String selectBook( String book_name, String author, double price, String press, String edition, String print_time,String category_id,String shop_id);
+    String selectBook( String book_name, String author, double price, String press, String edition, String print_time,String main_category_id,String second_category_id,String shop_id);
     //删除
     int deleteBook(String book_id);
     //更新图书信息
     int updateBook(Book book);
+
+    //根据book_id获取图书
+    HashMap<String,Object> getBookByID(String book_id);
 }

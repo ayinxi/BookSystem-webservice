@@ -28,9 +28,9 @@
 
     <insert id="addBook">
         INSERT INTO book(id,book_name,author,price,volume,repertory,press,edition,
-                         print_time,image_b,image_s,category_id,shop_id,create_time,update_time)
+                         print_time,image_b,image_s,main_category_id,second_category_id,shop_id,create_time,update_time)
         VALUES(MD5(UUID()),#{book_name},#{author},#{price},#{volume},#{repertory},
-               #{press},#{edition},#{print_time},#{image_b},#{image_s},#{category_id},#{shop_id},now(),now());
+               #{press},#{edition},#{print_time},#{image_b},#{image_s},#{main_category_id},#{second_category_id},#{shop_id},now(),now());
     </insert>
 
     <update id="deleteBook" parameterType="String">
@@ -40,7 +40,7 @@
     <select id="selectBook" resultType="String">
         select id from book where book_name=#{book_name} and author=#{author} and price=#{price}
         and press=#{press} and edition=#{edition} and print_time=#{print_time}
-        and category_id=#{category_id} and shop_id=#{shop_id}
+        and main_category_id=#{main_category_id} and second_category_id=#{second_category_id} and shop_id=#{shop_id}
     </select>
 
 </mapper>

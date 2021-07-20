@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
+<mapper namespace="booksystem.dao.CartItemDao">
+    <select id="getCartItem" resultType="java.util.HashMap">
+        select *,(select shop_name from shop where id=shop_id) as shop_name from cartitem
+        where user_id=(select id from user where username=#{username})
+    </select>
+
+    <select id="getBook" resultType="java.util.HashMap">
+        select * from cartitem where book_id=#{book_id} and user_id=(select id from user where username=#{username})
+    </select>
+
+    <insert id="addCartItem">
+        INSERT INTO cartitem(id,sum,book_id,user_id,create_time,update_time)
+        VALUES(MD5(UUID()),#{sum},#{book_id},#{user_id},now(),now());
+    </insert>
+
+    <update id="updateCartItem">
+        update cartitem set sum=#{sum},create_time=#{create_time},update_time=now()
+        where book_id=#{book_id} and user_id=(select id from user where username=#{username})
+    </update>
+
+    <delete id="deleteCartItem">
+        delete from cartitem where book_id=#{book_id} and user_id=(select id from user where username=#{username})
+    </delete>
+
+</mapper>

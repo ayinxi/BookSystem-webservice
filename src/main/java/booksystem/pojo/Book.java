@@ -12,28 +12,31 @@ public class Book {
     private String print_time;
     private String image_b;
     private String image_s;
-    private String category_id;//目录id
+    private String main_category_id;//目录id
+    private String second_category_id;//目录id
     private String shop_id;//店铺id
     private String create_time;
     private String update_time;
 
     public Book(){}
-    public Book(String id, String book_name, String author, double price, int volume, int repertory, String press, String edition, String print_time, String image_b, String image_s, String category_id, String shop_id,String create_time,String update_time) {
+
+    public Book(String id, String book_name, String author, double price, int volume, int repertory, String press, String edition, String print_time, String image_b, String image_s, String main_category_id, String second_category_id, String shop_id, String create_time, String update_time) {
         this.id = id;
         this.book_name = book_name;
         this.author = author;
         this.price = price;
-        this.volume = volume;//销量
-        this.repertory = repertory;//库存
-        this.press = press;//出版社
+        this.volume = volume;
+        this.repertory = repertory;
+        this.press = press;
         this.edition = edition;
         this.print_time = print_time;
         this.image_b = image_b;
         this.image_s = image_s;
-        this.category_id = category_id;
+        this.main_category_id = main_category_id;
+        this.second_category_id = second_category_id;
         this.shop_id = shop_id;
         this.create_time = create_time;
-        this.update_time=update_time;
+        this.update_time = update_time;
     }
 
     public String getId() {
@@ -80,8 +83,12 @@ public class Book {
         return image_s;
     }
 
-    public String getCategory_id() {
-        return category_id;
+    public String getMain_category_id() {
+        return main_category_id;
+    }
+
+    public String getSecond_category_id() {
+        return second_category_id;
     }
 
     public String getShop_id() {
@@ -140,8 +147,12 @@ public class Book {
         this.image_s = image_s;
     }
 
-    public void setCategory_id(String category_id) {
-        this.category_id = category_id;
+    public void setMain_category_id(String main_category_id) {
+        this.main_category_id = main_category_id;
+    }
+
+    public void setSecond_category_id(String second_category_id) {
+        this.second_category_id = second_category_id;
     }
 
     public void setShop_id(String shop_id) {
@@ -170,7 +181,8 @@ public class Book {
                 ", print_time='" + print_time + '\'' +
                 ", image_b='" + image_b + '\'' +
                 ", image_s='" + image_s + '\'' +
-                ", category_id='" + category_id + '\'' +
+                ", main_category_id='" + main_category_id + '\'' +
+                ", second_category_id='" + second_category_id + '\'' +
                 ", shop_id='" + shop_id + '\'' +
                 ", create_time='" + create_time + '\'' +
                 ", update_time='" + update_time + '\'' +

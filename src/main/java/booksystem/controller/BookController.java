@@ -70,15 +70,16 @@ public class BookController {
                           @RequestParam("press")String press,
                           @RequestParam("edition")String edition,
                           @RequestParam("print_time")String print_time,
-                          @RequestParam("category_id")String category_id,
+                          @RequestParam("main_category_id")String main_category_id,
+                          @RequestParam("second_category_id")String second_category_id,
                           @RequestParam("shop_id")String shop_id,
                           @RequestParam("img") MultipartFile img) {
-        String book_id=bookService.selectBook(book_name,author,Double.parseDouble(price),press,edition,print_time,category_id,shop_id);
+        String book_id=bookService.selectBook(book_name,author,Double.parseDouble(price),press,edition,print_time,main_category_id,second_category_id,shop_id);
         if(!(book_id==null)){
             return Result.error(ResultEnum.REPEAT_ADD.getCode(),ResultEnum.REPEAT_ADD.getMsg());
         }
-        bookService.addBook(book_name,author,Double.parseDouble(price),Integer.parseInt(repertory),press,edition,print_time,category_id,shop_id);
-        book_id=bookService.selectBook(book_name,author,Double.parseDouble(price),press,edition,print_time,category_id,shop_id);
+        bookService.addBook(book_name,author,Double.parseDouble(price),Integer.parseInt(repertory),press,edition,print_time,main_category_id,second_category_id,shop_id);
+        book_id=bookService.selectBook(book_name,author,Double.parseDouble(price),press,edition,print_time,main_category_id,second_category_id,shop_id);
         uploadImgService.uploadBookImg(img,book_id);
 
         return Result.ok(ResultEnum.SUCCESS.getMsg());

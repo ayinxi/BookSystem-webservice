@@ -20,8 +20,8 @@ public interface BookService {
 //    List<Book>getBookByPress(String press);
 
     //单次添加
-    int addBook( String book_name, String author, double price, int repertory, String press, String edition, String print_time,String category_id,String shop_id);
-    String selectBook( String book_name, String author, double price, String press, String edition, String print_time,String category_id,String shop_id);
+    int addBook( String book_name, String author, double price, int repertory, String press, String edition, String print_time,String main_category_id,String second_category_id,String shop_id);
+    String selectBook( String book_name, String author, double price, String press, String edition, String print_time,String main_category_id,String second_category_id,String shop_id);
     //单次删除
     int deleteBook(String book_id);
     //更新图书信息
