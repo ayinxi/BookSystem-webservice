@@ -6,7 +6,10 @@ import booksystem.service.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class CategoryServiceImpl implements CategoryService {
@@ -14,43 +17,67 @@ public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryDao categoryDao;
 
-//    @Override
-//    public List<Category> getAllCategory() {
-//        return categoryDao.getAllCategory();
-//    }
+    @Override
+    public List<Map<String,Object>> getAllCategory() {
+        List<Map<String,Object>>allList=categoryDao.getAllCategory();
+        List<Map<String,Object>>mainList=categoryDao.getAllMainCategory();
+        for(int i=0;i<mainList.size();i++){
+            List<Map<String,Object>>res=new ArrayList<>();
+            for(int j=0;j<allList.size();j++){
+                if(mainList.get(i).get("main_id").toString().equals(allList.get(j).get("main_id").toString())){
+                    Map<String,Object>map=new HashMap<>();
+                    map.put("second_name",allList.get(j).get("second_name").toString());
+                    map.put("second_id",allList.get(j).get("second_id").toString());
+                    res.add(map);
+                }
+            }
+            mainList.get(i).put("second_category",res);
+        }
+        return mainList;
+    }
 
-//    @Override
-//    public int addMainCategory(String main_category) {
-//        if(main_category.isEmpty())
-//            return 0;//目录名未空
-//        if(!categoryDao.getCategory(main_category,null).isEmpty())
-//            return -1;//该目录已存在
-//        categoryDao.addCategory(main_category,null);
-//        return 1;
-//    }
-//
-//    @Override
-//    public int addSecondCategory(String main_category, String second_category) {
-//        if(main_category.isEmpty()||second_category.isEmpty())
-//            return 0;//目录名未空
-//        if(!categoryDao.getCategory(main_category,second_category).isEmpty())
-//            return -1;//该目录已存在
-//        categoryDao.addCategory(main_category,second_category);
-//        return 1;
-//    }
-//
-//    @Override
-//    public int deleteMainCategory(String main_category) {
-//        return categoryDao.deleteCategory(main_category,null);
-//    }
-//
-//    @Override
-//    public int deleteSecondCategory(String main_category, String second_category) {
-//        return categoryDao.deleteCategory(main_category, second_category);
-//    }
-////
-//    @Override
-//    public int updateCategory(Category category) {
-//        return categoryDao.updateCategory(category);
-//    }
+    @Override
+    public String getMainCategory(String name) {
+        return categoryDao.getMainCategory(name);
+    }
+
+    @Override
+    public String getSecondCategory(String main_name,String name) {
+        return categoryDao.getSecondCategory(main_name,name);
+    }
+
+    @Override
+    public void addMainCategory(String name) {
+        categoryDao.addMainCategory(name);
+    }
+
+    @Override
+    public void addSecondCategory(String main_name, String name) {
+        categoryDao.addSecondCategory(main_name,name);
+    }
+
+    @Override
+    public void deleteMainCategory(String id) {
+        categoryDao.deleteMainCategory(id);
+    }
+
+    @Override
+    public void deleteSecondCategory(String id) {
+        categoryDao.deleteSecondCategory(id);
+    }
+
+    @Override
+    public void updateMainCategory(String id, String name) {
+        categoryDao.updateMainCategory(id,name);
+    }
+
+    @Override
+    public void updateSecondCategory(String id, String name) {
+        categoryDao.updateSecondCategory(id,name);
+    }
+
+    @Override
+    public Map<String, Object> getCategory(String id, String category_id) {
+        return null;
+    }
 }
