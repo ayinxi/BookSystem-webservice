@@ -47,6 +47,10 @@ public class CartitemController {
     public Result updateCartItem(@RequestParam("book_id") String book_id,
                                  @RequestParam("sum")int sum,
                                  ServletRequest request){
+        if(sum<=0)
+        {
+            return Result.error(ResultEnum.NUM_FAIL.getCode(), ResultEnum.NUM_FAIL.getMsg());
+        }
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
         int result=cartItemService.updateCartItem(book_id,username,sum);
@@ -64,5 +68,13 @@ public class CartitemController {
         String username = TokenUtils.parseToken(token).get("username").toString();
         cartItemService.deleteCartItem(Book_Ids,username);
         return Result.ok(ResultEnum.SUCCESS.getMsg());
+    }
+
+    @RequestMapping("/cartitem/getNum")
+    public Result getCartItemNum(ServletRequest request) {
+        String token = ((HttpServletRequest) request).getHeader("token");
+        String username = TokenUtils.parseToken(token).get("username").toString();
+        int result=cartItemService.getCartItemNum(username);
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
     }
 }
