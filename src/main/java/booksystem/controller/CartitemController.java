@@ -19,7 +19,7 @@ public class CartitemController {
     CartItemService cartItemService;
 
 
-    @RequestMapping("/cartitem/getAllByUser")
+    @RequestMapping("/cartitem/getAll")
     public Result getAllByUser(ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
