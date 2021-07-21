@@ -3,8 +3,18 @@
 
 <mapper namespace="booksystem.dao.CartItemDao">
     <select id="getCartItem" resultType="java.util.HashMap">
-        select *,(select shop_name from shop where id=shop_id) as shop_name from cartitem
-        where user_id=(select id from user where username=#{username})
+        SELECT sum,book_id,
+        (SELECT book_name FROM book WHERE id=book_id) as book_name,
+       (SELECT price FROM book WHERE id=book_id) as price,
+       (SELECT author FROM book WHERE id=book_id) as author,
+       (SELECT press FROM book WHERE id=book_id) as press,
+       (SELECT image_b FROM book WHERE id=book_id) as image_b,
+       (SELECT image_s FROM book WHERE id=book_id) as image_s,
+       (SELECT repertory FROM book WHERE id=book_id) as repertory,
+       (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
+       (SELECT shop_name FROM shop WHERE id=shop_id) as shop_name,
+        update_time,create_time from cartitem
+        where user_id=(SELECT id FROM user WHERE username=#{username})
     </select>
 
     <select id="getBook" resultType="java.util.HashMap">

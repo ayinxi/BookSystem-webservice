@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class CartItemServiceImpl implements CartItemService {
@@ -29,17 +26,33 @@ public class CartItemServiceImpl implements CartItemService {
 
         @Override
         public List<Map<String,Object>> getCartItem(String username) {
+                class Group{
+                        public String shop_id;
+                        public String shop_name;
+                        public Group(String id,String name){
+                                shop_id=id;
+                                shop_name=name;
+                        }
+
+                }
                 List<Map<String,Object>> mapList=cartItemDao.getCartItem(username);
+                List<Map<String,Object>> res=new ArrayList<>();
+                List<Group> allShopId=new ArrayList<>();
                 if(mapList.isEmpty())
                         return null;
-                for(Map<String,Object> map:mapList)
-                {
-                        String book_id=map.get("book_id").toString();
-                        String shop_id=bookDao.getBookByID(book_id).get("shop_id").toString();
-                        Shop shop= shopDao.getShopById(shop_id);
-                        String shop_name=shop.getShop_name();
-                        map.put("shop_name",shop_name);
+                for(Map<String,Object> map:mapList) {
+                        allShopId.add(new Group(map.get("shop_id").toString(),map.get("shop_name").toString()));
                 }
+
+                //去重
+                TreeSet shopIdSet = new TreeSet(allShopId);
+                allShopId.clear();
+                allShopId.addAll(shopIdSet);
+
+                for(int i=0;i<allShopId.size();i++){
+                        res.add("shop_id")
+                }
+
 
 
                 return mapList;
