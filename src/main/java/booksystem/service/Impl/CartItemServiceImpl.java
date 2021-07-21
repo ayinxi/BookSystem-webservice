@@ -10,6 +10,7 @@ import booksystem.service.CartItemService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 
@@ -24,6 +25,7 @@ public class CartItemServiceImpl implements CartItemService {
         @Autowired
         UserDao userDao;
 
+
         //获取用户的购物车
         @Override
         public List<Map<String,Object>> getCartItem(String username) {
@@ -34,28 +36,45 @@ public class CartItemServiceImpl implements CartItemService {
                                 shop_id=id;
                                 shop_name=name;
                         }
-
                 }
                 List<Map<String,Object>> mapList=cartItemDao.getCartItem(username);
                 List<Map<String,Object>> res=new ArrayList<>();
-                List<Group> allShopId=new ArrayList<>();
+                List<Group> allShop=new ArrayList<>();
                 if(mapList.isEmpty())
                         return null;
                 for(Map<String,Object> map:mapList) {
-                        allShopId.add(new Group(map.get("shop_id").toString(),map.get("shop_name").toString()));
+                        allShop.add(new Group(map.get("shop_id").toString(),map.get("shop_name").toString()));
                 }
 
                 //去重
-                TreeSet shopIdSet = new TreeSet(allShopId);
-                allShopId.clear();
-                allShopId.addAll(shopIdSet);
+                Set shopIdSet= new HashSet();
+                List<Group> shopList=new ArrayList<>();
+                for (Group element : allShop) {
+                        //set能添加进去就代表不是重复的元素
+                        if (shopIdSet.add(element.shop_id)) shopList.add(element);
+                }
+                allShop.clear();
 
-                for(int i=0;i<allShopId.size();i++){
+                for(int i=0;i<shopList.size();i++){
+                        System.out.println(shopList.get(i));
+                        List<Map<String,Object>> books=new ArrayList<>();
+                        Map<String,Object>shopMap=new HashMap<>();
+                        shopMap.put("shop_id",shopList.get(i).shop_id);
+                        shopMap.put("shop_name",shopList.get(i).shop_name);
+                        for(int j=0;j<mapList.size();j++){
+                                if(mapList.get(j).get("shop_id").toString().equals(shopList.get(i).shop_id)){
+                                        mapList.get(j).put("create_time",mapList.get(j).get("create_time").toString()
+                                                .replace('T',' '));
+                                        mapList.get(j).put("update_time",mapList.get(j).get("update_time").toString()
+                                                .replace('T',' '));
+                                        books.add(mapList.get(j));
+                                }
+                        }
+                        shopMap.put("books",books);
+                        res.add(shopMap);
                 }
 
-
-
-                return mapList;
+                return res;
         }
 
         //添加商品
