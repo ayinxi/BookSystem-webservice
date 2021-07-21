@@ -18,4 +18,7 @@ public interface CartItemService {
 
     //批量删除商品
     void deleteCartItem(String Book_IDs,String username);
+
+    //获得购物车种类数
+    int getCartItemNum(String username);
 }

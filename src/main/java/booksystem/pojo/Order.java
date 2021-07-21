@@ -4,7 +4,7 @@ public class Order {
     private String id;
     private String order_time;
     private double total;//总金额
-    private int status;//订单状态：1.未发货、2.未收货、3.未评价、4.已评价
+    private int status;//订单状态:1.未付款 2.已付款 3.未发货、4.已发货(未收货) 5.已收货、6.退货.未评价 7.已评价
     private String address_id;
     private String user_id;
     private String remark;//评价

@@ -21,6 +21,10 @@
         select * from cartitem where book_id=#{book_id} and user_id=(select id from user where username=#{username})
     </select>
 
+    <select id="getCartItemNum" resultType="int">
+        select count(*) from cartitem where user_id=(select id from user where username=#{username})
+    </select>
+
     <insert id="addCartItem">
         INSERT INTO cartitem(id,sum,book_id,user_id,create_time,update_time)
         VALUES(MD5(UUID()),#{sum},#{book_id},#{user_id},now(),now());

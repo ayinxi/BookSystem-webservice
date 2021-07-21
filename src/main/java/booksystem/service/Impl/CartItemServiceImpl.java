@@ -24,6 +24,7 @@ public class CartItemServiceImpl implements CartItemService {
         @Autowired
         UserDao userDao;
 
+        //获取用户的购物车
         @Override
         public List<Map<String,Object>> getCartItem(String username) {
                 class Group{
@@ -58,6 +59,7 @@ public class CartItemServiceImpl implements CartItemService {
                 return mapList;
         }
 
+        //添加商品
         @Override
         public int addCartItem(String book_id, String username, int sum) {
                 HashMap<String,Object> bookList=cartItemDao.getBook(book_id,username);
@@ -86,6 +88,7 @@ public class CartItemServiceImpl implements CartItemService {
                 return 1;
         }
 
+        //更新商品(仅数量
         @Override
         public int updateCartItem(String book_id,String username,int sum) {
                 HashMap<String,Object> bookList=cartItemDao.getBook(book_id,username);
@@ -96,11 +99,18 @@ public class CartItemServiceImpl implements CartItemService {
                 return 1;
         }
 
+        //删除商品
         @Override
         public void deleteCartItem(String Book_IDs, String username) {
                 String[] ids=Book_IDs.split(",");
                 for(String book_id:ids) {
                         cartItemDao.deleteCartItem(book_id, username);
                 }
+        }
+
+        //获取购物车条目数
+        @Override
+        public int getCartItemNum(String username) {
+                return cartItemDao.getCartItemNum(username);
         }
 }
