@@ -51,7 +51,6 @@ public class CartItemServiceImpl implements CartItemService {
                 allShopId.addAll(shopIdSet);
 
                 for(int i=0;i<allShopId.size();i++){
-                        res.add("shop_id")
                 }
 
 
