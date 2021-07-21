@@ -1,16 +1,18 @@
 package booksystem.pojo;
 
-public class Order_Book {
+public class OrderBook {
     private String id;
+    private String book_id;
     private String order_id;
-    private String number;//图书数量
+    private int number;//图书数量
     private String creat_time;
     private String update_time;
 
-    public Order_Book(){}
+    public OrderBook(){}
 
-    public Order_Book(String id, String order_id, String number,String creat_time,String update_time) {
+    public OrderBook(String id, String book_id,String order_id, int number, String creat_time, String update_time) {
         this.id = id;
+        this.book_id=book_id;
         this.order_id = order_id;
         this.number = number;
         this.creat_time = creat_time;
@@ -25,7 +27,7 @@ public class Order_Book {
         return order_id;
     }
 
-    public String getNumber() {
+    public int getNumber() {
         return number;
     }
 
@@ -37,7 +39,7 @@ public class Order_Book {
         this.order_id = order_id;
     }
 
-    public void setNumber(String number) {
+    public void setNumber(int number) {
         this.number = number;
     }
     public String getCreat_time() {
@@ -54,5 +56,13 @@ public class Order_Book {
 
     public void setUpdate_time(String update_time) {
         this.update_time = update_time;
+    }
+
+    public String getBook_id() {
+        return book_id;
+    }
+
+    public void setBook_id(String book_id) {
+        this.book_id = book_id;
     }
 }

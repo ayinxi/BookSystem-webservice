@@ -43,4 +43,8 @@
         and main_category_id=#{main_category_id} and second_category_id=#{second_category_id} and shop_id=#{shop_id}
     </select>
 
+    <select id="getBookByID" parameterType="String" resultType="java.util.HashMap">
+        SELECT * FROM book where id=#{book_id}
+    </select>
+
 </mapper>

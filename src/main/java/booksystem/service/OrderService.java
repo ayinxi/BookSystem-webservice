@@ -13,6 +13,10 @@ public interface OrderService {
     List<Order> getAllOrderByShop(String Shop_id);
     //获取所有订单
     List<Order> getAllOrder();
-    //生成订单
-    int addOrder(Order order);
+
+//    //购物车生成订单
+//    int addCartItemOrder(String Book_Ids,);
+
+    //直接生成订单
+    int addDirectOrder(String book_id, int sum,String address_id,String shop_id,String username);
 }

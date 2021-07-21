@@ -229,7 +229,6 @@ public class ShopController {
     @PostMapping("/shop/updateShop")
     public Result updateShop(@RequestParam("shopper_name") String shopper_name,
                                   @RequestParam("shop_name") String shop_name,
-                                  @RequestParam("img") MultipartFile img,
                                   ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
@@ -239,9 +238,6 @@ public class ShopController {
         {
             List<Shop> shopList=shopService.getShopByUserAndStatus(username,2,1,1);
             Shop shop=shopList.get(0);
-            if (!img.isEmpty()) {
-                uploadImgService.uploadShopImg(img, shop.getId());
-            }
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else if(result==-1)
         {
@@ -257,17 +253,14 @@ public class ShopController {
     @PostMapping("/admin/updateShop")
     public Result updateShopAdmin(@RequestParam("username")String username,
                                   @RequestParam("shopper_name") String shopper_name,
-                             @RequestParam("shop_name") String shop_name,
-                             @RequestParam("img") MultipartFile img){
+                             @RequestParam("shop_name") String shop_name
+                            ){
 
         int result=shopService.updateShop(username,shopper_name,shop_name);
         if(result==1)
         {
             List<Shop> shopList=shopService.getShopByUserAndStatus(username,2,1,1);
             Shop shop=shopList.get(0);
-            if (!img.isEmpty()) {
-                uploadImgService.uploadShopImg(img, shop.getId());
-            }
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         }else if(result==-1)
         {
@@ -292,6 +285,21 @@ public class ShopController {
             return Result.error(ResultEnum.DELETE_FAIL.getCode(), ResultEnum.DELETE_FAIL.getMsg());
         }else {
             return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+        }
+    }
+
+
+    //修改头像
+    @PostMapping("/shop/updateAvatar")
+    public Result updateAvatar(@RequestParam("username") String username,
+                               @RequestParam("img") MultipartFile img){
+        List<Shop> shopList=shopService.getShopByUserAndStatus(username,2,1,1);
+        if(!img.isEmpty()){
+            Shop shop=shopList.get(0);
+            uploadImgService.uploadShopImg(img, shop.getId());
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        }else{
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
         }
     }
 }
