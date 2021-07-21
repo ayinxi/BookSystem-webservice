@@ -4,7 +4,7 @@
 <mapper namespace="booksystem.dao.AddressDao">
 
     <select id="getAllAddress" resultType="booksystem.pojo.Address">
-        select * from address where user_id=(select id from user where username=#{username})
+        select * from address where user_id=(select id from user where username=#{username}) ORDER BY status DESC ,update_time DESC
     </select>
 
 

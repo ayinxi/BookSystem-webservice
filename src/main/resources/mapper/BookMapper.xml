@@ -20,10 +20,11 @@
     </select>
 
     <update id="updateBook">
-        update book set book_name=#{book_name},author=#{author},price=#{price},volumn=#{volumn},
+        update book set book_name=#{book_name},author=#{author},price=#{price},
                         repertory=#{repertory},press=#{press},edition=#{edition},print_time=#{print_time},
-                        image_b=#{image_b},image_s=#{image_s},category_id=#{category_id},shop_id=#{category_id},create_time=#{create_time},update_time=now()
-        where id=#{id}
+                        main_category_id=#{main_category_id},second_category_id=#{second_category_id},
+                        shop_id=#{shop_id},update_time=now()
+        where id=#{book_id}
     </update>
 
     <insert id="addBook">
@@ -32,10 +33,6 @@
         VALUES(MD5(UUID()),#{book_name},#{author},#{price},#{volume},#{repertory},
                #{press},#{edition},#{print_time},#{image_b},#{image_s},#{main_category_id},#{second_category_id},#{shop_id},now(),now());
     </insert>
-
-    <update id="deleteBook" parameterType="String">
-        delete from book where id=#{book_id}
-    </update>
 
     <select id="selectBook" resultType="String">
         select id from book where book_name=#{book_name} and author=#{author} and price=#{price}
@@ -46,5 +43,17 @@
     <select id="getBookByID" parameterType="String" resultType="java.util.HashMap">
         SELECT * FROM book where id=#{book_id}
     </select>
+
+    <delete id="deleteBook" parameterType="String">
+        delete from book where id=#{book_id}
+    </delete>
+
+    <delete id="deleteBooks" parameterType="java.lang.String" >
+        DELETE FROM book WHERE id IN
+        <foreach collection="list" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
+
 
 </mapper>

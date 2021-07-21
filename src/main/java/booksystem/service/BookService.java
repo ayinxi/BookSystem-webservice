@@ -24,6 +24,5 @@ public interface BookService {
     String selectBook( String book_name, String author, double price, String press, String edition, String print_time,String main_category_id,String second_category_id,String shop_id);
     //单次删除
     int deleteBook(String book_id);
-    //更新图书信息
-    int updateBook(Book book);
+
 }

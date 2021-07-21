@@ -31,8 +31,9 @@ public interface BookDao {
     String selectBook( String book_name, String author, double price, String press, String edition, String print_time,String main_category_id,String second_category_id,String shop_id);
     //删除
     int deleteBook(String book_id);
+    int deleteBooks(List<String> book_ids);
     //更新图书信息
-    int updateBook(Book book);
+    int updateBook(String book_id,String book_name, String author, double price, int repertory, String press, String edition, String print_time,String main_category_id,String second_category_id,String shop_id);
 
     //根据book_id获取图书
     HashMap<String,Object> getBookByID(String book_id);

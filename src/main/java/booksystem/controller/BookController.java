@@ -1,5 +1,6 @@
 package booksystem.controller;
 
+import booksystem.dao.BookDao;
 import booksystem.pojo.Book;
 import booksystem.pojo.User;
 import booksystem.service.BookService;
@@ -20,6 +21,8 @@ public class BookController {
     BookService bookService;
     @Autowired
     UploadImgService uploadImgService;
+    @Autowired
+    BookDao bookDao;
 
     @RequestMapping("/book/getAll")
     public Result getAllBook() {
@@ -78,25 +81,65 @@ public class BookController {
         if(!(book_id==null)){
             return Result.error(ResultEnum.REPEAT_ADD.getCode(),ResultEnum.REPEAT_ADD.getMsg());
         }
-        bookService.addBook(book_name,author,Double.parseDouble(price),Integer.parseInt(repertory),press,edition,print_time,main_category_id,second_category_id,shop_id);
-        book_id=bookService.selectBook(book_name,author,Double.parseDouble(price),press,edition,print_time,main_category_id,second_category_id,shop_id);
+        bookService.addBook(book_name,author,Double.parseDouble(price),Integer.parseInt(repertory),
+                press,edition,print_time,main_category_id,second_category_id,shop_id);
+        book_id=bookService.selectBook(book_name,author,Double.parseDouble(price),press,edition,
+                print_time,main_category_id,second_category_id,shop_id);
         uploadImgService.uploadBookImg(img,book_id);
 
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("book_id",book_id);
+    }
+
+    @DeleteMapping("/book/delete")
+    public Result deleteBook(@RequestParam("book_id") String book_id) {
+        if(book_id.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        uploadImgService.deleteBookImg(book_id);
+        bookService.deleteBook(book_id);
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
-//
-//    @RequestMapping("/deleteBook")
-//    public Result deleteBook(String book_id) {
-//        return null;
-//    }
-//
-//    @RequestMapping("/mutiDeleteBook")
-//    public Result mutiDeleteBook(String[] Book_Ids) {
-//        return null;
-//    }
-//
-//    @RequestMapping("/updateBook")
-//    public Result updateBook(Book book) {
-//        return null;
-//    }
+
+    @DeleteMapping("/book/multiDelete")
+    public Result mutiDeleteBook(@RequestParam("book_id") List<String> book_ids) {
+        if(book_ids.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        for(int i=0;i<book_ids.size();i++){
+            uploadImgService.deleteBookImg(book_ids.get(i));
+        }
+        bookDao.deleteBooks(book_ids);
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
+    }
+
+    @PostMapping("/book/updateBook")
+    public Result updateBook(@RequestParam("book_id")String book_id,
+                             @RequestParam("book_name")String book_name,
+                             @RequestParam("author")String author,
+                             @RequestParam("price")String price,
+                             @RequestParam("repertory")String repertory,
+                             @RequestParam("press")String press,
+                             @RequestParam("edition")String edition,
+                             @RequestParam("print_time")String print_time,
+                             @RequestParam("main_category_id")String main_category_id,
+                             @RequestParam("second_category_id")String second_category_id,
+                             @RequestParam("shop_id")String shop_id) {
+        if(book_id.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        bookDao.updateBook(book_id,book_name,author,Double.parseDouble(price),Integer.parseInt(repertory),
+                press,edition,print_time,main_category_id,second_category_id,shop_id);
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
+    }
+    @PostMapping("/book/updateImg")
+    public Result updateBook(@RequestParam("book_id")String book_id,
+                             @RequestParam("img") MultipartFile img) {
+        if(book_id.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+
+        uploadImgService.uploadBookImg(img,book_id);
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
+    }
+
 }
