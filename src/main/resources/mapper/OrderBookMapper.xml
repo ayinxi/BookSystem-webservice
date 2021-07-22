@@ -3,7 +3,77 @@
 
 <mapper namespace="booksystem.dao.OrderBookDao">
     <insert id="addOrderBook">
-        INSERT INTO order_book(id,book_id,order_id,number,create_time,update_time)
-        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},now(),now());
+        INSERT INTO order_book(id,book_id,order_id,number,rate,remark,return_status,return_reason,check_opinion)
+        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion});
     </insert>
+
+    <select id="getAllOrder" resultType="java.util.HashMap">
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,
+               (SELECT total FROM `order` WHERE id=order_id) as total,
+               (SELECT total FROM `order` WHERE id=order_id) as total,
+               (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
+               (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
+               (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
+               (SELECT book_name FROM book WHERE id=book_id) as book_name,
+               (SELECT price FROM book WHERE id=book_id) as price,
+               (SELECT author FROM book WHERE id=book_id) as author,
+               (SELECT press FROM book WHERE id=book_id) as press,
+               (SELECT image_b FROM book WHERE id=book_id) as image_b,
+               (SELECT image_s FROM book WHERE id=book_id) as image_s,
+               (SELECT repertory FROM book WHERE id=book_id) as repertory,
+               (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
+               (SELECT volume FROM book WHERE id=book_id) as volume,
+               (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
+               (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getAllOrderByUser" parameterType="java.util.List"  resultType="java.util.HashMap">
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,
+        (SELECT total FROM `order` WHERE id=order_id) as total,
+        (SELECT total FROM `order` WHERE id=order_id) as total,
+        (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
+        (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
+        (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
+        (SELECT book_name FROM book WHERE id=book_id) as book_name,
+        (SELECT price FROM book WHERE id=book_id) as price,
+        (SELECT author FROM book WHERE id=book_id) as author,
+        (SELECT press FROM book WHERE id=book_id) as press,
+        (SELECT image_b FROM book WHERE id=book_id) as image_b,
+        (SELECT image_s FROM book WHERE id=book_id) as image_s,
+        (SELECT repertory FROM book WHERE id=book_id) as repertory,
+        (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
+        (SELECT volume FROM book WHERE id=book_id) as volume,
+        (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
+        (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where order_id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY create_time DESC
+    </select>
+
+    <select id="getAllOrderByShop" parameterType="java.util.List"  resultType="java.util.HashMap">
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,
+        (SELECT total FROM `order` WHERE id=order_id) as total,
+        (SELECT total FROM `order` WHERE id=order_id) as total,
+        (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
+        (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
+        (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
+        (SELECT book_name FROM book WHERE id=book_id) as book_name,
+        (SELECT price FROM book WHERE id=book_id) as price,
+        (SELECT author FROM book WHERE id=book_id) as author,
+        (SELECT press FROM book WHERE id=book_id) as press,
+        (SELECT image_b FROM book WHERE id=book_id) as image_b,
+        (SELECT image_s FROM book WHERE id=book_id) as image_s,
+        (SELECT repertory FROM book WHERE id=book_id) as repertory,
+        (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
+        (SELECT volume FROM book WHERE id=book_id) as volume,
+        (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
+        (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where shop_id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+        ORDER BY create_time DESC
+    </select>
+
 </mapper>

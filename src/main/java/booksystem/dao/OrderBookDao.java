@@ -5,13 +5,22 @@ import booksystem.pojo.OrderBook;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
 public interface OrderBookDao{
-    //根据订单号获取本订单内的所有图书信息
-    List<Book> getAllBookByOrder(String order_id);
+    //获取所有订单
+    List<Map<String,Object>> getAllOrder();
+
+    //通过username获取用户所有订单
+    List<Map<String,Object>> getAllOrderByUser(List<String> Order_Ids);
+
+    //通过shop_id获取所有店铺的订单
+    List<Map<String,Object>> getAllOrderByShop(List<String> Order_Ids);
+
     //添加一个图书信息
     int addOrderBook(OrderBook orderBook);
 }
