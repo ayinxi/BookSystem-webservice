@@ -2,6 +2,7 @@ package booksystem.service;
 
 import booksystem.pojo.Book;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -24,5 +25,6 @@ public interface BookService {
     String selectBook( String book_name, String author, double price, String press, String edition, String print_time,String main_category_id,String second_category_id,String shop_id);
     //单次删除
     int deleteBook(String book_id);
+    List<Map<String,Object>> getPage(int page_num,int book_num,int style,String main_id,String second_id,String year);
 
 }

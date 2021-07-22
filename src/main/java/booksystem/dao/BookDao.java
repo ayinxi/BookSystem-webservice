@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 @Mapper
@@ -34,7 +35,10 @@ public interface BookDao {
     int deleteBooks(List<String> book_ids);
     //更新图书信息
     int updateBook(String book_id,String book_name, String author, double price, int repertory, String press, String edition, String print_time,String main_category_id,String second_category_id,String shop_id);
-
+    void updateDetail(String book_id,String detail);
     //根据book_id获取图书
     HashMap<String,Object> getBookByID(String book_id);
+
+    List<Map<String,Object>> getPage(int start, int book_num, int style, String main_id, String second_id, String year);
+
 }

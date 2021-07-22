@@ -24,15 +24,30 @@ public class BookController {
     @Autowired
     BookDao bookDao;
 
-    @RequestMapping("/book/getAll")
-    public Result getAllBook() {
-        Map<String,Object> result=bookService.getAllBook();
-        if(!result.isEmpty())
-        {
-            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",result);
-        }else{
+    /**
+     * @param page_num 第几页
+     * @param book_num 每页多少书
+     * @param style 排序方式 1:总销量,2:上架时间(所有),
+     * @param main_category_id 一级目录id
+     * @param second_category_id 二级目录id
+     * @param year 年份筛选
+     * @return
+     */
+    @RequestMapping("/book/getPage")
+    public Result getPage(@RequestParam("page_num")String page_num,
+                          @RequestParam("book_num")String book_num,
+                          @RequestParam("style")String style,
+                          @RequestParam("main_category_id") String main_category_id,//可缺省
+                          @RequestParam("second_category_id") String second_category_id,//可缺省
+                          @RequestParam("year") String year   //可缺省
+                          ) {
+        if(page_num.isEmpty()||book_num.isEmpty()||style.isEmpty()){
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",bookService.getPage(
+                Integer.parseInt(page_num),Integer.parseInt(book_num),Integer.parseInt(style),
+                main_category_id,second_category_id,year
+        ));
     }
 //
 //    @RequestMapping("/book/getByShop")
@@ -81,6 +96,9 @@ public class BookController {
         if(!(book_id==null)){
             return Result.error(ResultEnum.REPEAT_ADD.getCode(),ResultEnum.REPEAT_ADD.getMsg());
         }
+        if(Double.parseDouble(price)<0||Integer.parseInt(repertory)<0){
+            return Result.error(ResultEnum.NUM_LOWER_ZERO.getCode(),ResultEnum.NUM_LOWER_ZERO.getMsg());
+        }
         bookService.addBook(book_name,author,Double.parseDouble(price),Integer.parseInt(repertory),
                 press,edition,print_time,main_category_id,second_category_id,shop_id);
         book_id=bookService.selectBook(book_name,author,Double.parseDouble(price),press,edition,
@@ -127,6 +145,9 @@ public class BookController {
         if(book_id.isEmpty()){
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }
+        if(Double.parseDouble(price)<0||Integer.parseInt(repertory)<0){
+            return Result.error(ResultEnum.NUM_LOWER_ZERO.getCode(),ResultEnum.NUM_LOWER_ZERO.getMsg());
+        }
         bookDao.updateBook(book_id,book_name,author,Double.parseDouble(price),Integer.parseInt(repertory),
                 press,edition,print_time,main_category_id,second_category_id,shop_id);
         return Result.ok(ResultEnum.SUCCESS.getMsg());
@@ -139,6 +160,18 @@ public class BookController {
         }
 
         uploadImgService.uploadBookImg(img,book_id);
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
+    }
+
+
+    //添加修改书籍详情
+    @PostMapping("/book/updateDetail")
+    public Result updateDetail(@RequestParam("book_id")String book_id,
+                            @RequestParam("detail") String detail) {
+        if(book_id.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        bookDao.updateDetail(book_id,detail);
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 

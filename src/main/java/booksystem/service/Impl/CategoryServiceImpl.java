@@ -28,9 +28,11 @@ public class CategoryServiceImpl implements CategoryService {
                     Map<String,Object>map=new HashMap<>();
                     map.put("second_name",allList.get(j).get("second_name").toString());
                     map.put("second_id",allList.get(j).get("second_id").toString());
+                    map.put("book_num",allList.get(j).get("book_num").toString());
                     res.add(map);
                 }
             }
+
             mainList.get(i).put("second_category",res);
         }
         return mainList;

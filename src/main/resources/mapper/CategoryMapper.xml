@@ -6,12 +6,15 @@
     <select id="getAllCategory" resultType="java.util.HashMap">
         select id as second_id,category_name as second_name,
                (select id from main_category where id=pid) as main_id,
-               (select category_name from main_category where id=pid) as main_name
+               (select category_name from main_category where id=pid) as main_name,
+               (select count(id) from book where second_category_id=second_id) as book_num
                from second_category
     </select>
 
     <select id="getAllMainCategory" resultType="java.util.HashMap">
-        select id as main_id,category_name as main_name from main_category
+        select id as main_id,category_name as main_name,
+        (select count(id) from book where main_category_id=main_id) as book_num
+        from main_category
     </select>
 
     <select id="getMainCategory" resultType="String">
@@ -55,5 +58,6 @@
         update second_category set category_name=#{name},update_time=now()
         where id=#{id}
     </update>
+
 
 </mapper>

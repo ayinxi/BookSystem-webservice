@@ -6,6 +6,7 @@ import booksystem.service.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -60,6 +61,21 @@ public class BookServiceImpl implements BookService {
     @Override
     public int deleteBook(String book_id) {
         return bookDao.deleteBook(book_id);
+    }
+
+    @Override
+    public List<Map<String, Object>> getPage(int page_num,int book_num,int style,String main_id,String second_id,String year) {
+        List<Map<String,Object>> res= bookDao.getPage((page_num-1)*book_num,book_num,style,main_id,second_id,year);
+        for(int i=0;i<res.size();i++){
+            res.get(i).put("create_time",res.get(i).get("create_time").toString()
+                    .replace('T',' '));
+            res.get(i).put("update_time",res.get(i).get("update_time").toString()
+                    .replace('T',' '));
+            res.get(i).put("print_time",res.get(i).get("update_time").toString()
+                    .replace('T',' '));
+
+        }
+        return res;
     }
 
 

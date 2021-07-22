@@ -34,6 +34,10 @@
                #{press},#{edition},#{print_time},#{image_b},#{image_s},#{main_category_id},#{second_category_id},#{shop_id},now(),now());
     </insert>
 
+    <update id="updateDetail">
+        update book set detail=#{detail},update_time=now() where id=#{book_id}
+    </update>
+
     <select id="selectBook" resultType="String">
         select id from book where book_name=#{book_name} and author=#{author} and price=#{price}
         and press=#{press} and edition=#{edition} and print_time=#{print_time}
@@ -55,5 +59,49 @@
         </foreach>
     </delete>
 
+
+    <select id="getPage" resultType="java.util.HashMap">
+        SELECT *,(select shop_name from shop where id=shop_id) as shop_name,
+               (select category_name from main_category where id=main_category_id) as main_category,
+               (select category_name from second_category where id=second_category_id) as second_category
+               FROM book where repertory>=0
+        <choose>
+            <when test="main_id !=''">
+                and main_category_id=#{main_id}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="second_id !=''">
+                and second_category_id=#{second_id}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="year !=''">
+                and year(print_time)=#{year}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        order by
+        <choose>
+            <when test="style==1">
+                volume DESC
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="style==2">
+                print_time DESC
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        limit #{start},#{book_num}
+    </select>
 
 </mapper>
