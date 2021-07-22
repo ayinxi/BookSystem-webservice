@@ -38,6 +38,14 @@
         update book set detail=#{detail},update_time=now() where id=#{book_id}
     </update>
 
+    <update id="updateVolume">
+        update book set volume=#{volume},update_time=now() where id=#{book_id}
+    </update>
+    <update id="updateRepertory">
+        update book set repertory=#{repertory},update_time=now() where id=#{book_id}
+    </update>
+
+
     <select id="selectBook" resultType="String">
         select id from book where book_name=#{book_name} and author=#{author} and price=#{price}
         and press=#{press} and edition=#{edition} and print_time=#{print_time}

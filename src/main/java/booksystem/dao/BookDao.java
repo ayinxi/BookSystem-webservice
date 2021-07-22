@@ -41,4 +41,7 @@ public interface BookDao {
 
     List<Map<String,Object>> getPage(int start, int book_num, int style, String main_id, String second_id, String year);
 
+    void updateVolume(String book_id,int volume);//更新销量
+    void updateRepertory(String book_id,int repertory);//更新库存
+
 }

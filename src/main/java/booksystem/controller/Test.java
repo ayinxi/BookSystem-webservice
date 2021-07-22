@@ -1,5 +1,6 @@
 package booksystem.controller;
 
+import booksystem.dao.BookDao;
 import booksystem.service.UploadImgService;
 import booksystem.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,10 +18,21 @@ import java.io.IOException;
 public class Test {
     @Autowired
     UploadImgService uploadImgService;
+    @Autowired
+    BookDao bookDao;
     @GetMapping("/test")
     public String test() throws Exception{
 //        throw new Exception("test");
         return "5201314";
+    }
+
+    @PostMapping("/testBook")
+    public String testBook(@RequestParam("book_id") String book_id,
+                           @RequestParam("volume") String volume,
+                           @RequestParam("repertory") String repertory){
+        bookDao.updateRepertory(book_id,Integer.parseInt(repertory));
+        bookDao.updateVolume(book_id,Integer.parseInt(volume));
+        return "OK";
     }
 
     @RequestMapping(value="/test/upload",method=RequestMethod.POST)
