@@ -21,6 +21,9 @@ public interface OrderBookDao{
     //通过shop_id获取所有店铺的订单
     List<Map<String,Object>> getAllOrderByShop(List<String> Order_Ids);
 
+    //通过order_id获取一个订单
+    List<Map<String,Object>> getOrderByID(String order_id);
+
     //添加一个图书信息
     int addOrderBook(OrderBook orderBook);
 }

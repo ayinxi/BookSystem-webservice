@@ -38,8 +38,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public List<Map<String, Object>> getAllOrderByShop(String Shop_id) {
-        return null;
+    public List<Map<String, Object>> getAllOrderByShop(String shop_id) {
+        List<String> Order_Ids=orderDao.getAllOrderByShop(shop_id);
+        List<Map<String,Object>> mapList=orderBookDao.getAllOrderByShop(Order_Ids);
+        return OrderUtils.OrderOutput(mapList);
     }
 
     @Override
@@ -49,8 +51,29 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public HashMap<String, Object> getOrderByID() {
-        return null;
+    public Map<String, Object> getOrderByID(String order_id) {
+        List<Map<String, Object>> mapList=orderBookDao.getAllOrder();
+        return OrderUtils.OrderOutput(mapList).get(0);
+    }
+
+    @Override
+    public int cancelOrder(String order_id) {
+        List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
+        if(order.isEmpty())
+            return -1;//订单不存在
+
+        //判断取消订单是在 未付款的时候
+        if(2==Integer.valueOf(order.get(0).get("status").toString()))
+        {
+            orderDao.updateStatus(1,order_id);//将状态改为取消订单
+            return 1;
+        }
+        return 0;//处于其他状态不可取消
+    }
+
+    @Override
+    public int batCancelOrder(String Order_Ids) {
+        return 0;
     }
 
     @Override
@@ -113,7 +136,7 @@ public class OrderServiceImpl implements OrderService {
                     cartItemDao.deleteCartItem(ids[i], username);
                 }
             }
-            Order order=new Order(order_id,total,1,address_id,shop_id_temp.get(k),userDao.getUserByName(username).getId(),null,null);
+            Order order=new Order(order_id,total,2,address_id,shop_id_temp.get(k),userDao.getUserByName(username).getId(),null,null);
             orderDao.addOrder(order);
         }
         return 1;
@@ -129,8 +152,8 @@ public class OrderServiceImpl implements OrderService {
         //bookDao.updateRepertory(book_id,repertory-sum);
         String order_id=String.valueOf(UUID.randomUUID()).replace("-","").toString().toLowerCase();
         double total=sum*Double.valueOf(book.get("price").toString());
-        //订单状态为1未付款 退款状态为-1 无效
-        Order order=new Order(order_id,total,1,address_id,shop_id,userDao.getUserByName(username).getId(),null,null);
+        //订单状态为2未付款 退款状态为-1 无效
+        Order order=new Order(order_id,total,2,address_id,shop_id,userDao.getUserByName(username).getId(),null,null);
         orderDao.addOrder(order);
         OrderBook orderBook=new OrderBook(null,book_id,order_id,sum,null,5.0,-1,null,null);
         orderBookDao.addOrderBook(orderBook);

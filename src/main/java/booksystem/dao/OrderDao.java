@@ -16,11 +16,13 @@ public interface OrderDao {
     //根据username获取所有订单
     List<String> getAllOrderByUser(String username);
     //根据shop_id获取所有订单
-    List<Map<String,Object>> getAllOrderByShop(String Shop_id);
-
-
+    List<String> getAllOrderByShop(String shop_id);
     //通过order_id获取订单
     Map<String,Object> getOrderByID(String order_id);
+
+    //status更新
+    void updateStatus(int status,String order_id);
+
 
     //添加订单
     int addOrder(Order order);

@@ -17,6 +17,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
+    //购物车购买
     @RequestMapping("/order/addDirect")
     public Result addDirect(@RequestParam("book_id") String book_id,
                             @RequestParam("sum") int sum,
@@ -32,7 +33,7 @@ public class OrderController {
             return Result.error(ResultEnum.NUM_IS_NOT_ENOUGH.getCode(),ResultEnum.NUM_IS_NOT_ENOUGH.getMsg());
     }
 
-
+    //直接购买
     @RequestMapping("/order/addCatiItem")
     public Result addCatiItem(@RequestParam("Book_Ids") String Book_Ids,
                             @RequestParam("Sums") String Sums,
@@ -47,17 +48,31 @@ public class OrderController {
             return Result.error(ResultEnum.NUM_IS_NOT_ENOUGH.getCode(),ResultEnum.NUM_IS_NOT_ENOUGH.getMsg());
     }
 
+    //获取所有订单
     @RequestMapping("/admin/getAllOrder")
     public Result getAllOrder()
     {
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderService.getAllOrder());
     }
 
+    //获取某用户的所有订单
     @RequestMapping("/order/getByUser")
     public Result getAllOrderByUser(ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
 
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderService.getAllOrderByUser(username));
+    }
+
+    //根据shop_id获取所有订单
+    @RequestMapping("/shop/order/getByShop")
+    public Result getAllOrderByShop(@RequestParam("shop_id") String shop_id){
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderService.getAllOrderByShop(shop_id));
+    }
+
+    //根据order_id获取某个订单
+    @RequestMapping("/order/getByID")
+    public Result getOrderByID(@RequestParam("order_id") String order_id){
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderService.getOrderByID(order_id));
     }
 }

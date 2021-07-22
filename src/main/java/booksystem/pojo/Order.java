@@ -3,7 +3,7 @@ package booksystem.pojo;
 public class Order {
     private String id;
     private double total;//总金额
-    private int status;//订单状态:1.未付款 2.已付款 3.未发货、4.已发货(未收货) 5.已收货、6.退货.未评价 7.已评价
+    private int status;//订单状态：1.取消订单 2.未付款 3.未发货 4.已发货 5.确认完成 6.未评价 7.已评价
     private String address_id;
     private String shop_id;
     private String user_id;
