@@ -56,6 +56,10 @@
         SELECT * FROM book where id=#{book_id}
     </select>
 
+    <select id="getDetail" resultType="String">
+        SELECT detail FROM book where id=#{book_id}
+    </select>
+
     <delete id="deleteBook" parameterType="String">
         delete from book where id=#{book_id}
     </delete>
@@ -90,6 +94,78 @@
         <choose>
             <when test="year !=''">
                 and year(print_time)=#{year}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="year_before !=''">
+                and year(print_time)&lt;=#{year_before}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="year_after !=''">
+                and year(print_time)&gt;=#{year_after}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="shop_id !=''">
+                and shop_id=#{shop_id}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        order by
+        <choose>
+            <when test="style==1">
+                volume DESC
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="style==2">
+                print_time DESC
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        limit #{start},#{book_num}
+    </select>
+
+    <select id="fuzzyQuery" resultType="java.util.HashMap">
+        SELECT *,(select shop_name from shop where id=shop_id) as shop_name,
+        (select category_name from main_category where id=main_category_id) as main_category,
+        (select category_name from second_category where id=second_category_id) as second_category
+        FROM book where repertory>=0
+        <choose>
+            <when test="queryWhat==1">
+                and book_name like #{content}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="queryWhat==2">
+                and author like #{content}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="queryWhat==3">
+                and press like #{content}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="queryWhat==4">
+                and detail like #{content}
             </when>
             <otherwise>
             </otherwise>

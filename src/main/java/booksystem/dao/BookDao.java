@@ -39,9 +39,12 @@ public interface BookDao {
     //根据book_id获取图书
     HashMap<String,Object> getBookByID(String book_id);
 
-    List<Map<String,Object>> getPage(int start, int book_num, int style, String main_id, String second_id, String year);
+    List<Map<String,Object>> getPage(int start, int book_num, int style, String main_id, String second_id, String year,String year_before,String year_after,String shop_id);
+    List<Map<String,Object>> fuzzyQuery(int start, int book_num, int style, int queryWhat, String content);
 
     void updateVolume(String book_id,int volume);//更新销量
     void updateRepertory(String book_id,int repertory);//更新库存
+
+    String getDetail(String book_id);
 
 }

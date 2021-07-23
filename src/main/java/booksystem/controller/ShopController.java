@@ -1,5 +1,6 @@
 package booksystem.controller;
 
+import booksystem.dao.ShopDao;
 import booksystem.pojo.Shop;
 import booksystem.pojo.User;
 import booksystem.service.ShopService;
@@ -25,6 +26,8 @@ public class ShopController {
     UploadImgService uploadImgService;
     @Autowired
     UserService userService;
+    @Autowired
+    ShopDao shopDao;
 
     //获取审核过的店铺
     @RequestMapping("/admin/getCheckShop")
@@ -121,6 +124,28 @@ public class ShopController {
             return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",shop);
         }else
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+    }
+
+    /**
+     * @param page_num 第几页
+     * @param shop_num 每页多少数据
+     * @param style 1:按创建时间,2:按店铺图书销量,
+     * @param content 查询内容
+     * @return
+     */
+    @RequestMapping("/shop/fuzzyQuery")
+    public Result fuzzyQuery(@RequestParam("page_num")String page_num,
+                             @RequestParam("shop_num")String shop_num,
+                             @RequestParam("style")String style,
+                             @RequestParam("content") String content//可缺省
+    ) {
+        if(page_num.isEmpty()||shop_num.isEmpty()||style.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",shopDao.fuzzyQuery(
+                Integer.parseInt(page_num),Integer.parseInt(shop_num),Integer.parseInt(style),
+                "%"+content+"%"
+        ));
     }
 
     //店铺注册
@@ -302,4 +327,6 @@ public class ShopController {
             return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
         }
     }
+
+
 }

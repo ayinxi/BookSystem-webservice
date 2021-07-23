@@ -39,47 +39,52 @@ public class BookController {
                           @RequestParam("style")String style,
                           @RequestParam("main_category_id") String main_category_id,//可缺省
                           @RequestParam("second_category_id") String second_category_id,//可缺省
-                          @RequestParam("year") String year   //可缺省
+                          @RequestParam("year") String year,   //可缺省
+                          @RequestParam("year_before") String year_before,   //可缺省
+                          @RequestParam("year_after") String year_after,   //可缺省
+                          @RequestParam("shop_id") String shop_id   //可缺省
                           ) {
         if(page_num.isEmpty()||book_num.isEmpty()||style.isEmpty()){
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",bookService.getPage(
                 Integer.parseInt(page_num),Integer.parseInt(book_num),Integer.parseInt(style),
-                main_category_id,second_category_id,year
+                main_category_id,second_category_id,year,year_before,year_after,shop_id
         ));
     }
-//
-//    @RequestMapping("/book/getByShop")
-//    public Result getBookByShop(@RequestParam("username") String username) {
-//        return Result.ok().put("data",bookService.getBookByShop(username));
-//    }
 
-//    @RequestMapping("/getBook/{ByOrder}")
-//    public Result getBookByOrder(String order_id) {
-//        return Result.ok().put("data",bookService.getBookByOrder(order_id));
-//    }
-//
-//    @RequestMapping("/getBook/{ByCategory}")
-//    public Result getBookByCategory(String category) {
-//        return Result.ok().put("data",bookService.getBookByCategory(category));
-//    }
-//
-//    @RequestMapping("/getBook/{ByName}")
-//    public Result getBookByName(String bookname) {
-//        return Result.ok().put("data",bookService.getBookByName(bookname));
-//    }
-//
-//    @RequestMapping("/getBook/{ByPress}")
-//    public Result getBookByPress(String press) {
-//        return Result.ok().put("data",bookService.getBookByPress(press));
-//    }
-//
-//    @RequestMapping("/mutiAddBook")
-//    public Result mutiAddBook(List<Book> book_list) {
-//        return null;
-//    }
-//
+    /**
+     * @param page_num 第几页
+     * @param book_num 每页多少书
+     * @param style 排序方式 1:总销量,2:上架时间(所有),
+     * @param queryWhat 查询: 1:按书名模糊查询,2:按作者模糊查询,3:按出版社模糊查询,4:按内容详情模糊查询
+     * @param content 查询内容
+     * @return
+     */
+    @RequestMapping("/book/fuzzyQuery")
+    public Result fuzzyQuery(@RequestParam("page_num")String page_num,
+                          @RequestParam("book_num")String book_num,
+                          @RequestParam("style")String style,
+                          @RequestParam("queryWhat") String queryWhat,//可缺省
+                          @RequestParam("content") String content//可缺省
+    ) {
+        if(page_num.isEmpty()||book_num.isEmpty()||style.isEmpty()||queryWhat.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",bookService.fuzzyQuery(
+                Integer.parseInt(page_num),Integer.parseInt(book_num),Integer.parseInt(style),
+                Integer.parseInt(queryWhat),"%"+content+"%"
+        ));
+    }
+
+    @GetMapping("/book/getDetail")
+    public Result getDetail(@RequestParam("book_id") String book_id){
+        if(book_id.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",bookDao.getDetail(book_id));
+    }
+
     @PostMapping("/book/addBook")
     public Result addBook(@RequestParam("book_name")String book_name,
                           @RequestParam("author")String author,
@@ -119,7 +124,7 @@ public class BookController {
     }
 
     @DeleteMapping("/book/multiDelete")
-    public Result mutiDeleteBook(@RequestParam("book_id") List<String> book_ids) {
+    public Result multiDeleteBook(@RequestParam("book_id") List<String> book_ids) {
         if(book_ids.isEmpty()){
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }

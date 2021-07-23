@@ -33,4 +33,5 @@ public interface ShopDao {
 
     //更新创建时间 用于获取审核时间
     void updateCreateTime(String shop_id);
+    List<Shop> fuzzyQuery(int page_num, int shop_num, int style, String content);
 }
