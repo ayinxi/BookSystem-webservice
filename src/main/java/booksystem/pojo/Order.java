@@ -9,11 +9,13 @@ public class Order {
     private String user_id;
     private String create_time;
     private String update_time;
+    private String send_time;
+    private String firm_time;
 
     public Order(){}
 
 
-    public Order(String id, double total, int status, String address_id, String shop_id, String user_id, String create_time, String update_time) {
+    public Order(String id, double total, int status, String address_id, String shop_id, String user_id, String create_time, String update_time,String firm_time,String send_time) {
         this.id = id;
         this.total = total;
         this.status = status;
@@ -22,6 +24,24 @@ public class Order {
         this.user_id = user_id;
         this.create_time = create_time;
         this.update_time = update_time;
+        this.send_time=send_time;
+        this.firm_time=firm_time;
+    }
+
+    public String getSend_time() {
+        return send_time;
+    }
+
+    public String getFirm_time() {
+        return firm_time;
+    }
+
+    public void setSend_time(String send_time) {
+        this.send_time = send_time;
+    }
+
+    public void setFirm_time(String firm_time) {
+        this.firm_time = firm_time;
     }
 
     public String getId() {

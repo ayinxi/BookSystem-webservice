@@ -21,7 +21,7 @@ public interface OrderDao {
     Map<String,Object> getOrderByID(String order_id);
 
     //status更新
-    void updateStatus(int status,String order_id);
+    void updateStatus(int status,List<String> Order_Id);
 
 
     //添加订单

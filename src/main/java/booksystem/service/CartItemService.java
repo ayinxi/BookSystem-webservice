@@ -17,7 +17,8 @@ public interface CartItemService {
     int updateCartItem(String book_id,String username,int sum);
 
     //批量删除商品
-    void deleteCartItem(String Book_IDs,String username);
+    void multiDeleteCartItem(List<String> CartItem_Ids);
+    void deleteCartItem(String cartItem_id);
 
     //获得购物车种类数
     int getCartItemNum(String username);

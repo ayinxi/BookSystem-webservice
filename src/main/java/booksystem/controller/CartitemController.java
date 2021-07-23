@@ -5,13 +5,11 @@ import booksystem.utils.Result;
 import booksystem.utils.ResultEnum;
 import booksystem.utils.TokenUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 public class CartitemController {
@@ -27,7 +25,7 @@ public class CartitemController {
         return Result.ok().put("data",cartItemService.getCartItem(username));
     }
 
-    @RequestMapping("/cartitem/addCartItem")
+    @PostMapping("/cartitem/addCartItem")
     public Result addCartItem(@RequestParam("book_id") String book_id,
                               @RequestParam("sum")int sum,
                               ServletRequest request){
@@ -46,7 +44,7 @@ public class CartitemController {
     }
 
 
-    @RequestMapping("/cartitem/updateCartItem")
+    @PostMapping("/cartitem/updateCartItem")
     public Result updateCartItem(@RequestParam("book_id") String book_id,
                                  @RequestParam("sum")int sum,
                                  ServletRequest request){
@@ -65,11 +63,15 @@ public class CartitemController {
         }
     }
 
-    @DeleteMapping("/cartitem/deleteCartItem")
-    public Result deleteCartItem(@RequestParam("Book_Ids") String Book_Ids,ServletRequest request) {
-        String token = ((HttpServletRequest) request).getHeader("token");
-        String username = TokenUtils.parseToken(token).get("username").toString();
-        cartItemService.deleteCartItem(Book_Ids,username);
+    @DeleteMapping("/cartitem/multiDelete")
+    public Result deleteCartItem(@RequestParam("CartItem_Ids") List<String> CartItem_Ids) {
+        cartItemService.multiDeleteCartItem(CartItem_Ids);
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
+    }
+
+    @DeleteMapping("/cartitem/delete")
+    public Result deleteCartItem(@RequestParam("cartItem_id") String cartItem_id) {
+        cartItemService.deleteCartItem(cartItem_id);
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 

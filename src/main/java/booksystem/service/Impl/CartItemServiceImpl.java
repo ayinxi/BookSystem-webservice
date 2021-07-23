@@ -117,13 +117,14 @@ public class CartItemServiceImpl implements CartItemService {
                 return 1;
         }
 
-        //删除商品
         @Override
-        public void deleteCartItem(String Book_IDs, String username) {
-                String[] ids=Book_IDs.split(",");
-                for(String book_id:ids) {
-                        cartItemDao.deleteCartItem(book_id, username);
-                }
+        public void multiDeleteCartItem(List<String> CartItem_Ids) {
+                cartItemDao.multiDeleteCartItem(CartItem_Ids);
+        }
+
+        @Override
+        public void deleteCartItem(String cartItem_id) {
+                cartItemDao.deleteCartItem(cartItem_id);
         }
 
         //获取购物车条目数

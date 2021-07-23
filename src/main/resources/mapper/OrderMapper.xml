@@ -4,8 +4,8 @@
 <mapper namespace="booksystem.dao.OrderDao">
 
     <insert id="addOrder">
-        INSERT INTO `order`(id,total,status,address_id,shop_id,user_id,create_time,update_time)
-        VALUES(#{id},#{total},#{status},#{address_id},#{shop_id},#{user_id},now(),now());
+        INSERT INTO `order`(id,total,status,address_id,shop_id,user_id,create_time,update_time,send_time,firm_time)
+        VALUES(#{id},#{total},#{status},#{address_id},#{shop_id},#{user_id},now(),now(),null,null );
     </insert>
 
     <select id="getAllOrderByUser" resultType="String">
@@ -16,8 +16,11 @@
         select id from `order` where shop_id=#{shop_id} order by create_time desc
     </select>
 
-    <update id="updateStatus" parameterType="int">
-        update `order` set status=#{status} where order_id=#{order_id}
+    <update id="updateStatus" parameterType="java.util.List">
+        update `order` set status=#{status}  where id IN
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </update>
 
 </mapper>

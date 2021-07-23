@@ -18,10 +18,32 @@ public interface OrderService {
     //取消订单
     int cancelOrder(String order_id);
     //批量取消订单
-    int batCancelOrder(String Order_Ids);
+    int batCancelOrder(List<String> Order_Ids);
 
-    //购物车生成订单
-    int addCartItemOrder(String Book_Ids,String Sum,String address_id,String username);
+    //确认订单
+    int firmOrder(String order_id);
+    //批量确认订单
+    int batFirmOrder(List<String> Order_Ids);
+
+    //订单发货
+    int sendOrder(String order_id);
+    //批量发货订单
+    int batSendOrder(List<String> Order_Ids);
+
+    //同意退款
+    int refundOrder(String order_id);
+    //批量同意退款
+    int batRefundOrder(List<String> Order_Ids);
+
+    //拒绝退款
+
+    //批量拒绝退款
+    //用户对某个店铺的评价评分
+    //某一个店铺的所有退款订单信息
+    //某一个退款订单的详情
+
+//    //购物车生成订单
+//    int addCartItemOrder(String Book_Ids,String Sum,String address_id,String username);
     //直接生成订单
     int addDirectOrder(String book_id, int sum,String address_id,String shop_id,String username);
 

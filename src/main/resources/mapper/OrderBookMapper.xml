@@ -3,14 +3,16 @@
 
 <mapper namespace="booksystem.dao.OrderBookDao">
     <insert id="addOrderBook">
-        INSERT INTO order_book(id,book_id,order_id,number,rate,remark,return_status,return_reason,check_opinion)
-        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion});
+        INSERT INTO order_book(id,book_id,order_id,number,rate,remark,return_status,return_reason,check_opinion,remark_time)
+        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion},#{remark_time});
     </insert>
 
     <select id="getAllOrder" resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,
+               (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
+               (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
                (SELECT total FROM `order` WHERE id=order_id) as total,
-               (SELECT total FROM `order` WHERE id=order_id) as total,
+               (SELECT status FROM `order` WHERE id=order_id) as status,
                (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
                (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
                (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
@@ -29,9 +31,11 @@
     </select>
 
     <select id="getAllOrderByUser" parameterType="java.util.List"  resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,
+        (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
+        (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
         (SELECT total FROM `order` WHERE id=order_id) as total,
-        (SELECT total FROM `order` WHERE id=order_id) as total,
+        (SELECT status FROM `order` WHERE id=order_id) as status,
         (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
         (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
         (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
@@ -53,9 +57,11 @@
     </select>
 
     <select id="getAllOrderByShop" parameterType="java.util.List"  resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,
+        (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
+        (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
         (SELECT total FROM `order` WHERE id=order_id) as total,
-        (SELECT total FROM `order` WHERE id=order_id) as total,
+        (SELECT status FROM `order` WHERE id=order_id) as status,
         (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
         (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
         (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
@@ -77,10 +83,12 @@
     </select>
 
     <select id="getOrderByID" resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,
-               (SELECT total FROM `order` WHERE id=order_id) as total,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,
+               (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
+               (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
                (SELECT total FROM `order` WHERE id=order_id) as total,
                (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
+               (SELECT status FROM `order` WHERE id=order_id) as status,
                (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
                (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
                (SELECT book_name FROM book WHERE id=book_id) as book_name,

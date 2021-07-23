@@ -2,6 +2,7 @@ package booksystem.dao;
 
 import booksystem.pojo.CartItem;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -29,5 +30,7 @@ public interface CartItemDao {
     void updateCartItem(String book_id,String username,int sum,String create_time,String update_time);
 
     //删除商品
-    void deleteCartItem(String book_id,String username);
+    void deleteCartItem(String cartItem_id);
+
+    void multiDeleteCartItem(List<String> CartItem_Ids);
 }

@@ -35,8 +35,15 @@
         where book_id=#{book_id} and user_id=(select id from user where username=#{username})
     </update>
 
-    <delete id="deleteCartItem">
-        delete from cartitem where book_id=#{book_id} and user_id=(select id from user where username=#{username})
+    <delete id="deleteCartItem" parameterType="java.util.List">
+        delete from cartitem where id=#{cartItem_id}
+    </delete>
+
+    <delete id="multiDeleteCartItem" parameterType="java.util.List">
+        delete from cartitem where id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
     </delete>
 
 </mapper>

@@ -10,10 +10,11 @@ public class OrderBook {
     private int return_status;//退款状态：-1.无效 1.申请退款未审核 2.同意 3.拒绝
     private String return_reason;//退货理由
     private String check_opinion;//审核意见
+    private String remark_time;
 
     public OrderBook(){}
 
-    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int return_status, String return_reason, String check_opinion) {
+    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int return_status, String return_reason, String check_opinion,String remark_time) {
         this.id = id;
         this.book_id = book_id;
         this.order_id = order_id;
@@ -23,6 +24,15 @@ public class OrderBook {
         this.return_status = return_status;
         this.return_reason = return_reason;
         this.check_opinion = check_opinion;
+        this.remark_time=remark_time;
+    }
+
+    public String getRemark_time() {
+        return remark_time;
+    }
+
+    public void setRemark_time(String remark_time) {
+        this.remark_time = remark_time;
     }
 
     public double getRate() {
