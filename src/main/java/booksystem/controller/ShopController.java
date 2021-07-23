@@ -143,8 +143,8 @@ public class ShopController {
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",shopDao.fuzzyQuery(
-                Integer.parseInt(page_num),Integer.parseInt(shop_num),Integer.parseInt(style),
-                "%"+content+"%"
+                (Integer.parseInt(page_num)-1)*Integer.parseInt(shop_num),
+                Integer.parseInt(shop_num), Integer.parseInt(style), "%"+content+"%"
         ));
     }
 

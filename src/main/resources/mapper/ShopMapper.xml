@@ -46,4 +46,25 @@
         update shop set update_time=now() where id=#{shop_id}
     </update>
 
+
+        <select id="fuzzyQuery" resultType="booksystem.pojo.Shop">
+            SELECT * FROM shop where shop_name like #{content}
+            order by
+            <choose>
+                <when test="style==1">
+                    create_time DESC
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            <choose>
+                <when test="style==2">
+                    (select sum(volume) from book where shop_id=shop.id) DESC
+                </when>
+                <otherwise>
+                </otherwise>
+            </choose>
+            limit #{start},#{shop_num}
+        </select>
+
 </mapper>
