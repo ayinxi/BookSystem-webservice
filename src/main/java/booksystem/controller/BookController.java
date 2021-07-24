@@ -92,7 +92,7 @@ public class BookController {
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",map);
     }
 
-    @PostMapping("/book/addBook")
+    @PostMapping("/shop/book/addBook")
     public Result addBook(@RequestParam("book_name")String book_name,
                           @RequestParam("author")String author,
                           @RequestParam("price")String price,
@@ -120,7 +120,7 @@ public class BookController {
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("book_id",book_id);
     }
 
-    @DeleteMapping("/book/delete")
+    @DeleteMapping("/shop/book/delete")
     public Result deleteBook(@RequestParam("book_id") String book_id) {
         if(book_id.isEmpty()){
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
@@ -130,7 +130,7 @@ public class BookController {
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 
-    @DeleteMapping("/book/multiDelete")
+    @DeleteMapping("/shop/book/multiDelete")
     public Result multiDeleteBook(@RequestParam("book_id") List<String> book_ids) {
         if(book_ids.isEmpty()){
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
@@ -142,7 +142,7 @@ public class BookController {
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 
-    @PostMapping("/book/updateBook")
+    @PostMapping("/shop/book/updateBook")
     public Result updateBook(@RequestParam("book_id")String book_id,
                              @RequestParam("book_name")String book_name,
                              @RequestParam("author")String author,
@@ -164,7 +164,7 @@ public class BookController {
                 press,edition,print_time,main_category_id,second_category_id,shop_id);
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
-    @PostMapping("/book/updateImg")
+    @PostMapping("/shop/book/updateImg")
     public Result updateBook(@RequestParam("book_id")String book_id,
                              @RequestParam("img") MultipartFile img) {
         if(book_id.isEmpty()){
@@ -177,7 +177,7 @@ public class BookController {
 
 
     //添加修改书籍详情
-    @PostMapping("/book/updateDetail")
+    @PostMapping("/shop/book/updateDetail")
     public Result updateDetail(@RequestParam("book_id")String book_id,
                             @RequestParam("detail") String detail) {
         if(book_id.isEmpty()){

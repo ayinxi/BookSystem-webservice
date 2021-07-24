@@ -21,7 +21,7 @@ import java.util.Map;
 @Component
 public class LoginFilter implements Filter{
     final String[] allowUrl={
-            "login","registerUser","test","sendEmail","book",
+            "login","registerUser","test","sendEmail","book","category"
     };
     @Autowired
     UserDao userDao;
@@ -48,11 +48,13 @@ public class LoginFilter implements Filter{
         System.out.println(LogUtils.getNowTime()+"访问参数: "+ LogUtils.getParams(request));
         Map<String,Object> map = new HashMap<>();
         String url =  ((HttpServletRequest)servletRequest).getRequestURI();
+
         if(url != null){
+            String[] str=url.split("/");
             //登录请求直接放行
             boolean isAllowUrl=false;
             for(int i=0;i<allowUrl.length;i++){
-                if(allowUrl[i].equals(url))
+                if(allowUrl[i].equals(str[1])||str[2].equals("fuzzyQuery"))
                     isAllowUrl=true;
             }
             if(isAllowUrl){
@@ -72,7 +74,6 @@ public class LoginFilter implements Filter{
                         //token验证结果
                         int identity=Integer.parseInt(TokenUtils.parseToken(token).get("identity").toString());
                         boolean authority=true;
-                        String[] str=url.split("/");
                         if (identity==0){
                             if(str[1].equals("shop")||str[1].equals("admin")){
                                 map.put("msg",ResultEnum.AUTHORITY_FAIL.getMsg());

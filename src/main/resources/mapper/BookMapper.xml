@@ -147,36 +147,36 @@
         FROM book where repertory>=0
         <choose>
             <when test="queryWhat==0">
-                or book_name like #{content},or author like #{content},
-                        or press like #{content},or detail like #{content}
+                and (book_name like #{content},or author like #{content},
+                        or press like #{content},or detail like #{content})
             </when>
             <otherwise>
             </otherwise>
         </choose>
         <choose>
             <when test="queryWhat==1">
-                or book_name like #{content}
+                and book_name like #{content}
             </when>
             <otherwise>
             </otherwise>
         </choose>
         <choose>
             <when test="queryWhat==2">
-                or author like #{content}
+                and author like #{content}
             </when>
             <otherwise>
             </otherwise>
         </choose>
         <choose>
             <when test="queryWhat==3">
-                or press like #{content}
+                and press like #{content}
             </when>
             <otherwise>
             </otherwise>
         </choose>
         <choose>
             <when test="queryWhat==4">
-                or detail like #{content}
+                and detail like #{content}
             </when>
             <otherwise>
             </otherwise>
