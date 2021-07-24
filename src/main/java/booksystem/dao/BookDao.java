@@ -45,6 +45,7 @@ public interface BookDao {
     void updateVolume(String book_id,int volume);//更新销量
     void updateRepertory(String book_id,int repertory);//更新库存
 
-    String getDetail(String book_id);
+    Map<String,Object> getDetail(String book_id);
+
 
 }

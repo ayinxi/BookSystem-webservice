@@ -56,8 +56,11 @@
         SELECT * FROM book where id=#{book_id}
     </select>
 
-    <select id="getDetail" resultType="String">
-        SELECT detail FROM book where id=#{book_id}
+    <select id="getDetail" resultType="java.util.HashMap">
+        SELECT * ,(select shop_name from shop where id=shop_id) as shop_name,
+               (select category_name from main_category where id=main_category_id) as main_category,
+               (select category_name from second_category where id=second_category_id) as second_category
+        FROM book where id=#{book_id}
     </select>
 
     <delete id="deleteBook" parameterType="String">
@@ -143,29 +146,37 @@
         (select category_name from second_category where id=second_category_id) as second_category
         FROM book where repertory>=0
         <choose>
+            <when test="queryWhat==0">
+                or book_name like #{content},or author like #{content},
+                        or press like #{content},or detail like #{content}
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
             <when test="queryWhat==1">
-                and book_name like #{content}
+                or book_name like #{content}
             </when>
             <otherwise>
             </otherwise>
         </choose>
         <choose>
             <when test="queryWhat==2">
-                and author like #{content}
+                or author like #{content}
             </when>
             <otherwise>
             </otherwise>
         </choose>
         <choose>
             <when test="queryWhat==3">
-                and press like #{content}
+                or press like #{content}
             </when>
             <otherwise>
             </otherwise>
         </choose>
         <choose>
             <when test="queryWhat==4">
-                and detail like #{content}
+                or detail like #{content}
             </when>
             <otherwise>
             </otherwise>

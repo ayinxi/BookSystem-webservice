@@ -1,12 +1,16 @@
 package booksystem.controller;
 
 import booksystem.dao.BookDao;
+import booksystem.pojo.AliPay;
+import booksystem.service.PayService;
 import booksystem.service.UploadImgService;
 import booksystem.utils.TokenUtils;
+import com.alipay.api.AlipayApiException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -20,6 +24,10 @@ public class Test {
     UploadImgService uploadImgService;
     @Autowired
     BookDao bookDao;
+    @Resource
+    private PayService payService;//调用支付服务
+
+
     @GetMapping("/test")
     public String test() throws Exception{
 //        throw new Exception("test");
@@ -45,5 +53,17 @@ public class Test {
             uploadImgService.uploadUserImg(img,username);
         }
             return "SUCCESS";
-        }
+    }
+
+
+
+    /*阿里支付*/
+    @PostMapping(value = "alipay")
+    public String alipay(String order_id,String total_amount,String body) throws AlipayApiException {
+
+        return  payService.aliPay(new AliPay(order_id,total_amount,body));
+    }
+
+
+
 }

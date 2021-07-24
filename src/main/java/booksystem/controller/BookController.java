@@ -77,12 +77,19 @@ public class BookController {
         ));
     }
 
-    @GetMapping("/book/getDetail")
+    @RequestMapping("/book/getDetail")
     public Result getDetail(@RequestParam("book_id") String book_id){
         if(book_id.isEmpty()){
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }
-        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",bookDao.getDetail(book_id));
+        Map<String,Object>map=bookDao.getDetail(book_id);
+        map.put("create_time",map.get("create_time").toString()
+                .replace('T',' '));
+        map.put("update_time",map.get("update_time").toString()
+                .replace('T',' '));
+        map.put("print_time",map.get("print_time").toString()
+                .replace('T',' '));
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",map);
     }
 
     @PostMapping("/book/addBook")
