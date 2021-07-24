@@ -23,7 +23,7 @@ public enum ResultEnum {
     SHOP_IS_APPLY(17,"店铺在审核"),
     CATEGORY_IS_EXIST(18,"目录已存在"),
     REPEAT_ADD(19,"重复添加"),
-    NUM_IS_NOT_ENOUGH(20,"数量不足"),
+    NUM_IS_NOT_ENOUGH(20,"库存不足"),
     NUM_FAIL(21,"数量错误"),
     NUM_LOWER_ZERO(22,"数据为负")
     ;

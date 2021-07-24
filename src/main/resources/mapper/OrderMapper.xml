@@ -16,11 +16,8 @@
         select id from `order` where shop_id=#{shop_id} order by create_time desc
     </select>
 
-    <update id="updateStatus" parameterType="java.util.List">
-        update `order` set status=#{status}  where id IN
-        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
-            #{item}
-        </foreach>
-    </update>
 
+    <update id="updateStatus" >
+        update `order` set status=#{status}  where id=#{order_id}
+    </update>
 </mapper>

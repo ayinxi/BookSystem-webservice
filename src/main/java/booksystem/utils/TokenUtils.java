@@ -80,8 +80,8 @@ public class TokenUtils {
     }
 
     public static void main(String[] args) {
-        String username ="user@qq.com";
-        String password = "123";
+        String username ="y384879210@qq.com";
+        String password = "123456";
         String token = generateToken(username,password,0);
         System.out.println(token);
         boolean b = verify(token);

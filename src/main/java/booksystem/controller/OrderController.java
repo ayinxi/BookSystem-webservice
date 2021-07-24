@@ -19,7 +19,7 @@ public class OrderController {
     @Autowired
     OrderService orderService;
 
-    //购物车购买
+    //直接购买
     @PostMapping("/order/addDirect")
     public Result addDirect(@RequestParam("book_id") String book_id,
                             @RequestParam("sum") int sum,
@@ -35,20 +35,19 @@ public class OrderController {
             return Result.error(ResultEnum.NUM_IS_NOT_ENOUGH.getCode(),ResultEnum.NUM_IS_NOT_ENOUGH.getMsg());
     }
 
-//    //直接购买
-//    @PostMapping("/order/addCatiItem")
-//    public Result addCatiItem(@RequestParam("Book_Ids") String Book_Ids,
-//                            @RequestParam("Sums") String Sums,
-//                            @RequestParam("address_id") String address_id,
-//                            ServletRequest request){
-//        String token=((HttpServletRequest)request).getHeader("token");
-//        String username= TokenUtils.parseToken(token).get("username").toString();
-//        int result=orderService.addCartItemOrder(Book_Ids,Sums,address_id,username);
-//        if(result==1)
-//            return Result.ok(ResultEnum.SUCCESS.getMsg());
-//        else
-//            return Result.error(ResultEnum.NUM_IS_NOT_ENOUGH.getCode(),ResultEnum.NUM_IS_NOT_ENOUGH.getMsg());
-//    }
+    //购物车购买
+    @PostMapping("/order/addCatiItem")
+    public Result addCatiItem(@RequestParam("CartItem_Ids") List<String> CartItem_Ids,
+                            @RequestParam("address_id") String address_id,
+                            ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int result=orderService.addCartItemOrder(CartItem_Ids,address_id,username);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.NUM_IS_NOT_ENOUGH.getCode(),ResultEnum.NUM_IS_NOT_ENOUGH.getMsg());
+    }
 
     //获取所有订单
     @RequestMapping("/admin/getAllOrder")
@@ -138,7 +137,7 @@ public class OrderController {
         }
     }
 
-    //确认订单
+    //订单发货
     @PostMapping("/shop/sendOrder")
     public Result sendOrder(@RequestParam("order_id") String order_id){
         int result=orderService.sendOrder(order_id);
@@ -153,7 +152,7 @@ public class OrderController {
         }
     }
 
-    //订单
+    //批量订单发货
     @PostMapping("/shop/batSendOrder")
     public Result batSendOrder(@RequestParam("Order_Ids") List<String> Order_Ids){
         int result=orderService.batSendOrder(Order_Ids);

@@ -11,10 +11,11 @@ public class OrderBook {
     private String return_reason;//退货理由
     private String check_opinion;//审核意见
     private String remark_time;
+    private double book_price;
 
     public OrderBook(){}
 
-    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int return_status, String return_reason, String check_opinion,String remark_time) {
+    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int return_status, String return_reason, String check_opinion,String remark_time,double book_price) {
         this.id = id;
         this.book_id = book_id;
         this.order_id = order_id;
@@ -25,6 +26,15 @@ public class OrderBook {
         this.return_reason = return_reason;
         this.check_opinion = check_opinion;
         this.remark_time=remark_time;
+        this.book_price=book_price;
+    }
+
+    public double getBook_price() {
+        return book_price;
+    }
+
+    public void setBook_price(double book_price) {
+        this.book_price = book_price;
     }
 
     public String getRemark_time() {

@@ -42,8 +42,8 @@ public interface OrderService {
     //某一个店铺的所有退款订单信息
     //某一个退款订单的详情
 
-//    //购物车生成订单
-//    int addCartItemOrder(String Book_Ids,String Sum,String address_id,String username);
+    //购物车生成订单
+    int addCartItemOrder(List<String> CartItem_Ids,String address_id,String username);
     //直接生成订单
     int addDirectOrder(String book_id, int sum,String address_id,String shop_id,String username);
 

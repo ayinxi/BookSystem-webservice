@@ -3,7 +3,7 @@
 
 <mapper namespace="booksystem.dao.CartItemDao">
     <select id="getCartItem" resultType="java.util.HashMap">
-        SELECT sum,book_id,
+        SELECT sum,book_id,id as cartItem_id,
         (SELECT book_name FROM book WHERE id=book_id) as book_name,
        (SELECT price FROM book WHERE id=book_id) as price,
        (SELECT author FROM book WHERE id=book_id) as author,
@@ -45,5 +45,12 @@
             #{item}
         </foreach>
     </delete>
+
+    <select id="getCartItemByID" resultType="java.util.Map">
+        select * from cartitem where id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </select>
 
 </mapper>

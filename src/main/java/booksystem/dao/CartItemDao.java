@@ -26,6 +26,9 @@ public interface CartItemDao {
     //根据book_id和user_id查找购物车
     HashMap<String,Object> getBook(String book_id,String username);
 
+    //根据cartItem来查找购物车
+    List<Map<String,Object>> getCartItemByID(List<String> CartItem_Ids);
+
     //更新商品
     void updateCartItem(String book_id,String username,int sum,String create_time,String update_time);
 
