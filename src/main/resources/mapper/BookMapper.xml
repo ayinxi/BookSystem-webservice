@@ -147,8 +147,8 @@
         FROM book where repertory>=0
         <choose>
             <when test="queryWhat==0">
-                and (book_name like #{content},or author like #{content},
-                        or press like #{content},or detail like #{content})
+                and (book_name like #{content} or author like #{content}
+                        or press like #{content} or detail like #{content})
             </when>
             <otherwise>
             </otherwise>

@@ -54,8 +54,16 @@ public class LoginFilter implements Filter{
             //登录请求直接放行
             boolean isAllowUrl=false;
             for(int i=0;i<allowUrl.length;i++){
-                if(allowUrl[i].equals(str[1])||str[2].equals("fuzzyQuery"))
-                    isAllowUrl=true;
+                if(allowUrl.length>=1){
+                    if(allowUrl[i].equals(str[1]))
+                        isAllowUrl=true;
+                }else if(allowUrl.length>=2){
+                    if(str[1].equals("fuzzyQuery"))
+                        isAllowUrl=true;
+                }else{
+
+                }
+
             }
             if(isAllowUrl){
                 filterChain.doFilter(servletRequest,servletResponse);
