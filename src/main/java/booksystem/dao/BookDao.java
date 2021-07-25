@@ -47,5 +47,8 @@ public interface BookDao {
 
     Map<String,Object> getDetail(String book_id);
 
+    int getPageCount(String main_category_id, String second_category_id, String year, String year_before, String year_after, String shop_id);
 
+
+    int fuzzyQueryCount(int queryWhat, String content);
 }

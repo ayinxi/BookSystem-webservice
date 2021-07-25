@@ -54,6 +54,29 @@ public class BookController {
     }
 
     /**
+     * @param main_category_id 一级目录id
+     * @param second_category_id 二级目录id
+     * @param year 年份筛选
+     * @param year_before
+     * @param year_after
+     * @param shop_id
+     * @return
+     */
+    @RequestMapping("/book/getPageCount")
+    public Result getPageCount(
+                          @RequestParam("main_category_id") String main_category_id,//可缺省
+                          @RequestParam("second_category_id") String second_category_id,//可缺省
+                          @RequestParam("year") String year,   //可缺省
+                          @RequestParam("year_before") String year_before,   //可缺省
+                          @RequestParam("year_after") String year_after,   //可缺省
+                          @RequestParam("shop_id") String shop_id   //可缺省
+    ) {
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("count",bookDao.getPageCount(
+                main_category_id,second_category_id,year,year_before,year_after,shop_id
+        ));
+    }
+
+    /**
      * @param page_num 第几页
      * @param book_num 每页多少书
      * @param style 排序方式 1:总销量,2:上架时间(所有),
@@ -73,6 +96,17 @@ public class BookController {
         }
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",bookService.fuzzyQuery(
                 Integer.parseInt(page_num),Integer.parseInt(book_num),Integer.parseInt(style),
+                Integer.parseInt(queryWhat),"%"+content+"%"
+        ));
+    }
+
+
+    @RequestMapping("/book/fuzzyQueryCount")
+    public Result fuzzyQuery(
+                             @RequestParam("queryWhat") String queryWhat,
+                             @RequestParam("content") String content//可缺省
+    ) {
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("count",bookDao.fuzzyQueryCount(
                 Integer.parseInt(queryWhat),"%"+content+"%"
         ));
     }
