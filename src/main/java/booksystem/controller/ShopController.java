@@ -328,5 +328,9 @@ public class ShopController {
         }
     }
 
-
+    //通过shop_id来获取信息
+    @RequestMapping("/user/getShopById")
+    public Result getShopById(@RequestParam("shop_id") String shop_id){
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",shopService.getShopById(shop_id));
+    }
 }

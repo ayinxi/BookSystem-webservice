@@ -7,15 +7,19 @@ public class OrderBook {
     private int number;//图书数量
     private String remark;
     private double rate;
-    private int return_status;//退款状态：-1.无效 1.申请退款未审核 2.同意 3.拒绝
+    private int remark_status;//0.未评价 1.已评价
+    private int return_status;//退款状态：-1.无效 1.申请退款未审核 2.同意 3.拒绝 4.换货申请未审核 5.换货同意 6.换货拒绝
     private String return_reason;//退货理由
     private String check_opinion;//审核意见
     private String remark_time;
     private double book_price;
+    private String image_s;//退货凭证
+    private String image_b;
+
 
     public OrderBook(){}
 
-    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int return_status, String return_reason, String check_opinion,String remark_time,double book_price) {
+    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int return_status, String return_reason, String check_opinion, String remark_time, double book_price, String image_s, String image_b, int remark_status) {
         this.id = id;
         this.book_id = book_id;
         this.order_id = order_id;
@@ -25,8 +29,35 @@ public class OrderBook {
         this.return_status = return_status;
         this.return_reason = return_reason;
         this.check_opinion = check_opinion;
-        this.remark_time=remark_time;
-        this.book_price=book_price;
+        this.remark_time = remark_time;
+        this.book_price = book_price;
+        this.image_s = image_s;
+        this.image_b = image_b;
+        this.remark_status = remark_status;
+    }
+
+    public String getImage_s() {
+        return image_s;
+    }
+
+    public String getImage_b() {
+        return image_b;
+    }
+
+    public int getRemark_status() {
+        return remark_status;
+    }
+
+    public void setImage_s(String image_s) {
+        this.image_s = image_s;
+    }
+
+    public void setImage_b(String image_b) {
+        this.image_b = image_b;
+    }
+
+    public void setRemark_status(int remark_status) {
+        this.remark_status = remark_status;
     }
 
     public double getBook_price() {
