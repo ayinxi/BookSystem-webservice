@@ -36,10 +36,15 @@ public interface OrderService {
     int batRefundOrder(List<String> Order_Ids);
 
     //拒绝退款
-
+    int failRefundOrder(String order_id,String check_opinion);
     //批量拒绝退款
-    //用户对某个店铺的评价评分
+    int batFailRefundOrder(Map<String,Object> checkList);
+
+    //用户对某个店铺的评价评价
+    int updateRemark(String order_book_id,String remark,double rate);
+
     //某一个店铺的所有退款订单信息
+
     //某一个退款订单的详情
 
     //购物车生成订单

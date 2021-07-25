@@ -40,4 +40,7 @@ public interface ShopService {
     //更新店铺信息
     int updateShop(String username,String shopper_name,String shop_name);
 
+    //根据shop_id来获取店铺信息
+    Shop getShopById(String shop_id);
+
 }

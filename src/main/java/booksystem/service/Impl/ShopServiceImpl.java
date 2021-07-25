@@ -179,4 +179,9 @@ public class ShopServiceImpl implements ShopService {
         shopDao.updateShop(shop);
         return 1;
     }
+
+    @Override
+    public Shop getShopById(String shop_id) {
+        return shopDao.getShopById(shop_id);
+    }
 }

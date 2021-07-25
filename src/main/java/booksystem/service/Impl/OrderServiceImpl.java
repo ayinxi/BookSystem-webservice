@@ -109,6 +109,7 @@ public class OrderServiceImpl implements OrderService {
         if(4==Integer.valueOf(order.get(0).get("status").toString()))
         {
             orderDao.updateStatus(5,order_id);//将状态改为确认订单
+            orderDao.updateFirmTime(order_id);
             return 1;
         }
         return 0;//处于其他状态不可取消
@@ -129,6 +130,7 @@ public class OrderServiceImpl implements OrderService {
         for(String order_id:Order_Ids) {
             orderDao.updateStatus(5, order_id);//将状态改为确认订单
         }
+        orderDao.batUpdateFirmTime(Order_Ids);
         return 1;
     }
 
@@ -142,6 +144,7 @@ public class OrderServiceImpl implements OrderService {
         if(3==Integer.valueOf(order.get(0).get("status").toString()))
         {
             orderDao.updateStatus(4,order_id);//将状态改为已发货订单
+            orderDao.updateSendTime(order_id);
             return 1;
         }
         return 0;//处于其他状态不可取消
@@ -162,6 +165,7 @@ public class OrderServiceImpl implements OrderService {
         for(String order_id:Order_Ids) {
             orderDao.updateStatus(4, order_id);//将状态改为确认订单
         }
+        orderDao.batUpdateSendTime(Order_Ids);
         return 1;
     }
 
@@ -173,6 +177,36 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public int batRefundOrder(List<String> Order_Ids) {
         return 0;
+    }
+
+    @Override
+    public int failRefundOrder(String order_id, String check_opinion) {
+        return 0;
+    }
+
+    @Override
+    public int batFailRefundOrder(Map<String, Object> checkList) {
+        return 0;
+    }
+
+    @Override
+    public int updateRemark(String order_book_id, String remark, double rate) {
+        Map<String,Object> orderBook=orderBookDao.getOrderBookByID(order_book_id);
+        if(orderBook==null)
+            return -1;//订单不存在
+        String order_id=orderBook.get("order_id").toString();
+        List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
+        if(order.isEmpty())
+            return -1;//订单不存在
+
+        //判断取消订单是在 确认订单之后的时候  评价状态为0 未评价
+        if(5==Integer.valueOf(order.get(0).get("status").toString())&&
+                Integer.valueOf(orderBook.get("remark_status").toString())==0)//差一个7天后默认好评
+        {
+            orderBookDao.updateRemark(order_book_id,remark,rate);
+            return 1;
+        }
+        return 0;//处于其他状态不可取消
     }
 
 
@@ -203,7 +237,7 @@ public class OrderServiceImpl implements OrderService {
             if(sums[j]>repertory1)
                 return -1;//库存不足
 
-            orderBook=new OrderBook(null,book_id,null,sums[j],null,5.0,-1,null,null,null,(double)(price[j]*sums[j]));
+            orderBook=new OrderBook(null,book_id,null,sums[j],null,5.0,-1,null,null,null,(double)(price[j]*sums[j]),null,null,0);
             orderBookList.add(j,orderBook);
         }
 
@@ -258,7 +292,7 @@ public class OrderServiceImpl implements OrderService {
         //订单状态为2未付款 退款状态为-1 无效
         Order order=new Order(order_id,total,2,address_id,shop_id,userDao.getUserByName(username).getId(),null,null,null,null);
         orderDao.addOrder(order);
-        OrderBook orderBook=new OrderBook(null,book_id,order_id,sum,null,5.0,-1,null,null,null,total);
+        OrderBook orderBook=new OrderBook(null,book_id,order_id,sum,null,5.0,-1,null,null,null,total,null,null,0);
         orderBookDao.addOrderBook(orderBook);
         return 1;
     }

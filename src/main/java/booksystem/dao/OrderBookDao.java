@@ -24,6 +24,11 @@ public interface OrderBookDao{
     //通过order_id获取一个订单
     List<Map<String,Object>> getOrderByID(String order_id);
 
+    //通过order_book_id获取orderBook
+    Map<String,Object> getOrderBookByID(String order_book_id);
+
+    void updateRemark(String order_book_id,String remark,double rate);
+
     //添加一个图书信息
     int addOrderBook(OrderBook orderBook);
 }

@@ -3,12 +3,12 @@
 
 <mapper namespace="booksystem.dao.OrderBookDao">
     <insert id="addOrderBook">
-        INSERT INTO order_book(id,book_id,order_id,number,rate,remark,return_status,return_reason,check_opinion,remark_time)
-        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion},#{remark_time});
+        INSERT INTO order_book(id,book_id,order_id,number,rate,remark,return_status,return_reason,check_opinion,remark_time,image_s,image_b,remark_status)
+        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion},#{remark_time},#{image_s},#{image_b},#{remark_status});
     </insert>
 
     <select id="getAllOrder" resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,image_s,image_b,remark_status,
                (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
                (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
                (SELECT total FROM `order` WHERE id=order_id) as total,
@@ -31,7 +31,7 @@
     </select>
 
     <select id="getAllOrderByUser" parameterType="java.util.List"  resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,image_s,image_b,remark_status,
         (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
         (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
         (SELECT total FROM `order` WHERE id=order_id) as total,
@@ -57,7 +57,7 @@
     </select>
 
     <select id="getAllOrderByShop" parameterType="java.util.List"  resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,image_s,image_b,remark_status,
         (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
         (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
         (SELECT total FROM `order` WHERE id=order_id) as total,
@@ -83,7 +83,7 @@
     </select>
 
     <select id="getOrderByID" resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,remark_time,image_s,image_b,remark_status,
                (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
                (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
                (SELECT total FROM `order` WHERE id=order_id) as total,
@@ -104,4 +104,13 @@
                (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where order_id=#{order_id}
         ORDER BY create_time DESC
     </select>
+
+    <select id="getOrderBookByID" resultType="java.util.Map">
+        select * from order_book where id=#{order_book_id}
+    </select>
+
+    <update id="updateRemark">
+        update `order_book` set remark=#{remark} and rate=#{rate} and remark_status=1 where id=#{order_book_id}
+    </update>
+
 </mapper>

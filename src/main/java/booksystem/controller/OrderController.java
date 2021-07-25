@@ -167,4 +167,21 @@ public class OrderController {
         }
     }
 
+    //用户评价每本书
+    @PostMapping("/order/updateRemark")
+    public Result updateRemark(@RequestParam("order_book_id") String order_book_id,
+                               @RequestParam("remark") String remark,
+                               @RequestParam("rate") double rate){
+        int result=orderService.updateRemark(order_book_id,remark,rate);
+        if(result==1)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        }else if(result==-1)
+        {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }else {
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+        }
+    }
+
 }

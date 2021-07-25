@@ -25,4 +25,11 @@ public interface OrderDao {
 
     //添加订单
     int addOrder(Order order);
+
+    //时间更新
+    void updateFirmTime(String order_id);
+    void batUpdateFirmTime(List<String> Order_Ids);
+    void updateSendTime(String order_id);
+    void batUpdateSendTime(List<String> Order_Ids);
+
 }
