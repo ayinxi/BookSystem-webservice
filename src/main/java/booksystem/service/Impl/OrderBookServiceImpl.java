@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -77,29 +78,11 @@ public class OrderBookServiceImpl implements OrderBookService{
     @Override
     public List<Map<String, Object>> getOrder(int start,int order_num,int status,int identity,String username) {
         List<String> Order_Ids=orderDao.getAllOrderID(start,order_num,status,identity,username);
-        List<Map<String,Object>> mapList=orderBookDao.getAllOrderBookByUser(Order_Ids);
-        for(String order_id:Order_Ids) {
-            //获取订单的信息
-            Map<String, Object> order = orderDao.getOrderByID(order_id);
-            for (Map<String, Object> map : mapList) {
-                String order_book_id = order.get("order_book_id").toString();
-                //当确认订单之后 七天之内才能退货
-                if (Integer.valueOf(order.get("status").toString()) == 5) {
-                    try {
-
-                        String firm_time = order.get("firm_time").toString();
-                        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
-                        Date firm = simpleDateFormat.parse(firm_time);
-                        Date nowDate = new Date(System.currentTimeMillis());
-                        long difference = nowDate.getTime() - firm.getTime();
-                        if (difference >= (1000 * 60 * 60 * 24 * 7))
-                            orderBookDao.updateReturnStatus(order_book_id, null, 0);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
-                }
-            }
+        List<Map<String, Object>> temp=new ArrayList<>();
+        if(Order_Ids.isEmpty()){
+            return temp;
         }
+        List<Map<String,Object>> mapList=orderBookDao.getAllOrderBookByUser(Order_Ids);
         return OrderUtils.OrderOutput(mapList);
     }
 
