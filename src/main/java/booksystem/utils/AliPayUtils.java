@@ -30,9 +30,9 @@ public class AliPayUtils {
         alipayRequest.setReturnUrl(PropertiesConfig.getKey("return_url"));
         // 服务器异步通知页面路径
         alipayRequest.setNotifyUrl(PropertiesConfig.getKey("notify_url"));
-        //封装参数
         alipayRequest.setBizContent(alipay.toString());
-
+        //封装参数
+        System.out.println(alipay.toString());
         //3、请求支付宝进行付款，并获取支付结果
         String result = alipayClient.pageExecute(alipayRequest).getBody();
         //返回付款信息

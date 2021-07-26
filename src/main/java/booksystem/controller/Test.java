@@ -1,17 +1,22 @@
 package booksystem.controller;
 
 import booksystem.dao.BookDao;
+import booksystem.interceptor.PropertiesConfig;
 import booksystem.pojo.AliPay;
 import booksystem.service.PayService;
 import booksystem.service.UploadImgService;
 import booksystem.utils.TokenUtils;
 import com.alipay.api.AlipayApiException;
+import com.alipay.api.AlipayClient;
+import com.alipay.api.DefaultAlipayClient;
+import com.alipay.api.request.AlipayTradePagePayRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletRequest;
+import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.File;
@@ -58,10 +63,31 @@ public class Test {
 
 
     /*阿里支付*/
-    @PostMapping(value = "alipay")
-    public String alipay(String order_id,String total_amount,String body) throws AlipayApiException {
+    @RequestMapping(value = "/test/alipay", produces = {"text/html;charset=UTF-8"})
+    public String alipay(@RequestParam("out_trade_no") String out_trade_no,
+                         @RequestParam("subject") String subject,
+                         @RequestParam("total_amount") String total_amount,
+                         @RequestParam("body") String body) throws AlipayApiException {
 
-        return  payService.aliPay(new AliPay(order_id,total_amount,body));
+        return  payService.aliPay(new AliPay(out_trade_no,subject,total_amount,body));
+    }
+
+
+    @RequestMapping(value = "/favicon.ico")
+    public String fav(){
+        return  "laalalalalal)";
+    }
+
+
+
+    @RequestMapping("alipay/callback/return_sult")
+    public String toIndex(){
+        return "index";
+    }
+
+    @RequestMapping("/getOrderId")
+    public String get(){
+        return "index";
     }
 
 

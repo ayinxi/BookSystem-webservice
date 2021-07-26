@@ -5,6 +5,7 @@ package booksystem.dao;
 import booksystem.pojo.Order;
 import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ public interface OrderDao {
     List<String> getAllOrderIDByUser(String username);
     //根据shop_id获取所有订单的id
     List<String> getAllOrderIDByShop(String shop_id);
+    List<String> getAllOrderID(int start,int order_num,int status,int identity,String username);
 
     //通过order_id获取订单的东西
     Map<String,Object> getOrderByID(String order_id);
@@ -32,5 +34,7 @@ public interface OrderDao {
     void batUpdateFirmTime(List<String> Order_Ids);
     void updateSendTime(String order_id);
     void batUpdateSendTime(List<String> Order_Ids);
+
+
 
 }

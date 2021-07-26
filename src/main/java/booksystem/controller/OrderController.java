@@ -1,5 +1,6 @@
 package booksystem.controller;
 
+import booksystem.dao.OrderDao;
 import booksystem.service.OrderService;
 import booksystem.utils.Result;
 import booksystem.utils.ResultEnum;
@@ -18,6 +19,8 @@ import java.util.List;
 public class OrderController {
     @Autowired
     OrderService orderService;
+    @Autowired
+    OrderDao orderDao;
 
     //直接购买
     @PostMapping("/order/addDirect")
@@ -138,6 +141,32 @@ public class OrderController {
         }else {
             return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(),ResultEnum.UNKNOWN_ERROR.getMsg());
         }
+    }
+
+    //1：全部，2：未付款2，3：未发货3,4:未确认4，5：未评价5
+    //批量订单发货
+    @RequestMapping("/getOrder")
+    public Result getOrder(@RequestParam("page_num")String page_num,
+                           @RequestParam("order_num")String order_num,
+                           @RequestParam("status")String status,
+                           @RequestParam("identity") String identity,
+                           ServletRequest request
+                           ){
+
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int iden= Integer.parseInt(TokenUtils.parseToken(token).get("identity").toString());
+        if(iden<Integer.parseInt(identity)){
+            return Result.error(ResultEnum.AUTHORITY_FAIL.getCode(),ResultEnum.AUTHORITY_FAIL.getMsg());
+        }
+        if(page_num.isEmpty()||order_num.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderDao.getAllOrderID(
+                (Integer.parseInt(page_num)-1)*Integer.parseInt(order_num),Integer.parseInt(order_num),
+                Integer.parseInt(status),Integer.parseInt(identity),username
+        ));
     }
 
 

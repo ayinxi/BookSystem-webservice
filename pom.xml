@@ -105,7 +105,7 @@
         <dependency>
             <groupId>com.alipay.sdk</groupId>
             <artifactId>alipay-sdk-java</artifactId>
-            <version>3.0.0</version>
+            <version>4.15.20.ALL</version>
         </dependency>
         <!-- 因为sdk有用这个包，所以需要有这个的哦。不过一般springboot项目已经自己引入了，就不用引入哈 -->
         <dependency>

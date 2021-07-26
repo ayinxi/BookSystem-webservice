@@ -21,7 +21,7 @@ import java.util.Map;
 @Component
 public class LoginFilter implements Filter{
     final String[] allowUrl={
-            "login","registerUser","test","sendEmail","book","category"
+            "login","registerUser","test","sendEmail","book","category","favicon.ico"
     };
     @Autowired
     UserDao userDao;
@@ -58,7 +58,7 @@ public class LoginFilter implements Filter{
                     if(allowUrl[i].equals(str[1]))
                         isAllowUrl=true;
                 }else if(allowUrl.length>=2){
-                    if(str[1].equals("fuzzyQuery"))
+                    if(str[2].equals("fuzzyQuery")||str[2].equals("fuzzyQueryCount"))
                         isAllowUrl=true;
                 }else{
 
