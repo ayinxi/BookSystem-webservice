@@ -8,8 +8,7 @@ public class OrderBook {
     private String remark;
     private double rate;
     private int remark_status;//0.未评价 1.已评价
-    private int return_status;//退款状态：-1.无效 1.申请退款未审核 2.同意 3.拒绝
-    // 4.换货申请未审核 5.换货同意 6.换货拒绝 7.退货退款申请未审核 8.退货退款通过 9.退货退款拒绝
+    private int return_status;//退款状态：-1.无效 0.超过七天 1.申请退款未审核 2.同意 3.拒绝 4.换货申请未审核 5.换货同意 6.换货拒绝 7.退货退款申请未审核 8.退货退款通过 9.退货退款拒绝
     private String return_reason;//退货理由
     private String return_time;//退换货时间
     private String check_opinion;//审核意见
