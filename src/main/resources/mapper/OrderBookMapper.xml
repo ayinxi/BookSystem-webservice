@@ -4,12 +4,12 @@
 <mapper namespace="booksystem.dao.OrderBookDao">
     <insert id="addOrderBook">
         INSERT INTO order_book(id,book_id,order_id,number,rate,remark,return_status,return_reason,check_opinion,remark_time,image_s,image_b,remark_status,return_time,return_detail,transport_status)
-        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion},#{remark_time},#{image_s},#{image_b},#{remark_status},#{return_time},#{return_detail},#{transport_status});
+        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion},now(),#{image_s},#{image_b},#{remark_status},now(),#{return_detail},#{transport_status});
     </insert>
 
     <select id="getAllOrderBook" resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,book_price as bookTotalPrice,
-               remark_time,image_s,image_b,remark_status,return_time,return_detail,transport_status,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_id,book_price as book_total_price,
+               remark_time,image_s as return_image_s,image_b as return_image_b,remark_status,return_time,return_detail,transport_status,exchange_address_id,
                (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
                (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
                (SELECT total FROM `order` WHERE id=order_id) as total,
@@ -21,8 +21,8 @@
                (SELECT price FROM book WHERE id=book_id) as price,
                (SELECT author FROM book WHERE id=book_id) as author,
                (SELECT press FROM book WHERE id=book_id) as press,
-               (SELECT image_b FROM book WHERE id=book_id) as image_b,
-               (SELECT image_s FROM book WHERE id=book_id) as image_s,
+               (SELECT image_b FROM book WHERE id=book_id) as book_image_b,
+               (SELECT image_s FROM book WHERE id=book_id) as book_image_s,
                (SELECT repertory FROM book WHERE id=book_id) as repertory,
                (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
                (SELECT volume FROM book WHERE id=book_id) as volume,
@@ -32,8 +32,8 @@
     </select>
 
     <select id="getAllOrderBookByUser" parameterType="java.util.List"  resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_price as bookTotalPrice,
-               book_id,remark_time,image_s,image_b,remark_status,return_time,return_detail,transport_status,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_price as book_total_price,
+               book_id,remark_time,image_s as return_image_s,image_b as return_image_b,remark_status,return_time,return_detail,transport_status,exchange_address_id,
         (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
         (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
         (SELECT total FROM `order` WHERE id=order_id) as total,
@@ -45,8 +45,8 @@
         (SELECT price FROM book WHERE id=book_id) as price,
         (SELECT author FROM book WHERE id=book_id) as author,
         (SELECT press FROM book WHERE id=book_id) as press,
-        (SELECT image_b FROM book WHERE id=book_id) as image_b,
-        (SELECT image_s FROM book WHERE id=book_id) as image_s,
+        (SELECT image_b FROM book WHERE id=book_id) as book_image_b,
+        (SELECT image_s FROM book WHERE id=book_id) as book_image_s,
         (SELECT repertory FROM book WHERE id=book_id) as repertory,
         (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
         (SELECT volume FROM book WHERE id=book_id) as volume,
@@ -59,8 +59,8 @@
     </select>
 
     <select id="getAllOrderBookByShop" parameterType="java.util.List"  resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_price as bookTotalPrice,
-               book_id,remark_time,image_s,image_b,remark_status,return_time,return_detail,transport_status,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_price as book_total_price,
+               book_id,remark_time,image_s as return_image_s,image_b as return_image_b,remark_status,return_time,return_detail,transport_status,exchange_address_id,
         (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
         (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
         (SELECT total FROM `order` WHERE id=order_id) as total,
@@ -72,8 +72,8 @@
         (SELECT price FROM book WHERE id=book_id) as price,
         (SELECT author FROM book WHERE id=book_id) as author,
         (SELECT press FROM book WHERE id=book_id) as press,
-        (SELECT image_b FROM book WHERE id=book_id) as image_b,
-        (SELECT image_s FROM book WHERE id=book_id) as image_s,
+        (SELECT image_b FROM book WHERE id=book_id) as book_image_b,
+        (SELECT image_s FROM book WHERE id=book_id) as book_image_s,
         (SELECT repertory FROM book WHERE id=book_id) as repertory,
         (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
         (SELECT volume FROM book WHERE id=book_id) as volume,
@@ -86,8 +86,8 @@
     </select>
 
     <select id="getOrderBookByID" resultType="java.util.HashMap">
-        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_price as bookTotalPrice,
-               book_id,remark_time,image_s,image_b,remark_status,return_time,return_detail,transport_status,
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_price as book_total_price,
+               book_id,remark_time,image_s as return_image_s,image_b as return_image_b,remark_status,return_time,return_detail,transport_status,exchange_address_id,
                (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
                (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
                (SELECT total FROM `order` WHERE id=order_id) as total,
@@ -99,8 +99,8 @@
                (SELECT price FROM book WHERE id=book_id) as price,
                (SELECT author FROM book WHERE id=book_id) as author,
                (SELECT press FROM book WHERE id=book_id) as press,
-               (SELECT image_b FROM book WHERE id=book_id) as image_b,
-               (SELECT image_s FROM book WHERE id=book_id) as image_s,
+               (SELECT image_b FROM book WHERE id=book_id) as book_image_b,
+               (SELECT image_s FROM book WHERE id=book_id) as book_image_s,
                (SELECT repertory FROM book WHERE id=book_id) as repertory,
                (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
                (SELECT volume FROM book WHERE id=book_id) as volume,
@@ -113,13 +113,37 @@
         select * from order_book where id=#{order_book_id}
     </select>
 
+    <select id="getBook" resultType="java.util.Map">
+        SELECT id as order_book_id,remark,order_id,number,return_status,return_reason,check_opinion,rate,book_price as book_total_price,
+               book_id,remark_time,image_s as return_image_s,image_b as return_image_b,remark_status,return_time,return_detail,transport_status,exchange_address_id,
+               (SELECT send_time FROM `order` WHERE id=order_id) as send_time,
+               (SELECT firm_time FROM `order` WHERE id=order_id) as firm_time,
+               (SELECT total FROM `order` WHERE id=order_id) as total,
+               (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
+               (SELECT status FROM `order` WHERE id=order_id) as status,
+               (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
+               (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
+               (SELECT book_name FROM book WHERE id=book_id) as book_name,
+               (SELECT price FROM book WHERE id=book_id) as price,
+               (SELECT author FROM book WHERE id=book_id) as author,
+               (SELECT press FROM book WHERE id=book_id) as press,
+               (SELECT image_b FROM book WHERE id=book_id) as book_image_b,
+               (SELECT image_s FROM book WHERE id=book_id) as book_image_s,
+               (SELECT repertory FROM book WHERE id=book_id) as repertory,
+               (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
+               (SELECT volume FROM book WHERE id=book_id) as volume,
+               (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
+               (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where id=#{order_book_id}
+    </select>
+
     <update id="updateRemark">
         update order_book set remark=#{remark},rate=#{rate},remark_status=1,remark_time=now() where id=#{order_book_id}
     </update>
 
     <update id="updateReturn">
         update order_book set return_reason=#{return_reason},return_detail=#{return_detail},return_status=#{return_status},
-                              transport_status=#{transport_status},return_time=now() where id=#{order_book_id}
+                              transport_status=#{transport_status},return_time=now(),exchange_address_id=#{exchange_address_id}
+        where id=#{order_book_id}
     </update>
 
 </mapper>

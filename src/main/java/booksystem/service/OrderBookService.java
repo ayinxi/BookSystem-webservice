@@ -17,13 +17,17 @@ public interface OrderBookService {
     //获取所有的订单
     List<Map<String,Object>> getAllOrder();
 
+
+    //通过order_book_id获取orderBook
+    Map<String,Object> getBookByID(String order_book_id);
+
     //用户对某本书的评价
     int updateRemark(String order_book_id,String remark,double rate);
 
     //某本书的退款
     int returnBook(String order_book_id, String return_reason, String return_detail, int transport_status);
     //某本书的换货
-    int exchangeBook(String order_book_id,String return_reason,String return_detail,int transport_status);
+    int exchangeBook(String order_book_id,String return_reason,String return_detail,int transport_status,String exchange_address_id);
 
     //同意退款
     int refundOrder(String order_id);

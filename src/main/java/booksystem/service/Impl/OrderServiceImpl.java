@@ -172,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
             if(sums[j]>repertory1)
                 return -1;//库存不足
 
-            orderBook=new OrderBook(null,book_id,null,sums[j],null,5.0,0,-1,null,null,null,(double)(price[j]*sums[j]),null,null,null,null,-1);
+            orderBook=new OrderBook(null,book_id,null,sums[j],null,5.0,0,-1,null,null,null,(double)(price[j]*sums[j]),null,null,null,null,-1,null);
             orderBookList.add(j,orderBook);
         }
 
@@ -227,7 +227,7 @@ public class OrderServiceImpl implements OrderService {
         //订单状态为2未付款 退款状态为-1 无效
         Order order=new Order(order_id,total,2,address_id,shop_id,userDao.getUserByName(username).getId(),null,null,null,null);
         orderDao.addOrder(order);
-        OrderBook orderBook=new OrderBook(null,book_id,order_id,sum,null,5.0,0,-1,null,null,null,total,null,null,null,null,-1);
+        OrderBook orderBook=new OrderBook(null,book_id,order_id,sum,null,5.0,0,-1,null,null,null,total,null,null,null,null,-1,null);
         orderBookDao.addOrderBook(orderBook);
         return 1;
     }

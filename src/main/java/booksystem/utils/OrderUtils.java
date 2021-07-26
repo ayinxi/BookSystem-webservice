@@ -64,13 +64,15 @@ public class OrderUtils {
             shopMap.put("send_time",shopList.get(i).send_time);
             for(int j=0;j<mapList.size();j++){
                 //同一家店铺
+
+                mapList.get(j).put("remark_time",mapList.get(j).get("remark_time").toString()
+                        .replace('T',' '));
+                mapList.get(j).put("return_time",mapList.get(j).get("return_time").toString()
+                        .replace('T',' '));
                 if(mapList.get(j).get("order_id").toString().equals(shopList.get(i).order_id)){
                     mapList.get(j).put("update_time",mapList.get(j).get("update_time").toString()
                             .replace('T',' '));
-                    mapList.get(j).put("remark_time",mapList.get(j).get("remark_time").toString()
-                            .replace('T',' '));
-                    mapList.get(j).put("return_time",mapList.get(j).get("return_time").toString()
-                            .replace('T',' '));
+
                     mapList.get(j).remove("create_time");
                     mapList.get(j).remove("total");
                     mapList.get(j).remove("shop_id");

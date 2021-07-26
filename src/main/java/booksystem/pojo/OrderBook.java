@@ -18,11 +18,12 @@ public class OrderBook {
     private String image_b;
     private String return_detail;
     private int transport_status;
+    private String exchange_address_id;
 
 
     public OrderBook(){}
 
-    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int remark_status, int return_status, String return_reason,  String check_opinion, String remark_time, double book_price, String image_s, String image_b,String return_time,String return_detail,int transport_status) {
+    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int remark_status, int return_status, String return_reason,  String check_opinion, String remark_time, double book_price, String image_s, String image_b,String return_time,String return_detail,int transport_status,String exchange_address_id) {
         this.id = id;
         this.book_id = book_id;
         this.order_id = order_id;
@@ -40,6 +41,7 @@ public class OrderBook {
         this.image_b = image_b;
         this.return_detail=return_detail;
         this.transport_status=transport_status;
+        this.exchange_address_id=exchange_address_id;
     }
 
     public String getReturn_time() {
@@ -160,5 +162,29 @@ public class OrderBook {
 
     public void setRemark(String remark) {
         this.remark = remark;
+    }
+
+    public String getReturn_detail() {
+        return return_detail;
+    }
+
+    public int getTransport_status() {
+        return transport_status;
+    }
+
+    public String getExchange_address_id() {
+        return exchange_address_id;
+    }
+
+    public void setReturn_detail(String return_detail) {
+        this.return_detail = return_detail;
+    }
+
+    public void setTransport_status(int transport_status) {
+        this.transport_status = transport_status;
+    }
+
+    public void setExchange_address_id(String exchange_address_id) {
+        this.exchange_address_id = exchange_address_id;
     }
 }

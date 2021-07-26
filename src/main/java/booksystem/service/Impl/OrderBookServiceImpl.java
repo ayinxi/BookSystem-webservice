@@ -45,6 +45,12 @@ public class OrderBookServiceImpl implements OrderBookService{
     }
 
     @Override
+    public Map<String, Object> getBookByID(String order_book_id) {
+        List<Map<String,Object>> mapList=orderBookDao.getBook(order_book_id);
+        return OrderUtils.OrderOutput(mapList).get(0);
+    }
+
+    @Override
     public int updateRemark(String order_book_id, String remark, double rate) {
         Map<String,Object> orderBook=orderBookDao.getBookByID(order_book_id);
         if(orderBook==null)
@@ -92,12 +98,12 @@ public class OrderBookServiceImpl implements OrderBookService{
         //退款状态 -1无效
         if(Integer.valueOf(orderBook.get("return_status").toString())!=-1)
             return -1;//
-        orderBookDao.updateReturn(order_book_id,return_reason,return_detail,transport_status,1);
+        orderBookDao.updateReturn(order_book_id,return_reason,return_detail,transport_status,1,null);
         return 1;
     }
 
     @Override
-    public int exchangeBook(String order_book_id, String return_reason, String return_detail, int transport_status) {
+    public int exchangeBook(String order_book_id, String return_reason, String return_detail, int transport_status,String exchange_address_id) {
         //检查状态
         Map<String,Object> orderBook=orderBookDao.getBookByID(order_book_id);
         String order_id=orderBook.get("order_id").toString();
@@ -124,7 +130,7 @@ public class OrderBookServiceImpl implements OrderBookService{
         //退款状态 -1无效
         if(Integer.valueOf(orderBook.get("return_status").toString())!=-1)
             return -1;//
-        orderBookDao.updateReturn(order_book_id,return_reason,return_detail,transport_status,4);
+        orderBookDao.updateReturn(order_book_id,return_reason,return_detail,transport_status,4,exchange_address_id);
         return 1;
     }
 

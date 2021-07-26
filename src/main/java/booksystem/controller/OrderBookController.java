@@ -64,9 +64,10 @@ public class OrderBookController {
     public Result exchangeBook(@RequestParam("order_book_id") String order_book_id,
                              @RequestParam("return_reason") String return_reason,
                              @RequestParam("return_detail") String return_detail,
+                             @RequestParam("exchange_address_id") String exchange_address_id,
                              @RequestParam("transport_status") int transport_status){
 
-        int result=orderBookService.exchangeBook(order_book_id,return_reason,return_detail,transport_status);
+        int result=orderBookService.exchangeBook(order_book_id,return_reason,return_detail,transport_status,exchange_address_id);
         if(result==1)
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
@@ -117,5 +118,11 @@ public class OrderBookController {
     @RequestMapping("/order/getByID")
     public Result getOrderByID(@RequestParam("order_id") String order_id){
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderBookService.getOrderByOrderID(order_id));
+    }
+
+    //根据order_book_id获取某个订单
+    @RequestMapping("/order/getBookByID")
+    public Result getBookByID(@RequestParam("order_book_id") String order_book_id){
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderBookService.getBookByID(order_book_id));
     }
 }
