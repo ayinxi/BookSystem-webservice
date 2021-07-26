@@ -30,6 +30,9 @@ public interface OrderBookService {
     int returnBook(String order_book_id, String return_reason, String return_detail, int transport_status);
     //某本书的换货
     int exchangeBook(String order_book_id,String return_reason,String return_detail,int transport_status,String exchange_address_id);
+    //某本书的退货退款
+    int returnBook(String order_book_id,String return_reason,String return_detail);
+
 
     //同意退换货
     int refundOrder(String order_book_id,int return_status);

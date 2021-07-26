@@ -142,6 +142,38 @@ public class OrderBookServiceImpl implements OrderBookService{
     }
 
     @Override
+    public int returnBook(String order_book_id, String return_reason, String return_detail) {
+        //检查状态
+        Map<String,Object> orderBook=orderBookDao.getBookByID(order_book_id);
+        String order_id=orderBook.get("order_id").toString();
+        Map<String,Object> order=orderDao.getOrderByID(order_id);
+        if(Integer.valueOf(order.get("status").toString())<=2)
+            return -1;//未付款
+
+        //当确认订单之后 七天之内才能退货
+        if (Integer.valueOf(order.get("status").toString()) == 5) {
+            try {
+
+                String firm_time = order.get("firm_time").toString();
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
+                Date firm = simpleDateFormat.parse(firm_time);
+                Date nowDate = new Date(System.currentTimeMillis());
+                long difference = nowDate.getTime() - firm.getTime();
+                if (difference >= (1000 * 60 * 60 * 24 * 7))
+                    return -2;//超时了
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        //退款状态 -1无效
+        if(Integer.valueOf(orderBook.get("return_status").toString())!=-1)
+            return -1;//
+        orderBookDao.updateReturn(order_book_id,return_reason,return_detail,2,7,null);
+        return 1;
+    }
+
+    @Override
     public int refundOrder(String order_book_id,int return_status) {
         Map<String,Object> bookMap=orderBookDao.getBookByID(order_book_id);
         if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核

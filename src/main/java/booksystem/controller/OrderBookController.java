@@ -61,15 +61,33 @@ public class OrderBookController {
         }
     }
 
+    //用户退货退款
+    @PostMapping("/order/returnAll")
+    public Result returnAll(@RequestParam("order_book_id") String order_book_id,
+                             @RequestParam("return_reason") String return_reason,
+                             @RequestParam("return_detail") String return_detail){
+
+        int result=orderBookService.returnBook(order_book_id,return_reason,return_detail);
+        if(result==1)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        } else if(result==-2)
+        {
+            return Result.error(ResultEnum.APPLY_OUT_TIME.getCode(),ResultEnum.APPLY_OUT_TIME.getMsg());
+        } else{
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+        }
+    }
+
+
     //用户换货
     @PostMapping("/order/exchange")
     public Result exchangeBook(@RequestParam("order_book_id") String order_book_id,
                              @RequestParam("return_reason") String return_reason,
                              @RequestParam("return_detail") String return_detail,
-                             @RequestParam("exchange_address_id") String exchange_address_id,
-                             @RequestParam("transport_status") int transport_status){
+                             @RequestParam("exchange_address_id") String exchange_address_id){
 
-        int result=orderBookService.exchangeBook(order_book_id,return_reason,return_detail,transport_status,exchange_address_id);
+        int result=orderBookService.exchangeBook(order_book_id,return_reason,return_detail,2,exchange_address_id);
         if(result==1)
         {
             return Result.ok(ResultEnum.SUCCESS.getMsg());
@@ -142,7 +160,7 @@ public class OrderBookController {
     //根据order_book_id批量同意退货
     @PostMapping("/shop/returnFail")
     public Result returnFail(@RequestParam("Order_Book_Ids") List<String> Order_Book_Ids){
-        int result=orderBookService.batRefundOrder(Order_Book_Ids,2);
+        int result=orderBookService.batRefundOrder(Order_Book_Ids,3);
         if(result==1)
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         else
@@ -186,7 +204,7 @@ public class OrderBookController {
     @PostMapping("/shop/exchangeFail")
     public Result exchangeFail(@RequestParam("order_book_id") List<String> Order_Book_Ids){
 
-        int result=orderBookService.batRefundOrder(Order_Book_Ids,5);
+        int result=orderBookService.batRefundOrder(Order_Book_Ids,6);
         if(result==1)
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         else
@@ -197,7 +215,7 @@ public class OrderBookController {
     @PostMapping("/shop/batExchangePass")
     public Result batExchangePass(@RequestParam("order_book_id") String order_book_id,
                                 @RequestParam("check_opinion") String check_opinion){
-        int result=orderBookService.failRefundOrder(order_book_id,check_opinion,6);
+        int result=orderBookService.failRefundOrder(order_book_id,check_opinion,5);
         if(result==1)
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         else
@@ -208,6 +226,48 @@ public class OrderBookController {
     @PostMapping("/shop/batExchangeFail")
     public Result batExchangeFail(@RequestParam("checkList") List<Map<String, Object>> checkList){
         int result=orderBookService.batFailRefundOrder(checkList,6);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+    }
+
+
+
+    //根据order_book_id同意退货
+    @PostMapping("/shop/returnAllPass")
+    public Result returnAllPass(@RequestParam("order_book_id") String order_book_id){
+        int result=orderBookService.refundOrder(order_book_id,8);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+    }
+    //根据order_book_id批量同意退货
+    @PostMapping("/shop/returnAllFail")
+    public Result returnAllFail(@RequestParam("Order_Book_Ids") List<String> Order_Book_Ids){
+        int result=orderBookService.batRefundOrder(Order_Book_Ids,9);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+
+    }
+    //根据order_book_id拒绝退货
+    @PostMapping("/shop/batReturnAllPass")
+    public Result batReturnAllPass(@RequestParam("order_book_id") String order_book_id,
+                                @RequestParam("check_opinion") String check_opinion){
+        int result=orderBookService.failRefundOrder(order_book_id,check_opinion,8);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+
+    }
+    //根据order_book_id批量拒绝退货
+    @PostMapping("/shop/batReturnAllFail")
+    public Result batReturnAllFail(@RequestParam("checkList") List<Map<String, Object>> checkList){
+        int result=orderBookService.batFailRefundOrder(checkList,9);
         if(result==1)
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         else
