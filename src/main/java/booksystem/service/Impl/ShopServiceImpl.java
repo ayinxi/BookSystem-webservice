@@ -1,14 +1,18 @@
 package booksystem.service.Impl;
 
+import booksystem.dao.OrderBookDao;
+import booksystem.dao.OrderDao;
 import booksystem.dao.ShopDao;
 import booksystem.dao.UserDao;
 import booksystem.pojo.Shop;
 import booksystem.pojo.User;
+import booksystem.service.OrderService;
 import booksystem.service.ShopService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ShopServiceImpl implements ShopService {
@@ -16,6 +20,10 @@ public class ShopServiceImpl implements ShopService {
     ShopDao shopDao;
     @Autowired
     UserDao userDao;
+    @Autowired
+    OrderBookDao orderBookDao;
+    @Autowired
+    OrderDao orderDao;
 
     @Override
     public List<Shop> getCheckShop() {
@@ -183,5 +191,29 @@ public class ShopServiceImpl implements ShopService {
     @Override
     public Shop getShopById(String shop_id) {
         return shopDao.getShopById(shop_id);
+    }
+
+    @Override
+    public double ShopRate(String shop_id) {
+        //获取所有的商家订单目录项
+        List<String> Order_Ids=orderDao.getAllOrderIDByShop(shop_id);
+        if(Order_Ids.isEmpty())
+            return -1;
+        List<Map<String,Object>> orderBookList=orderBookDao.getAllOrderBookByShop(Order_Ids);
+
+        double rateTotal=0;
+        int sum=0;
+        //查找所有remark_status=1的人
+        for(Map<String,Object> orderBook:orderBookList)
+        {
+            if(Integer.valueOf(orderBook.get("remark_status").toString())==1)//已评价
+            {
+                sum+=1;
+                rateTotal+=Double.valueOf(orderBook.get("rate").toString());
+            }
+        }
+        if(sum<=1)
+            return -1;
+        return (rateTotal/sum);
     }
 }

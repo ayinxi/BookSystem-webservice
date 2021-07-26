@@ -24,6 +24,7 @@ public interface OrderBookDao{
     //通过order_id获取一个订单
     List<Map<String,Object>> getOrderBookByID(String order_id);
 
+
     //通过order_book_id获取order_book
     Map<String,Object> getBookByID(String order_book_id);
 
@@ -41,6 +42,5 @@ public interface OrderBookDao{
 
     //更新退换状态
     void updateReturnStatus(String order_book_id,String check_opinion,int return_status);
-    void updateReturnStatus(List<Map<String,Object>> mapList);
 
 }

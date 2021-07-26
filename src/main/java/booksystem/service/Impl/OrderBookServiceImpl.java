@@ -135,22 +135,52 @@ public class OrderBookServiceImpl implements OrderBookService{
     }
 
     @Override
-    public int refundOrder(String order_id) {
-        return 0;
+    public int refundOrder(String order_book_id,int return_status) {
+        Map<String,Object> bookMap=orderBookDao.getBookByID(order_book_id);
+        if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
+            return -1;
+        //更改状态
+        orderBookDao.updateReturnStatus(order_book_id,null,return_status);
+        return 1;
     }
 
     @Override
-    public int batRefundOrder(List<String> Order_Ids) {
-        return 0;
+    public int batRefundOrder(List<String> Order_Book_Ids,int return_status) {
+        for(String order_book_id:Order_Book_Ids) {
+            Map<String, Object> bookMap = orderBookDao.getBookByID(order_book_id);
+            if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
+                return -1;
+        }
+        //更改状态
+        for(String order_book_id:Order_Book_Ids)
+            orderBookDao.updateReturnStatus(order_book_id,null,return_status);
+        return 1;
     }
 
     @Override
-    public int failRefundOrder(String order_id, String check_opinion) {
-        return 0;
+    public int failRefundOrder(String order_book_id, String check_opinion,int return_status) {
+        Map<String,Object> bookMap=orderBookDao.getBookByID(order_book_id);
+        if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
+            return -1;
+        //更改状态
+        orderBookDao.updateReturnStatus(order_book_id,check_opinion,return_status);
+        return 1;
     }
 
     @Override
-    public int batFailRefundOrder(Map<String, Object> checkList) {
-        return 0;
+    public int batFailRefundOrder(List<Map<String, Object>> checkList,int return_status) {
+        for(Map<String,Object> check:checkList) {
+            String order_book_id=check.get("order_book_id").toString();
+            Map<String, Object> bookMap = orderBookDao.getBookByID(order_book_id);
+            if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
+                return -1;
+        }
+        //更改状态
+        for(Map<String,Object> check:checkList) {
+            String order_book_id = check.get("order_book_id").toString();
+            String check_opinion=check.get("check_opinion").toString();
+            orderBookDao.updateReturnStatus(order_book_id, check_opinion, return_status);
+        }
+        return 1;
     }
 }

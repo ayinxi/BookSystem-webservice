@@ -29,15 +29,17 @@ public interface OrderBookService {
     //某本书的换货
     int exchangeBook(String order_book_id,String return_reason,String return_detail,int transport_status,String exchange_address_id);
 
-    //同意退款
-    int refundOrder(String order_id);
-    //批量同意退款
-    int batRefundOrder(List<String> Order_Ids);
+    //同意退换货
+    int refundOrder(String order_book_id,int return_status);
+    //批量同意退换货
+    int batRefundOrder(List<String> Order_Book_Ids,int return_status);
 
-    //拒绝退款
-    int failRefundOrder(String order_id,String check_opinion);
-    //批量拒绝退款
-    int batFailRefundOrder(Map<String,Object> checkList);
+    //拒绝退换货
+    int failRefundOrder(String order_book_id,String check_opinion,int return_status);
+    //批量拒绝退换货
+    int batFailRefundOrder(List<Map<String,Object>> checkList,int return_status);
+
+
 
 
     //某一个店铺的所有退款订单信息

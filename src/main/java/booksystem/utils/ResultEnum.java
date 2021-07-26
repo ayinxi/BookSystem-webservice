@@ -26,7 +26,8 @@ public enum ResultEnum {
     NUM_IS_NOT_ENOUGH(20,"库存不足"),
     NUM_FAIL(21,"数量错误"),
     NUM_LOWER_ZERO(22,"数据为负"),
-    APPLY_OUT_TIME(23,"已超时过期，无法申请")
+    APPLY_OUT_TIME(23,"已超时过期，无法申请"),
+    RATE_NUM_NOT_ENOUGH(24,"评分数量过少，无法计算评分")
 
 
     ;

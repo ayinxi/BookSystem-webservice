@@ -14,6 +14,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class OrderBookController {
@@ -125,4 +127,91 @@ public class OrderBookController {
     public Result getBookByID(@RequestParam("order_book_id") String order_book_id){
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderBookService.getBookByID(order_book_id));
     }
+
+
+
+    //根据order_book_id同意退货
+    @PostMapping("/shop/returnPass")
+    public Result returnPass(@RequestParam("order_book_id") String order_book_id){
+        int result=orderBookService.refundOrder(order_book_id,2);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+    }
+    //根据order_book_id批量同意退货
+    @PostMapping("/shop/returnFail")
+    public Result returnFail(@RequestParam("Order_Book_Ids") List<String> Order_Book_Ids){
+        int result=orderBookService.batRefundOrder(Order_Book_Ids,2);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+
+    }
+    //根据order_book_id拒绝退货
+    @PostMapping("/shop/batReturnPass")
+    public Result batReturnPass(@RequestParam("order_book_id") String order_book_id,
+                                @RequestParam("check_opinion") String check_opinion){
+        int result=orderBookService.failRefundOrder(order_book_id,check_opinion,2);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+
+    }
+    //根据order_book_id批量拒绝退货
+    @PostMapping("/shop/batReturnFail")
+    public Result batReturnFail(@RequestParam("checkList") List<Map<String, Object>> checkList){
+        int result=orderBookService.batFailRefundOrder(checkList,3);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+    }
+
+
+
+    //根据order_book_id同意换货
+    @PostMapping("/shop/exchangePass")
+    public Result exchangePass(@RequestParam("order_book_id") String order_book_id){
+        int result=orderBookService.refundOrder(order_book_id,5);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+
+    }
+    //根据order_book_id批量同意换货
+    @PostMapping("/shop/exchangeFail")
+    public Result exchangeFail(@RequestParam("order_book_id") List<String> Order_Book_Ids){
+
+        int result=orderBookService.batRefundOrder(Order_Book_Ids,5);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+
+    }
+    //根据order_book_id拒绝换货
+    @PostMapping("/shop/batExchangePass")
+    public Result batExchangePass(@RequestParam("order_book_id") String order_book_id,
+                                @RequestParam("check_opinion") String check_opinion){
+        int result=orderBookService.failRefundOrder(order_book_id,check_opinion,6);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+
+    }
+    //根据order_book_id批量拒绝换货
+    @PostMapping("/shop/batExchangeFail")
+    public Result batExchangeFail(@RequestParam("checkList") List<Map<String, Object>> checkList){
+        int result=orderBookService.batFailRefundOrder(checkList,6);
+        if(result==1)
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        else
+            return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
+    }
+
 }

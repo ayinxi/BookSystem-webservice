@@ -333,4 +333,14 @@ public class ShopController {
     public Result getShopById(@RequestParam("shop_id") String shop_id){
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",shopService.getShopById(shop_id));
     }
+
+    //计算店铺的评分
+    @RequestMapping("/shop/rate")
+    public Result shopRate(@RequestParam("shop_id") String shop_id){
+        double rate=shopService.ShopRate(shop_id);
+        if(rate<0)
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+        else
+            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",rate);
+    }
 }

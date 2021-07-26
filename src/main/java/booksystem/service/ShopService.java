@@ -43,4 +43,6 @@ public interface ShopService {
     //根据shop_id来获取店铺信息
     Shop getShopById(String shop_id);
 
+    //计算店铺评分
+    double ShopRate(String shop_id);
 }

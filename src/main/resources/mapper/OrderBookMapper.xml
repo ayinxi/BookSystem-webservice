@@ -78,7 +78,7 @@
         (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
         (SELECT volume FROM book WHERE id=book_id) as volume,
         (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
-        (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where shop_id IN
+        (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where order_id IN
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
@@ -143,6 +143,11 @@
     <update id="updateReturn">
         update order_book set return_reason=#{return_reason},return_detail=#{return_detail},return_status=#{return_status},
                               transport_status=#{transport_status},return_time=now(),exchange_address_id=#{exchange_address_id}
+        where id=#{order_book_id}
+    </update>
+
+    <update id="updateReturnStatus">
+        update order_book set return_status=#{return_status},check_opinion=#{check_opinion}
         where id=#{order_book_id}
     </update>
 
