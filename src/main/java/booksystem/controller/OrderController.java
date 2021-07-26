@@ -1,6 +1,7 @@
 package booksystem.controller;
 
 import booksystem.dao.OrderDao;
+import booksystem.service.OrderBookService;
 import booksystem.service.OrderService;
 import booksystem.utils.Result;
 import booksystem.utils.ResultEnum;
@@ -21,6 +22,8 @@ public class OrderController {
     OrderService orderService;
     @Autowired
     OrderDao orderDao;
+    @Autowired
+    OrderBookService orderBookService;
 
     //直接购买
     @PostMapping("/order/addDirect")
@@ -145,6 +148,14 @@ public class OrderController {
 
     //1：全部，2：未付款2，3：未发货3,4:未确认4，5：未评价5
     //批量订单发货
+
+    /**
+     * @param page_num 第几页
+     * @param order_num 一页多少订单
+     * @param status 1：全部，2：未付款2，3：未发货3,4:未确认4，5：未评价5
+     * @param identity 0:以用户身份，也就是自己买的所有订单  1：商铺身份，自己店铺的所有订单   2：管理员身份，所有的订单
+     * @return
+     */
     @RequestMapping("/getOrder")
     public Result getOrder(@RequestParam("page_num")String page_num,
                            @RequestParam("order_num")String order_num,
@@ -163,7 +174,7 @@ public class OrderController {
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }
 
-        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderDao.getAllOrderID(
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderBookService.getOrder(
                 (Integer.parseInt(page_num)-1)*Integer.parseInt(order_num),Integer.parseInt(order_num),
                 Integer.parseInt(status),Integer.parseInt(identity),username
         ));

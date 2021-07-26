@@ -32,6 +32,13 @@ public class OrderBookServiceImpl implements OrderBookService{
     }
 
     @Override
+    public List<Map<String, Object>> getOrder(int start,int order_num,int status,int identity,String username) {
+        List<String> Order_Ids=orderDao.getAllOrderID(start,order_num,status,identity,username);
+        List<Map<String,Object>> mapList=orderBookDao.getAllOrderBookByUser(Order_Ids);
+        return OrderUtils.OrderOutput(mapList);
+    }
+
+    @Override
     public List<Map<String, Object>> getAllOrderByShop(String shop_id) {
         List<String> Order_Ids=orderDao.getAllOrderIDByShop(shop_id);
         List<Map<String,Object>> mapList=orderBookDao.getAllOrderBookByShop(Order_Ids);

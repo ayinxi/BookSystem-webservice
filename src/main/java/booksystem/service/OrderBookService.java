@@ -17,6 +17,8 @@ public interface OrderBookService {
     //获取所有的订单
     List<Map<String,Object>> getAllOrder();
 
+    List<Map<String,Object>> getOrder(int start,int order_num,int status,int identity,String username);
+
 
     //通过order_book_id获取orderBook
     Map<String,Object> getBookByID(String order_book_id);
