@@ -133,7 +133,7 @@ public class ShopController {
      * @param content 查询内容
      * @return
      */
-    @RequestMapping("/shop/fuzzyQuery")
+    @RequestMapping("/shop/public/fuzzyQuery")
     public Result fuzzyQuery(@RequestParam("page_num")String page_num,
                              @RequestParam("shop_num")String shop_num,
                              @RequestParam("style")String style,
@@ -329,7 +329,7 @@ public class ShopController {
     }
 
     //通过shop_id来获取信息
-    @RequestMapping("/user/getShopById")
+    @RequestMapping("/user/public/getShopById")
     public Result getShopById(@RequestParam("shop_id") String shop_id){
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",shopService.getShopById(shop_id));
     }

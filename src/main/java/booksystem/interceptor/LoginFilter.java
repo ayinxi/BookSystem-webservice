@@ -58,7 +58,7 @@ public class LoginFilter implements Filter{
                     if(allowUrl[i].equals(str[1]))
                         isAllowUrl=true;
                 }else if(allowUrl.length>=2){
-                    if(str[2].equals("fuzzyQuery")||str[2].equals("fuzzyQueryCount"))
+                    if(str[2].equals("public"))
                         isAllowUrl=true;
                 }else{
 
