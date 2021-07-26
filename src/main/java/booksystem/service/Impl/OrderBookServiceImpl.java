@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -54,6 +55,13 @@ public class OrderBookServiceImpl implements OrderBookService{
     @Override
     public List<Map<String, Object>> getOrder(int start,int order_num,int status,int identity,String username) {
         List<String> Order_Ids=orderDao.getAllOrderID(start,order_num,status,identity,username);
+<<<<<<< HEAD
+=======
+        List<Map<String, Object>> temp=new ArrayList<>();
+        if(Order_Ids.isEmpty()){
+            return temp;
+        }
+>>>>>>> b6b086a856046a56f413f33938341f53026bdff9
         List<Map<String,Object>> mapList=orderBookDao.getAllOrderBookByUser(Order_Ids);
         return OrderUtils.OrderOutput(mapList);
     }
