@@ -67,25 +67,12 @@ public class UserServiceImpl implements UserService {
         return userDao.updateUser(username,password,name);
     }
 
-    @Override
-    public int updateStatus(String username, int status) {
-        return userDao.updateStatus(username,status);
-    }
 
     @Override
     public int updateCode(String username, String activationCode) {
         return userDao.updateCode(username,activationCode);
     }
 
-    @Override
-    public int updateTime(String username) {
-        return userDao.updateTime(username);
-    }
-
-    @Override
-    public int updateIdentity(String username,int identity) {
-        return userDao.updateIdentity(username,identity);
-    }
 
     @Override
     public int sendMimeMail(String password, String email, String name) {

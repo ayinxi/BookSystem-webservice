@@ -23,6 +23,9 @@ public interface OrderDao {
     //通过order_id获取订单的东西
     Map<String,Object> getOrderByID(String order_id);
 
+    //获取不同状态下的订单总数
+    int getOrderNum(int status,int identity,String username);
+
     //status更新
     void updateStatus(int status,String order_id);
 

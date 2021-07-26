@@ -95,4 +95,49 @@
         select * from `order` where id=#{order_id}
     </select>
 
+    <select id="getOrderNum" resultType="int">
+        select count(*) from `order`
+        <choose>
+            <when test="identity==0">
+                where user_id=(select id from user where username=#{username})
+                <choose>
+                    <when test="status==1">
+                    </when>
+                    <otherwise>
+                        and status=#{status}
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="identity==1">
+                where shop_id=(select id from shop where user_id=(select id from user where username=#{username})
+                and apply_status=2 and pass_status=1 and exist_status=1)
+                <choose>
+                    <when test="status==1">
+                    </when>
+                    <otherwise>
+                        and status=#{status}
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="identity==2">
+                <choose>
+                    <when test="status==1">
+                    </when>
+                    <otherwise>
+                        where status=#{status}
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+    </select>
 </mapper>

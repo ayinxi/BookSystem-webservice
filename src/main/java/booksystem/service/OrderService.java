@@ -21,7 +21,8 @@ public interface OrderService {
     //批量发货订单
     int batSendOrder(List<String> Order_Ids);
 
-
+    //获取不同状态下的订单总数
+    int getOrderNum(int status,int identity,String username);
 
     //购物车生成订单
     int addCartItemOrder(List<String> CartItem_Ids,String address_id,String username);

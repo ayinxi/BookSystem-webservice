@@ -142,7 +142,10 @@ public class OrderServiceImpl implements OrderService {
         return 1;
     }
 
-
+    @Override
+    public int getOrderNum(int status, int identity, String username) {
+        return orderDao.getOrderNum(status,identity,username);
+    }
 
 
     @Override

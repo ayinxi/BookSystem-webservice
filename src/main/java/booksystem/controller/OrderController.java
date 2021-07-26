@@ -180,5 +180,22 @@ public class OrderController {
         ));
     }
 
-
+    /**
+     * @param status 1：全部，2：未付款2，3：未发货3,4:未确认4，5：未评价5
+     * @param identity 0:以用户身份，也就是自己买的所有订单  1：商铺身份，自己店铺的所有订单   2：管理员身份，所有的订单
+     * @return
+     */
+    //获取不同状态下的订单总数
+    @RequestMapping("/getOrderNum")
+    public Result getOrderNum(@RequestParam("status")String status,
+                           @RequestParam("identity") String identity,
+                           ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int iden= Integer.parseInt(TokenUtils.parseToken(token).get("identity").toString());
+        if(iden<Integer.parseInt(identity)){
+            return Result.error(ResultEnum.AUTHORITY_FAIL.getCode(),ResultEnum.AUTHORITY_FAIL.getMsg());
+        }
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderService.getOrderNum(Integer.valueOf(status),Integer.valueOf(identity),username));
+    }
 }

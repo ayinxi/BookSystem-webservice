@@ -19,10 +19,8 @@ public interface UserService {
     //更新用户
     int updateUser(String username,String password,String name);
     //更新用户激活状态和激活码
-    int updateStatus(String username,int status);
     int updateCode(String username,String activationCode);
-    int updateTime(String username);
-    int updateIdentity(String username,int identity);
+
     //发送邮件
     int sendMimeMail( String password,String email,String name);
     //生成随机激活码
