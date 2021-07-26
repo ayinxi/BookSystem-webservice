@@ -13,22 +13,31 @@ import java.util.Map;
 @Mapper
 public interface OrderBookDao{
     //获取所有订单
-    List<Map<String,Object>> getAllOrder();
+    List<Map<String,Object>> getAllOrderBook();
 
-    //通过username获取用户所有订单
-    List<Map<String,Object>> getAllOrderByUser(List<String> Order_Ids);
+    //通过username获取用户所有订单项
+    List<Map<String,Object>> getAllOrderBookByUser(List<String> Order_Ids);
 
     //通过shop_id获取所有店铺的订单
-    List<Map<String,Object>> getAllOrderByShop(List<String> Order_Ids);
+    List<Map<String,Object>> getAllOrderBookByShop(List<String> Order_Ids);
 
     //通过order_id获取一个订单
-    List<Map<String,Object>> getOrderByID(String order_id);
+    List<Map<String,Object>> getOrderBookByID(String order_id);
 
     //通过order_book_id获取orderBook
-    Map<String,Object> getOrderBookByID(String order_book_id);
+    Map<String,Object> getBookByID(String order_book_id);
 
+    //书的评价
     void updateRemark(String order_book_id,String remark,double rate);
+
+    //书的退换货
+    void updateReturn(String order_book_id,String return_reason,String return_detail,int transport_status,int return_status);
 
     //添加一个图书信息
     int addOrderBook(OrderBook orderBook);
+
+    //更新退换状态
+    void updateReturnStatus(String order_book_id,String check_opinion,int return_status);
+    void updateReturnStatus(List<Map<String,Object>> mapList);
+
 }

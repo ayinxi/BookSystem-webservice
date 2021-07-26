@@ -13,11 +13,12 @@ import java.util.Map;
 @Repository
 @Mapper
 public interface OrderDao {
-    //根据username获取所有订单
-    List<String> getAllOrderByUser(String username);
-    //根据shop_id获取所有订单
-    List<String> getAllOrderByShop(String shop_id);
-    //通过order_id获取订单
+    //根据username获取所有订单的id
+    List<String> getAllOrderIDByUser(String username);
+    //根据shop_id获取所有订单的id
+    List<String> getAllOrderIDByShop(String shop_id);
+
+    //通过order_id获取订单的东西
     Map<String,Object> getOrderByID(String order_id);
 
     //status更新

@@ -10,30 +10,44 @@ public class OrderBook {
     private int remark_status;//0.未评价 1.已评价
     private int return_status;//退款状态：-1.无效 1.申请退款未审核 2.同意 3.拒绝 4.换货申请未审核 5.换货同意 6.换货拒绝
     private String return_reason;//退货理由
+    private String return_time;//退换货时间
     private String check_opinion;//审核意见
     private String remark_time;
     private double book_price;
     private String image_s;//退货凭证
     private String image_b;
+    private String return_detail;
+    private int transport_status;
 
 
     public OrderBook(){}
 
-    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int return_status, String return_reason, String check_opinion, String remark_time, double book_price, String image_s, String image_b, int remark_status) {
+    public OrderBook(String id, String book_id, String order_id, int number, String remark, double rate, int remark_status, int return_status, String return_reason,  String check_opinion, String remark_time, double book_price, String image_s, String image_b,String return_time,String return_detail,int transport_status) {
         this.id = id;
         this.book_id = book_id;
         this.order_id = order_id;
         this.number = number;
         this.remark = remark;
         this.rate = rate;
+        this.remark_status = remark_status;
         this.return_status = return_status;
         this.return_reason = return_reason;
+        this.return_time = return_time;
         this.check_opinion = check_opinion;
         this.remark_time = remark_time;
         this.book_price = book_price;
         this.image_s = image_s;
         this.image_b = image_b;
-        this.remark_status = remark_status;
+        this.return_detail=return_detail;
+        this.transport_status=transport_status;
+    }
+
+    public String getReturn_time() {
+        return return_time;
+    }
+
+    public void setReturn_time(String return_time) {
+        this.return_time = return_time;
     }
 
     public String getImage_s() {

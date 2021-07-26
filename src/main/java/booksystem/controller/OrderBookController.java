@@ -1,4 +1,121 @@
 package booksystem.controller;
 
+import booksystem.service.OrderBookService;
+import booksystem.service.UploadImgService;
+import booksystem.utils.Result;
+import booksystem.utils.ResultEnum;
+import booksystem.utils.TokenUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.multipart.MultipartFile;
+
+import javax.servlet.ServletRequest;
+import javax.servlet.http.HttpServletRequest;
+
+@RestController
 public class OrderBookController {
+    @Autowired
+    OrderBookService orderBookService;
+    @Autowired
+    UploadImgService uploadImgService;
+
+    //用户评价每本书
+    @PostMapping("/order/remark")
+    public Result updateRemark(@RequestParam("order_book_id") String order_book_id,
+                               @RequestParam("remark") String remark,
+                               @RequestParam("rate") double rate){
+        int result=orderBookService.updateRemark(order_book_id,remark,rate);
+        if(result==1)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        }else if(result==-1)
+        {
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }else {
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+        }
+    }
+
+
+    //用户退货
+    @PostMapping("/order/return")
+    public Result returnBook(@RequestParam("order_book_id") String order_book_id,
+                               @RequestParam("return_reason") String return_reason,
+                             @RequestParam("return_detail") String return_detail,
+                             @RequestParam("transport_status") int transport_status){
+
+        int result=orderBookService.returnBook(order_book_id,return_reason,return_detail,transport_status);
+        if(result==1)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        } else if(result==-2)
+        {
+            return Result.error(ResultEnum.APPLY_OUT_TIME.getCode(),ResultEnum.APPLY_OUT_TIME.getMsg());
+        } else{
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+        }
+    }
+
+    //用户换货
+    @PostMapping("/order/exchange")
+    public Result exchangeBook(@RequestParam("order_book_id") String order_book_id,
+                             @RequestParam("return_reason") String return_reason,
+                             @RequestParam("return_detail") String return_detail,
+                             @RequestParam("transport_status") int transport_status){
+
+        int result=orderBookService.exchangeBook(order_book_id,return_reason,return_detail,transport_status);
+        if(result==1)
+        {
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        } else if(result==-2)
+        {
+            return Result.error(ResultEnum.APPLY_OUT_TIME.getCode(),ResultEnum.APPLY_OUT_TIME.getMsg());
+        } else{
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+        }
+    }
+
+    //退还货凭证上传
+    @PostMapping("/order/returnImg")
+    public Result updateReturnImg(@RequestParam("order_book_id") String order_book_id,
+                               @RequestParam("img") MultipartFile img)
+    {
+        if (!img.isEmpty()) {
+            uploadImgService.uploadReturnImg(img,order_book_id);
+            return Result.ok(ResultEnum.SUCCESS.getMsg());
+        }else
+            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+    }
+
+
+    //获取所有订单
+    @RequestMapping("/admin/getAllOrder")
+    public Result getAllOrder()
+    {
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderBookService.getAllOrder());
+    }
+
+    //获取某用户的所有订单
+    @RequestMapping("/order/getByUser")
+    public Result getAllOrderByUser(ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderBookService.getAllOrderByUser(username));
+    }
+
+    //根据shop_id获取所有订单
+    @RequestMapping("/shop/order/getByShop")
+    public Result getAllOrderByShop(@RequestParam("shop_id") String shop_id){
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderBookService.getAllOrderByShop(shop_id));
+    }
+
+    //根据order_id获取某个订单
+    @RequestMapping("/order/getByID")
+    public Result getOrderByID(@RequestParam("order_id") String order_id){
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderBookService.getOrderByOrderID(order_id));
+    }
 }

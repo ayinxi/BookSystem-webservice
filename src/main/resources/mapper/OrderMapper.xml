@@ -5,14 +5,14 @@
 
     <insert id="addOrder">
         INSERT INTO `order`(id,total,status,address_id,shop_id,user_id,create_time,update_time,send_time,firm_time)
-        VALUES(#{id},#{total},#{status},#{address_id},#{shop_id},#{user_id},now(),now(),null,null );
+        VALUES(#{id},#{total},#{status},#{address_id},#{shop_id},#{user_id},now(),now(),now(),now() );
     </insert>
 
-    <select id="getAllOrderByUser" resultType="String">
+    <select id="getAllOrderIDByUser" resultType="String">
         select id from `order` where user_id=(select id from user where username=#{username}) order by create_time desc
     </select>
 
-    <select id="getAllOrderByShop" resultType="String">
+    <select id="getAllOrderIDByShop" resultType="String">
         select id from `order` where shop_id=#{shop_id} order by create_time desc
     </select>
 
@@ -42,5 +42,10 @@
             #{item}
         </foreach>
     </update>
+
+
+    <select id="getOrderByID" resultType="java.util.Map">
+        select * from `order` where id=#{order_id}
+    </select>
 
 </mapper>

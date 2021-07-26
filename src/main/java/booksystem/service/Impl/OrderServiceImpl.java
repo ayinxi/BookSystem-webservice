@@ -25,36 +25,9 @@ public class OrderServiceImpl implements OrderService {
     CartItemDao cartItemDao;
 
 
-
-    @Override
-    public List<Map<String, Object>> getAllOrderByUser(String username) {
-        List<String> Order_Ids=orderDao.getAllOrderByUser(username);
-        List<Map<String,Object>> mapList=orderBookDao.getAllOrderByUser(Order_Ids);
-        return OrderUtils.OrderOutput(mapList);
-    }
-
-    @Override
-    public List<Map<String, Object>> getAllOrderByShop(String shop_id) {
-        List<String> Order_Ids=orderDao.getAllOrderByShop(shop_id);
-        List<Map<String,Object>> mapList=orderBookDao.getAllOrderByShop(Order_Ids);
-        return OrderUtils.OrderOutput(mapList);
-    }
-
-    @Override
-    public List<Map<String, Object>> getAllOrder() {
-        List<Map<String, Object>> mapList=orderBookDao.getAllOrder();
-        return OrderUtils.OrderOutput(mapList);
-    }
-
-    @Override
-    public Map<String, Object> getOrderByID(String order_id) {
-        List<Map<String, Object>> mapList=orderBookDao.getAllOrder();
-        return OrderUtils.OrderOutput(mapList).get(0);
-    }
-
     @Override
     public int cancelOrder(String order_id) {
-        List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
+        List<Map<String,Object>> order=orderBookDao.getOrderBookByID(order_id);
         if(order.isEmpty())
             return -1;//订单不存在
 
@@ -62,7 +35,7 @@ public class OrderServiceImpl implements OrderService {
         if(2==Integer.valueOf(order.get(0).get("status").toString()))
         {
             orderDao.updateStatus(1,order_id);//将状态改为取消订单
-            List<Map<String,Object>> order_book_list=orderBookDao.getOrderByID(order_id);
+            List<Map<String,Object>> order_book_list=orderBookDao.getOrderBookByID(order_id);
             //更改库存
             for(Map<String,Object> book:order_book_list) {
                 bookDao.updateRepertory(book.get("book_id").toString(),
@@ -77,7 +50,7 @@ public class OrderServiceImpl implements OrderService {
     public int batCancelOrder(List<String> Order_Ids) {
         for(String order_id:Order_Ids)
         {
-            List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
+            List<Map<String,Object>> order=orderBookDao.getOrderBookByID(order_id);
             if(order.isEmpty())
                 return -1;//订单不存在
 
@@ -90,7 +63,7 @@ public class OrderServiceImpl implements OrderService {
         for(String order_id:Order_Ids) {
             orderDao.updateStatus(1, order_id);//将状态改为取消订单
             //更改库存
-            List<Map<String,Object>> order_book_list=orderBookDao.getOrderByID(order_id);
+            List<Map<String,Object>> order_book_list=orderBookDao.getOrderBookByID(order_id);
             for(Map<String,Object> book:order_book_list) {
                 bookDao.updateRepertory(book.get("book_id").toString(),
                         Integer.valueOf(book.get("repertory").toString())+Integer.valueOf(book.get("number").toString()));
@@ -101,7 +74,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int firmOrder(String order_id) {
-        List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
+        List<Map<String,Object>> order=orderBookDao.getOrderBookByID(order_id);
         if(order.isEmpty())
             return -1;//订单不存在
 
@@ -119,7 +92,7 @@ public class OrderServiceImpl implements OrderService {
     public int batFirmOrder(List<String> Order_Ids) {
         for(String order_id:Order_Ids)
         {
-            List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
+            List<Map<String,Object>> order=orderBookDao.getOrderBookByID(order_id);
             if(order.isEmpty())
                 return -1;//订单不存在
 
@@ -136,7 +109,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int sendOrder(String order_id) {
-        List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
+        List<Map<String,Object>> order=orderBookDao.getOrderBookByID(order_id);
         if(order.isEmpty())
             return -1;//订单不存在
 
@@ -154,7 +127,7 @@ public class OrderServiceImpl implements OrderService {
     public int batSendOrder(List<String> Order_Ids) {
         for(String order_id:Order_Ids)
         {
-            List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
+            List<Map<String,Object>> order=orderBookDao.getOrderBookByID(order_id);
             if(order.isEmpty())
                 return -1;//订单不存在
 
@@ -169,45 +142,7 @@ public class OrderServiceImpl implements OrderService {
         return 1;
     }
 
-    @Override
-    public int refundOrder(String order_id) {
-        return 0;
-    }
 
-    @Override
-    public int batRefundOrder(List<String> Order_Ids) {
-        return 0;
-    }
-
-    @Override
-    public int failRefundOrder(String order_id, String check_opinion) {
-        return 0;
-    }
-
-    @Override
-    public int batFailRefundOrder(Map<String, Object> checkList) {
-        return 0;
-    }
-
-    @Override
-    public int updateRemark(String order_book_id, String remark, double rate) {
-        Map<String,Object> orderBook=orderBookDao.getOrderBookByID(order_book_id);
-        if(orderBook==null)
-            return -1;//订单不存在
-        String order_id=orderBook.get("order_id").toString();
-        List<Map<String,Object>> order=orderBookDao.getOrderByID(order_id);
-        if(order.isEmpty())
-            return -1;//订单不存在
-
-        //判断取消订单是在 确认订单之后的时候  评价状态为0 未评价
-        if(5==Integer.valueOf(order.get(0).get("status").toString())&&
-                Integer.valueOf(orderBook.get("remark_status").toString())==0)//差一个7天后默认好评
-        {
-            orderBookDao.updateRemark(order_book_id,remark,rate);
-            return 1;
-        }
-        return 0;//处于其他状态不可取消
-    }
 
 
     @Override
@@ -237,7 +172,7 @@ public class OrderServiceImpl implements OrderService {
             if(sums[j]>repertory1)
                 return -1;//库存不足
 
-            orderBook=new OrderBook(null,book_id,null,sums[j],null,5.0,-1,null,null,null,(double)(price[j]*sums[j]),null,null,0);
+            orderBook=new OrderBook(null,book_id,null,sums[j],null,5.0,0,-1,null,null,null,(double)(price[j]*sums[j]),null,null,null,null,-1);
             orderBookList.add(j,orderBook);
         }
 
@@ -292,7 +227,7 @@ public class OrderServiceImpl implements OrderService {
         //订单状态为2未付款 退款状态为-1 无效
         Order order=new Order(order_id,total,2,address_id,shop_id,userDao.getUserByName(username).getId(),null,null,null,null);
         orderDao.addOrder(order);
-        OrderBook orderBook=new OrderBook(null,book_id,order_id,sum,null,5.0,-1,null,null,null,total,null,null,0);
+        OrderBook orderBook=new OrderBook(null,book_id,order_id,sum,null,5.0,0,-1,null,null,null,total,null,null,null,null,-1);
         orderBookDao.addOrderBook(orderBook);
         return 1;
     }
