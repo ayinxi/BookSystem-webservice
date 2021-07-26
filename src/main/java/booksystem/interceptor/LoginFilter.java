@@ -51,15 +51,14 @@ public class LoginFilter implements Filter{
 
         if(url != null){
             String[] str=url.split("/");
-            System.out.println(str[2]);
             //登录请求直接放行
             boolean isAllowUrl=false;
             for(int i=0;i<allowUrl.length;i++){
-                if(allowUrl.length>=1){
+                if(str.length>=2){
                     if(allowUrl[i].equals(str[1]))
                         isAllowUrl=true;
                 }
-                if(allowUrl.length>=2){
+                if(str.length>=3){
                     if(str[2].equals("public"))
                         isAllowUrl=true;
                 }
