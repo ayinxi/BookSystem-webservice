@@ -5,9 +5,12 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.sql.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Random;
 
 public class TokenUtils {
     //设置过期时间
@@ -79,6 +82,23 @@ public class TokenUtils {
         return token;
     }
 
+    public static boolean isValid(String strLink) {
+        URL url;
+        try {
+            url = new URL(strLink);
+            HttpURLConnection connt = (HttpURLConnection)url.openConnection();
+            connt.setRequestMethod("HEAD");
+            String strMessage = connt.getResponseMessage();
+            if (strMessage.compareTo("Not Found") == 0) {
+                return false;
+            }
+            connt.disconnect();
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
     public static void main(String[] args) {
         String username ="y384879210@qq.com";
         String password = "123456";
@@ -86,6 +106,9 @@ public class TokenUtils {
         System.out.println(token);
         boolean b = verify(token);
         System.out.println(b);
+        Random random = new Random();
+
+        System.out.println(isValid("https://img3.doubanio.com/lpic/s4724331.jpg"));
     }
 }
 //管理员
