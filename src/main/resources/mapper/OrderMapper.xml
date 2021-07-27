@@ -140,4 +140,11 @@
             </otherwise>
         </choose>
     </select>
+
+    <delete id="deleteOrder" parameterType="java.util.List">
+        delete from `order` where id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+                    #{item}
+        </foreach>
+    </delete>
 </mapper>

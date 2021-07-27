@@ -38,6 +38,7 @@ public interface OrderDao {
     void updateSendTime(String order_id);
     void batUpdateSendTime(List<String> Order_Ids);
 
-
+    //删除订单项
+    void deleteOrder(List<String> Order_Ids);
 
 }

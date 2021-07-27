@@ -3,8 +3,8 @@
 
 <mapper namespace="booksystem.dao.OrderBookDao">
     <insert id="addOrderBook">
-        INSERT INTO order_book(id,book_id,order_id,number,rate,remark,return_status,return_reason,check_opinion,remark_time,image_s,image_b,remark_status,return_time,return_detail,transport_status)
-        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion},now(),#{image_s},#{image_b},#{remark_status},now(),#{return_detail},#{transport_status});
+        INSERT INTO order_book(id,book_id,order_id,number,rate,remark,return_status,return_reason,check_opinion,remark_time,image_s,image_b,remark_status,return_time,return_detail,transport_status,book_price)
+        VALUES(MD5(UUID()),#{book_id},#{order_id},#{number},#{rate},#{remark},#{return_status},#{return_reason},#{check_opinion},now(),#{image_s},#{image_b},#{remark_status},now(),#{return_detail},#{transport_status},#{book_price});
     </insert>
 
     <select id="getAllOrderBook" resultType="java.util.HashMap">
@@ -26,6 +26,7 @@
                (SELECT repertory FROM book WHERE id=book_id) as repertory,
                (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
                (SELECT volume FROM book WHERE id=book_id) as volume,
+               (SELECT address_id FROM `order` WHERE id=order_id) as address_id,
                (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
                (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book
         ORDER BY create_time DESC
@@ -50,6 +51,7 @@
         (SELECT repertory FROM book WHERE id=book_id) as repertory,
         (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
         (SELECT volume FROM book WHERE id=book_id) as volume,
+        (SELECT address_id FROM `order` WHERE id=order_id) as address_id,
         (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
         (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where order_id IN
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
@@ -66,6 +68,7 @@
         (SELECT total FROM `order` WHERE id=order_id) as total,
         (SELECT status FROM `order` WHERE id=order_id) as status,
         (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
+        (SELECT address_id FROM `order` WHERE id=order_id) as address_id,
         (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
         (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
         (SELECT book_name FROM book WHERE id=book_id) as book_name,
@@ -104,6 +107,7 @@
                (SELECT repertory FROM book WHERE id=book_id) as repertory,
                (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
                (SELECT volume FROM book WHERE id=book_id) as volume,
+               (SELECT address_id FROM `order` WHERE id=order_id) as address_id,
                (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
                (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where order_id=#{order_id}
         ORDER BY create_time DESC
@@ -132,6 +136,7 @@
                (SELECT repertory FROM book WHERE id=book_id) as repertory,
                (SELECT shop_id FROM book WHERE id=book_id) as shop_id,
                (SELECT volume FROM book WHERE id=book_id) as volume,
+               (SELECT address_id FROM `order` WHERE id=order_id) as address_id,
                (SELECT shop_name FROM shop WHERE id=(SELECT shop_id FROM `order`WHERE id=order_id)) as shop_name,
                (SELECT shop_id FROM `order`WHERE id=order_id) as shop_id from order_book where id=#{order_book_id}
     </select>
@@ -150,5 +155,12 @@
         update order_book set return_status=#{return_status},check_opinion=#{check_opinion}
         where id=#{order_book_id}
     </update>
+
+    <delete id="deleteOrderBook" parameterType="java.util.List">
+        delete from order_book where order_id in
+        <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+    </delete>
 
 </mapper>

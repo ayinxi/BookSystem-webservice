@@ -8,6 +8,7 @@ import booksystem.utils.OrderUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 @Service
@@ -32,7 +33,7 @@ public class OrderServiceImpl implements OrderService {
             return -1;//订单不存在
 
         //判断取消订单是在 未付款的时候
-        if(2==Integer.valueOf(order.get(0).get("status").toString()))
+        if(2==Integer.valueOf(order.get(0).get("status").toString())||3==Integer.valueOf(order.get(0).get("status").toString()))
         {
             orderDao.updateStatus(1,order_id);//将状态改为取消订单
             List<Map<String,Object>> order_book_list=orderBookDao.getOrderBookByID(order_id);
@@ -55,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
                 return -1;//订单不存在
 
             //判断取消订单是在 未付款的时候
-            if(Integer.valueOf(order.get(0).get("status").toString())!=2)
+            if(Integer.valueOf(order.get(0).get("status").toString())!=2||3!=Integer.valueOf(order.get(0).get("status").toString()))
             {
                 return 0;
             }
@@ -149,7 +150,7 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public int addCartItemOrder(List<String> CartItem_Ids, String address_id, String username) {
+    public int addCartItemOrder(List<String> CartItem_Ids, String address_id, String username,String order_id) {
         List<Map<String,Object>> CartItemList=cartItemDao.getCartItemByID(CartItem_Ids);
 
         int length=CartItemList.size();
@@ -172,7 +173,7 @@ public class OrderServiceImpl implements OrderService {
 
             //检查库存
             int repertory1=Integer.valueOf(book.get("repertory").toString());
-            if(sums[j]>repertory1)
+            if(sums[j]>repertory1&&repertory1<=0)
                 return -1;//库存不足
 
             orderBook=new OrderBook(null,book_id,null,sums[j],null,5.0,0,-1,null,null,null,(double)(price[j]*sums[j]),null,null,null,null,-1,null);
@@ -193,8 +194,6 @@ public class OrderServiceImpl implements OrderService {
         {
             //计算总价
             double total=0;
-            //生成order_id
-            String order_id=String.valueOf(UUID.randomUUID()).replace("-","").toString().toLowerCase();
 
             //查找统一订单的图书
             for (int i = 0; i < length; i++)
@@ -218,14 +217,13 @@ public class OrderServiceImpl implements OrderService {
 
 
     @Override
-    public int addDirectOrder(String book_id, int sum,String address_id,String shop_id,String username) {
+    public int addDirectOrder(String book_id, int sum,String address_id,String shop_id,String username,String order_id) {
         HashMap<String,Object> book=bookDao.getBookByID(book_id);
         int repertory=Integer.valueOf(book.get("repertory").toString());
-        if(sum>repertory)
+        if(sum>repertory&&repertory<=0)
             return -1;//库存不足
         //更改库存
         bookDao.updateRepertory(book_id,repertory-sum);
-        String order_id=String.valueOf(UUID.randomUUID()).replace("-","").toString().toLowerCase();
         double total=sum*Double.valueOf(book.get("price").toString());
         //订单状态为2未付款 退款状态为-1 无效
         Order order=new Order(order_id,total,2,address_id,shop_id,userDao.getUserByName(username).getId(),null,null,null,null);
@@ -234,4 +232,25 @@ public class OrderServiceImpl implements OrderService {
         orderBookDao.addOrderBook(orderBook);
         return 1;
     }
+
+    @Override
+    public int CompareTime(String firm_time) {
+        try {
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");//注意月份是MM
+            Date firm = simpleDateFormat.parse(firm_time);
+            Date nowDate = new Date(System.currentTimeMillis());
+            long difference = nowDate.getTime() - firm.getTime();
+            if (difference <= (1000 * 60 * 60 * 24 * 7))
+                return 0;//超时了
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return 1;
+    }
+
+    @Override
+    public void updateStatus(int status, String order_id) {
+        orderDao.updateStatus(status,order_id);
+    }
+
 }

@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import java.util.UUID;
 
 @RestController
 public class OrderController {
@@ -34,7 +35,8 @@ public class OrderController {
                             ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
-        int result=orderService.addDirectOrder(book_id,sum,address_id,shop_id,username);
+        String order_id=String.valueOf(UUID.randomUUID()).replace("-","").toString().toLowerCase();
+        int result=orderService.addDirectOrder(book_id,sum,address_id,shop_id,username,order_id);
         if(result==1)
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         else
@@ -48,7 +50,8 @@ public class OrderController {
                             ServletRequest request){
         String token=((HttpServletRequest)request).getHeader("token");
         String username= TokenUtils.parseToken(token).get("username").toString();
-        int result=orderService.addCartItemOrder(CartItem_Ids,address_id,username);
+        String order_id=String.valueOf(UUID.randomUUID()).replace("-","").toString().toLowerCase();
+        int result=orderService.addCartItemOrder(CartItem_Ids,address_id,username,order_id);
         if(result==1)
             return Result.ok(ResultEnum.SUCCESS.getMsg());
         else
@@ -197,5 +200,21 @@ public class OrderController {
             return Result.error(ResultEnum.AUTHORITY_FAIL.getCode(),ResultEnum.AUTHORITY_FAIL.getMsg());
         }
         return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderService.getOrderNum(Integer.valueOf(status),Integer.valueOf(identity),username));
+    }
+
+    //比较时间
+    @PostMapping("/order/compareTime")
+    public Result compareTime(@RequestParam("firm_time")String firm_time)
+    {
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",orderService.CompareTime(firm_time));
+    }
+
+    //管理员无条件修改状态
+    @PostMapping("/admin/changeOrderStatus")
+    public Result changeOrderStatus(@RequestParam("order_id")String order_id,
+                                    @RequestParam("status") int status)
+    {
+        orderService.updateStatus(status,order_id);
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 }

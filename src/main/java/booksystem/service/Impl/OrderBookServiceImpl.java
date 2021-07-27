@@ -100,7 +100,7 @@ public class OrderBookServiceImpl implements OrderBookService{
         Map<String,Object> orderBook=orderBookDao.getBookByID(order_book_id);
         String order_id=orderBook.get("order_id").toString();
         Map<String,Object> order=orderDao.getOrderByID(order_id);
-        if(Integer.valueOf(order.get("status").toString())<=2)
+        if(Integer.valueOf(order.get("status").toString())<=3)
             return -1;//未付款
 
         //当确认订单之后 七天之内才能退货
@@ -132,7 +132,7 @@ public class OrderBookServiceImpl implements OrderBookService{
         Map<String,Object> orderBook=orderBookDao.getBookByID(order_book_id);
         String order_id=orderBook.get("order_id").toString();
         Map<String,Object> order=orderDao.getOrderByID(order_id);
-        if(Integer.valueOf(order.get("status").toString())<=2)
+        if(Integer.valueOf(order.get("status").toString())<=3)
             return -1;//未付款
 
         //当确认订单之后 七天之内才能退货
@@ -164,7 +164,7 @@ public class OrderBookServiceImpl implements OrderBookService{
         Map<String,Object> orderBook=orderBookDao.getBookByID(order_book_id);
         String order_id=orderBook.get("order_id").toString();
         Map<String,Object> order=orderDao.getOrderByID(order_id);
-        if(Integer.valueOf(order.get("status").toString())<=2)
+        if(Integer.valueOf(order.get("status").toString())<=3)
             return -1;//未付款
 
         //当确认订单之后 七天之内才能退货

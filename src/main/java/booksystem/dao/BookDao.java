@@ -15,16 +15,6 @@ public interface BookDao {
 
     //获取所有图书
     HashMap<String,Object> getAllBook();
-//    //根据商家username获取图书
-//    HashMap<String,Object> getBookByShop(String username);
-//    //根据订单id获取图书
-//    HashMap<String,Object>getBookByOrder(String order_id);
-//    //根据目录名字获取图书
-//    HashMap<String,Object>getBookByCategory(String category);
-//    //根据图书名获取图书
-//    HashMap<String,Object>getBookByName(String book_name);
-//    //根据图书出版社获取图书
-//    HashMap<String,Object> getBookByPress(String press);
 
     //添加
     int addBook(Book book);
@@ -51,4 +41,7 @@ public interface BookDao {
 
 
     int fuzzyQueryCount(int queryWhat, String content);
+
+
+    void updateStatus(String shop_id);
 }

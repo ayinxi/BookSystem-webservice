@@ -50,8 +50,4 @@
         update user set access_time=now() where username=#{username}
     </update>
 
-    <select id="getPage">
-
-    </select>
-
 </mapper>

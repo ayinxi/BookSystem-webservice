@@ -43,4 +43,7 @@ public interface OrderBookDao{
     //更新退换状态
     void updateReturnStatus(String order_book_id,String check_opinion,int return_status);
 
+    //删除订单书本项
+    void deleteOrderBook(List<String> Order_Ids);
+
 }

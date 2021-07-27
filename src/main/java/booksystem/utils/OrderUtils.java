@@ -17,7 +17,8 @@ public class OrderUtils {
             public String status;
             public String firm_time;
             public String send_time;
-            public Group(String id,String name,String oid,String total_money,String time,String uname,String sta,String ftime,String stime){
+            public String address_id;
+            public Group(String id,String name,String oid,String total_money,String time,String uname,String sta,String ftime,String stime,String address){
                 shop_id=id;
                 shop_name=name;
                 create_time=time;
@@ -27,6 +28,7 @@ public class OrderUtils {
                 status=sta;
                 firm_time=ftime;
                 send_time=stime;
+                address_id=address;
             }
         }
         List<Map<String,Object>> res=new ArrayList<>();
@@ -38,7 +40,7 @@ public class OrderUtils {
                     map.get("order_id").toString(),map.get("total").toString(),
                     map.get("create_time").toString().replace('T',' '),
                     map.get("username").toString(),map.get("status").toString(),
-                    map.get("send_time").toString(),map.get("firm_time").toString()));
+                    map.get("send_time").toString().replace('T',' '),map.get("firm_time").toString().replace('T',' '),map.get("address_id").toString()));
         }
 
         //去重
@@ -62,6 +64,7 @@ public class OrderUtils {
             shopMap.put("status",shopList.get(i).status);
             shopMap.put("firm_time",shopList.get(i).firm_time);
             shopMap.put("send_time",shopList.get(i).send_time);
+            shopMap.put("address_id",shopList.get(i).address_id);
             for(int j=0;j<mapList.size();j++){
                 //同一家店铺
 
@@ -81,6 +84,7 @@ public class OrderUtils {
                     mapList.get(j).remove("status");
                     mapList.get(j).remove("firm_time");
                     mapList.get(j).remove("send_time");
+                    mapList.get(j).remove("address_id");
                     books.add(mapList.get(j));
                 }
             }

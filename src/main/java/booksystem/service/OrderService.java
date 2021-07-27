@@ -25,9 +25,14 @@ public interface OrderService {
     int getOrderNum(int status,int identity,String username);
 
     //购物车生成订单
-    int addCartItemOrder(List<String> CartItem_Ids,String address_id,String username);
+    int addCartItemOrder(List<String> CartItem_Ids,String address_id,String username,String order_id);
     //直接生成订单
-    int addDirectOrder(String book_id, int sum,String address_id,String shop_id,String username);
+    int addDirectOrder(String book_id, int sum,String address_id,String shop_id,String username,String order_id);
 
 
+    //比较时间
+    int CompareTime(String firm_time);
+
+    //无状态修改
+    void updateStatus(int status,String order_id);
 }
