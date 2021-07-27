@@ -27,6 +27,13 @@ public class AddressController {
         String username= TokenUtils.parseToken(token).get("username").toString();
         return Result.ok().put("data",addressService.getAllAddress(username));
     }
+
+    //根据address_id获取地址
+    @RequestMapping("/address/public/getByID")
+    public Result getAddressByID(@RequestParam("address_id") String address_id){
+        return Result.ok().put("data",addressService.getAddressByID(address_id));
+    }
+
     //添加一个地址
     @PostMapping("/user/address/add")
     public Result addAddress(@RequestParam("address") String address,

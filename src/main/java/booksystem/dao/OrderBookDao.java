@@ -46,4 +46,7 @@ public interface OrderBookDao{
     //删除订单书本项
     void deleteOrderBook(List<String> Order_Ids);
 
+    //获取某本书的所有评价
+    List<Map<String,Object>> getBookRemark(String book_id);
+
 }

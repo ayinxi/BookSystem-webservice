@@ -17,6 +17,7 @@
                (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
                (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
                (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
+               (SELECT name FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as name,
                (SELECT book_name FROM book WHERE id=book_id) as book_name,
                (SELECT price FROM book WHERE id=book_id) as price,
                (SELECT author FROM book WHERE id=book_id) as author,
@@ -41,6 +42,7 @@
         (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
         (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
         (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
+        (SELECT name FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as name,
         (SELECT book_name FROM book WHERE id=book_id) as book_name,
         (SELECT price FROM book WHERE id=book_id) as price,
         (SELECT author FROM book WHERE id=book_id) as author,
@@ -69,6 +71,7 @@
         (SELECT address_id FROM `order` WHERE id=order_id) as address_id,
         (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
         (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
+        (SELECT name FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as name,
         (SELECT book_name FROM book WHERE id=book_id) as book_name,
         (SELECT price FROM book WHERE id=book_id) as price,
         (SELECT author FROM book WHERE id=book_id) as author,
@@ -94,6 +97,7 @@
                (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
                (SELECT status FROM `order` WHERE id=order_id) as status,
                (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
+               (SELECT name FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as name,
                (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
                (SELECT book_name FROM book WHERE id=book_id) as book_name,
                (SELECT price FROM book WHERE id=book_id) as price,
@@ -121,6 +125,7 @@
                (SELECT total FROM `order` WHERE id=order_id) as total,
                (SELECT update_time FROM `order` WHERE id=order_id) as update_time,
                (SELECT status FROM `order` WHERE id=order_id) as status,
+               (SELECT name FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as name,
                (SELECT create_time FROM `order` WHERE id=order_id) as create_time,
                (SELECT username FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as username,
                (SELECT book_name FROM book WHERE id=book_id) as book_name,
@@ -158,4 +163,11 @@
         </foreach>
     </delete>
 
+    <select id="getBookRemark" resultType="java.util.Map">
+        select rate,remark,remark_time
+               (SELECT name FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as name,
+               (SELECT avatar_b FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as avatar_b,
+               (SELECT avatar_s FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as avatar_s,
+               from order_book where book_id=#{book_id} and remark_status=1 order by remark_time desc
+    </select>
 </mapper>

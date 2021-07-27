@@ -24,4 +24,12 @@
         delete from address where id=#{id}
     </delete>
 
+    <select id="getAddressByID" parameterType="String" resultType="java.util.Map">
+        select * from address where id=#{address_id}
+    </select>
+
+    <delete id="deleteAllAddress" parameterType="String">
+        delete from address where user_id=#{user_id}
+    </delete>
+
 </mapper>

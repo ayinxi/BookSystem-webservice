@@ -45,7 +45,8 @@ public interface OrderBookService {
     int batFailRefundOrder(List<Map<String,Object>> checkList,int return_status);
 
 
-
+    //获取某本书的所有评价
+    List<Map<String,Object>> getBookRemark(String book_id);
 
     //某一个店铺的所有退款订单信息
 

@@ -239,4 +239,9 @@ public class OrderBookServiceImpl implements OrderBookService{
         }
         return 1;
     }
+
+    @Override
+    public List<Map<String, Object>> getBookRemark(String book_id) {
+        return orderBookDao.getBookRemark(book_id);
+    }
 }

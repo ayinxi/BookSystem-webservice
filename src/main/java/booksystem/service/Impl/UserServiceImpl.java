@@ -36,6 +36,8 @@ public class UserServiceImpl implements UserService {
     OrderBookDao orderBookDao;
     @Autowired
     BookDao bookDao;
+    @Autowired
+    AddressDao addressDao;
 
     @Value("${spring.mail.username}")
     String from;
@@ -73,6 +75,9 @@ public class UserServiceImpl implements UserService {
         List<String> Order_Ids=orderDao.getAllOrderIDByUser(username);
         orderBookDao.deleteOrderBook(Order_Ids);
         orderDao.deleteOrder(Order_Ids);
+
+        //删除地址
+        addressDao.deleteAllAddress(user_id);
 
         //如果是商家 要注销店铺
         //获取要注销的店铺信息 此使为未注销状态

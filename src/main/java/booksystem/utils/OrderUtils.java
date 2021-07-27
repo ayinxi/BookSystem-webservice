@@ -18,9 +18,11 @@ public class OrderUtils {
             public String firm_time;
             public String send_time;
             public String address_id;
-            public Group(String id,String name,String oid,String total_money,String time,String uname,String sta,String ftime,String stime,String address){
+            public String name;
+            public Group(String id,String Shop_name,String oid,String total_money,String time,
+                         String uname,String sta,String ftime,String stime,String address,String Name){
                 shop_id=id;
-                shop_name=name;
+                shop_name=Shop_name;
                 create_time=time;
                 order_id=oid;
                 total=total_money;
@@ -29,12 +31,14 @@ public class OrderUtils {
                 firm_time=ftime;
                 send_time=stime;
                 address_id=address;
+                name=Name;
             }
         }
         List<Map<String,Object>> res=new ArrayList<>();
         List<Group> allShop=new ArrayList<>();
         if(mapList.isEmpty())
             return null;
+        
         for(Map<String,Object> map:mapList) {
             allShop.add(new Group(map.get("shop_id").toString(),
                     map.get("shop_name").toString(),
@@ -45,7 +49,8 @@ public class OrderUtils {
                     map.get("status").toString(),
                     map.get("send_time").toString().replace('T',' '),
                     map.get("firm_time").toString().replace('T',' '),
-                    map.get("address_id").toString()));
+                    map.get("address_id").toString(),
+                    map.get("name").toString()));
         }
         //去重
         Set shopIdSet= new HashSet();
@@ -69,6 +74,8 @@ public class OrderUtils {
             shopMap.put("firm_time",shopList.get(i).firm_time);
             shopMap.put("send_time",shopList.get(i).send_time);
             shopMap.put("address_id",shopList.get(i).address_id);
+            shopMap.put("name",shopList.get(i).name);
+
             for(int j=0;j<mapList.size();j++){
                 //同一家店铺
 
@@ -89,6 +96,7 @@ public class OrderUtils {
                     mapList.get(j).remove("firm_time");
                     mapList.get(j).remove("send_time");
                     mapList.get(j).remove("address_id");
+                    mapList.get(j).remove("name");
                     books.add(mapList.get(j));
                 }
             }
