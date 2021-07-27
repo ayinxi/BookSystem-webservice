@@ -49,4 +49,6 @@ public interface OrderBookDao{
     //获取某本书的所有评价
     List<Map<String,Object>> getBookRemark(String book_id);
 
+    //获取评论分页
+    List<Map<String,Object>> getRemark(int page_num,int remark_num,int identity,String username);
 }

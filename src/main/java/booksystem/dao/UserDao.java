@@ -27,4 +27,7 @@ public interface UserDao {
     int updateTime(String username);
     int updateIdentity(String username,int identity);
     int accessTime(String username);
+
+    //更新绑定邮箱
+    void updateEmail(String user_id,String email);
 }

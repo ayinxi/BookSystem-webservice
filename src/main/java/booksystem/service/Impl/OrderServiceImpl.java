@@ -176,6 +176,7 @@ public class OrderServiceImpl implements OrderService {
             if(sums[j]>repertory1&&repertory1<=0)
                 return -1;//库存不足
 
+            repertory[j]=repertory1;
             orderBook=new OrderBook(null,book_id,null,sums[j],null,5.0,0,-1,null,null,null,(double)(price[j]*sums[j]),null,null,null,null,-1,null);
             orderBookList.add(j,orderBook);
         }

@@ -8,10 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @Service
 public class OrderBookServiceImpl implements OrderBookService{
     @Autowired
@@ -242,6 +240,27 @@ public class OrderBookServiceImpl implements OrderBookService{
 
     @Override
     public List<Map<String, Object>> getBookRemark(String book_id) {
-        return orderBookDao.getBookRemark(book_id);
+        List<Map<String,Object>> remarkList=orderBookDao.getBookRemark(book_id);
+        if(!remarkList.isEmpty()) {
+            for (Map<String, Object> remark : remarkList) {
+                remark.put("remark_time",remark.get("remark_time").toString().replace("T", " "));
+            }
+        }
+        return remarkList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getRemark(int page_num, int remark_num, int identity, String username) {
+        List<Map<String,Object>> remark=orderBookDao.getRemark(page_num,remark_num,identity,username);
+        System.out.println(remark);
+        List<Map<String,Object>>res=new ArrayList<>();
+        for(int i=0;i<remark.size();i++){
+            HashMap<String,Object>tmp=new HashMap<>();
+            tmp.put("remark",remark.get(i));
+            Map<String,Object>book=;
+            tmp.put("book",book);
+            res.add(tmp);
+        }
+        return res;
     }
 }
