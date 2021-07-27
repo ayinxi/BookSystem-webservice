@@ -36,13 +36,17 @@ public class OrderUtils {
         if(mapList.isEmpty())
             return null;
         for(Map<String,Object> map:mapList) {
-            allShop.add(new Group(map.get("shop_id").toString(),map.get("shop_name").toString(),
-                    map.get("order_id").toString(),map.get("total").toString(),
+            allShop.add(new Group(map.get("shop_id").toString(),
+                    map.get("shop_name").toString(),
+                    map.get("order_id").toString(),
+                    map.get("total").toString(),
                     map.get("create_time").toString().replace('T',' '),
-                    map.get("username").toString(),map.get("status").toString(),
-                    map.get("send_time").toString().replace('T',' '),map.get("firm_time").toString().replace('T',' '),map.get("address_id").toString()));
+                    map.get("username").toString(),
+                    map.get("status").toString(),
+                    map.get("send_time").toString().replace('T',' '),
+                    map.get("firm_time").toString().replace('T',' '),
+                    map.get("address_id").toString()));
         }
-
         //去重
         Set shopIdSet= new HashSet();
         List<Group> shopList=new ArrayList<>();

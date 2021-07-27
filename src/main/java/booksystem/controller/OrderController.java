@@ -38,7 +38,7 @@ public class OrderController {
         String order_id=String.valueOf(UUID.randomUUID()).replace("-","").toString().toLowerCase();
         int result=orderService.addDirectOrder(book_id,sum,address_id,shop_id,username,order_id);
         if(result==1)
-            return Result.ok(ResultEnum.SUCCESS.getMsg());
+            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",order_id);
         else
             return Result.error(ResultEnum.NUM_IS_NOT_ENOUGH.getCode(),ResultEnum.NUM_IS_NOT_ENOUGH.getMsg());
     }
@@ -53,7 +53,7 @@ public class OrderController {
         String order_id=String.valueOf(UUID.randomUUID()).replace("-","").toString().toLowerCase();
         int result=orderService.addCartItemOrder(CartItem_Ids,address_id,username,order_id);
         if(result==1)
-            return Result.ok(ResultEnum.SUCCESS.getMsg());
+            return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",order_id);
         else
             return Result.error(ResultEnum.NUM_IS_NOT_ENOUGH.getCode(),ResultEnum.NUM_IS_NOT_ENOUGH.getMsg());
     }
