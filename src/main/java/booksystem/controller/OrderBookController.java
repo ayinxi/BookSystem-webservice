@@ -359,4 +359,12 @@ public class OrderBookController {
                 Integer.parseInt(status),identity,username
         ));
     }
+
+    //
+    @PostMapping("/order/updateReturnStatus")
+    public Result updateReturnStatus(@RequestParam("order_book_id") String order_book_id,
+                                     @RequestParam("return_status") int return_status){
+        orderBookDao.updateReturnStatus(order_book_id,"",return_status);
+        return Result.ok();
+    }
 }

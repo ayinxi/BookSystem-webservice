@@ -230,10 +230,11 @@
                 where order_id in (select id from `order` where user_id=
                                         (select id from user where username=#{username}))
                 <choose>
-                    <when test="status!=0">
-                        and return_status=#{status}
+                    <when test="status==0">
+                        and return_status!=0 and return_status!=-1
                     </when>
                     <otherwise>
+                        and return_status=#{status}
                     </otherwise>
                 </choose>
             </when>
@@ -248,6 +249,7 @@
                     and apply_status=2 and pass_status=1 and exist_status=1))
                 <choose>
                     <when test="status==0">
+                        and return_status!=0 and return_status!=-1
                     </when>
                     <otherwise>
                         and return_status=#{status}
@@ -261,9 +263,10 @@
             <when test="identity==2">
                 <choose>
                     <when test="status==0">
+                        where return_status!=0 and return_status!=-1
                     </when>
                     <otherwise>
-                        and status=#{status}
+                        where return_status=#{status}
                     </otherwise>
                 </choose>
             </when>
@@ -280,10 +283,11 @@
                 where order_id in (select id from `order` where user_id=
                 (select id from user where username=#{username}))
                 <choose>
-                    <when test="status!=0">
-                        and return_status=#{status}
+                    <when test="status==0">
+                        and return_status!=0 and return_status!=-1
                     </when>
                     <otherwise>
+                        and return_status=#{status}
                     </otherwise>
                 </choose>
             </when>
@@ -298,6 +302,7 @@
                 and apply_status=2 and pass_status=1 and exist_status=1))
                 <choose>
                     <when test="status==0">
+                        and return_status!=0 and return_status!=-1
                     </when>
                     <otherwise>
                         and return_status=#{status}
@@ -311,9 +316,10 @@
             <when test="identity==2">
                 <choose>
                     <when test="status==0">
+                        where return_status!=0 and return_status!=-1
                     </when>
                     <otherwise>
-                        and status=#{status}
+                        where return_status=#{status}
                     </otherwise>
                 </choose>
             </when>
