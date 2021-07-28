@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
 import java.util.List;
 import java.util.Map;
 
@@ -35,6 +36,13 @@ public class AlipayController {
                          @RequestParam("body") String body//商品描述，（可缺省
                          ) throws AlipayApiException {
 
+
+        return  payService.aliPay(new AliPay(order_id,subject,total_amount,body));
+    }
+
+    @RequestMapping("alipay/return/ok")
+    public String returnOk(HttpServletRequest request,
+                           @RequestParam("out_trade_no") String order_id){
         orderDao.updateStatus(3,order_id);
         //获得订单中所有书的目录项
         List<Map<String,Object>> mapList=orderBookDao.getOrderBookByID(order_id);
@@ -46,11 +54,12 @@ public class AlipayController {
             String book_id=map.get("book_id").toString();
             bookDao.updateVolume(book_id,volume+number);
         }
-        return  payService.aliPay(new AliPay(order_id,subject,total_amount,body));
+        return "<h1>Pay Success</h1>";
     }
 
-    @RequestMapping("alipay/return")
-    public String toIndex(){
-        return "index";
+    @RequestMapping("alipay/return/error")
+    public String returnError(HttpServletRequest request,
+                              @RequestParam("out_trade_no") String order_id){
+        return "<h1>Pay Error</h1>";
     }
 }

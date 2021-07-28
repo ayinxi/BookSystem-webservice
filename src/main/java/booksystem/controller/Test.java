@@ -86,10 +86,19 @@ public class Test {
 
     @GetMapping("/test")
     public String test(){
-        List<Map<String,Object>>list=dataDao.getData(1,20);
-        System.out.println(list);
+//        List<Map<String,Object>>list=dataDao.getData(1,20);
+//        System.out.println(list);
         return "ok";
     }
+
+    @GetMapping("/test/return")
+    public String orderReturn(HttpServletRequest request,
+                              @RequestParam("out_trade_no") String order_id){
+        System.out.println(order_id);
+        return order_id;
+    }
+
+
 
 
 }

@@ -179,7 +179,7 @@
         from order_book
         <choose>
             <when test="identity==1">
-                where order_id in (select id from `order` where shop_id=(select id from shop where user_id=(select id from user where username=#{username))) and remark_status=1
+                where order_id in (select id from `order` where shop_id=(select id from shop where user_id=(select id from user where username=#{username}))) and remark_status=1
             </when>
             <otherwise>
             </otherwise>

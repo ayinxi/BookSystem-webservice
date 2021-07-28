@@ -275,4 +275,15 @@ public class OrderBookServiceImpl implements OrderBookService{
     public int getRemarkNum(int identity, String username) {
         return orderBookDao.getRemarkNum(identity,username);
     }
+
+    @Override
+    public Object fuzzyOrder(int start, int order_num, int status, String content) {
+        List<String> Order_Ids=orderDao.fuzzyOrderID(start,order_num,status,content);
+        List<Map<String, Object>> temp=new ArrayList<>();
+        if(Order_Ids.isEmpty()){
+            return temp;
+        }
+        List<Map<String,Object>> mapList=orderBookDao.getAllOrderBookByUser(Order_Ids);
+        return OrderUtils.OrderOutput(mapList);
+    }
 }

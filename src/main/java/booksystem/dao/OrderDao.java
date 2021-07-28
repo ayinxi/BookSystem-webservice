@@ -19,6 +19,7 @@ public interface OrderDao {
     //根据shop_id获取所有订单的id
     List<String> getAllOrderIDByShop(String shop_id);
     List<String> getAllOrderID(int start,int order_num,int status,int identity,String username);
+    List<String> fuzzyOrderID(int start,int order_num,int status,String content);
 
     //通过order_id获取订单的东西
     Map<String,Object> getOrderByID(String order_id);
