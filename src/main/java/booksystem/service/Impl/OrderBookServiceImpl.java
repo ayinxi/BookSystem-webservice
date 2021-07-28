@@ -194,7 +194,7 @@ public class OrderBookServiceImpl implements OrderBookService{
     @Override
     public int refundOrder(String order_book_id,int return_status) {
         Map<String,Object> bookMap=orderBookDao.getBookByID(order_book_id);
-        if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
+        if (Integer.valueOf(bookMap.get("return_status").toString()) != 7&&Integer.valueOf(bookMap.get("return_status").toString()) != 1&&Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
             return -1;
         //更改状态
         orderBookDao.updateReturnStatus(order_book_id,null,return_status);
@@ -205,7 +205,7 @@ public class OrderBookServiceImpl implements OrderBookService{
     public int batRefundOrder(List<String> Order_Book_Ids,int return_status) {
         for(String order_book_id:Order_Book_Ids) {
             Map<String, Object> bookMap = orderBookDao.getBookByID(order_book_id);
-            if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
+            if (Integer.valueOf(bookMap.get("return_status").toString()) != 7&&Integer.valueOf(bookMap.get("return_status").toString()) != 1&&Integer.valueOf(bookMap.get("return_status").toString()) != 4)
                 return -1;
         }
         //更改状态
@@ -217,7 +217,7 @@ public class OrderBookServiceImpl implements OrderBookService{
     @Override
     public int failRefundOrder(String order_book_id, String check_opinion,int return_status) {
         Map<String,Object> bookMap=orderBookDao.getBookByID(order_book_id);
-        if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
+        if (Integer.valueOf(bookMap.get("return_status").toString()) != 7&&Integer.valueOf(bookMap.get("return_status").toString()) != 1&&Integer.valueOf(bookMap.get("return_status").toString()) != 4)
             return -1;
         //更改状态
         orderBookDao.updateReturnStatus(order_book_id,check_opinion,return_status);
@@ -229,7 +229,7 @@ public class OrderBookServiceImpl implements OrderBookService{
         for(Map<String,Object> check:checkList) {
             String order_book_id=check.get("order_book_id").toString();
             Map<String, Object> bookMap = orderBookDao.getBookByID(order_book_id);
-            if (Integer.valueOf(bookMap.get("return_status").toString()) != 1||Integer.valueOf(bookMap.get("return_status").toString()) != 4)//申请退货未审核
+            if (Integer.valueOf(bookMap.get("return_status").toString()) != 7&&Integer.valueOf(bookMap.get("return_status").toString()) != 1&&Integer.valueOf(bookMap.get("return_status").toString()) != 4)
                 return -1;
         }
         //更改状态
@@ -277,7 +277,7 @@ public class OrderBookServiceImpl implements OrderBookService{
     }
 
     @Override
-    public Object fuzzyOrder(int start, int order_num, int status, String content) {
+    public List<Map<String,Object>> fuzzyOrder(int start, int order_num, int status, String content) {
         List<String> Order_Ids=orderDao.fuzzyOrderID(start,order_num,status,content);
         List<Map<String, Object>> temp=new ArrayList<>();
         if(Order_Ids.isEmpty()){
@@ -285,5 +285,23 @@ public class OrderBookServiceImpl implements OrderBookService{
         }
         List<Map<String,Object>> mapList=orderBookDao.getAllOrderBookByUser(Order_Ids);
         return OrderUtils.OrderOutput(mapList);
+    }
+
+    @Override
+    public List<Map<String,Object>> getReback(int start, int order_num, int status, int identity, String username) {
+        List<Map<String, Object>> list=orderBookDao.getReback(start,order_num,status,identity,username);
+        List<Map<String, Object>> res=new ArrayList<>();
+        for(int i=0;i<list.size();i++){
+            list.get(i).put("remark_time",list.get(i).get("remark_time").toString().replace("T"," "));
+            list.get(i).put("return_time",list.get(i).get("return_time").toString().replace("T"," "));
+            list.get(i).put("firm_time",list.get(i).get("firm_time").toString().replace("T"," "));
+            Map<String,Object>book=bookDao.getBookByID(list.get(i).get("book_id").toString());
+            book.put("update_time",book.get("update_time").toString().replace("T"," "));
+            book.put("create_time",book.get("create_time").toString().replace("T"," "));
+            book.put("print_time",book.get("print_time").toString().replace("T"," "));
+            list.get(i).put("books",book);
+            res.add(list.get(i));
+        }
+        return res;
     }
 }

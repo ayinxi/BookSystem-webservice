@@ -51,5 +51,8 @@ public interface OrderBookDao{
 
     //获取评论分页
     List<Map<String,Object>> getRemark(int page_num,int remark_num,int identity,String username);
+    List<Map<String,Object>> getReback(int start, int order_num, int status, int identity, String username);
     int getRemarkNum(int identity,String username);
+
+    int getRebackCount(int status, int identity, String username);
 }

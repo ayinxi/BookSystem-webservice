@@ -51,7 +51,9 @@ public interface OrderBookService {
     List<Map<String,Object>> getRemark(int page_num,int remark_num,int identity,String username);
     int getRemarkNum(int identity,String username);
 
-    Object fuzzyOrder(int start, int order_num, int status, String content);
+    List<Map<String,Object>> fuzzyOrder(int start, int order_num, int status, String content);
+
+    Object getReback(int start,int order_num, int status,int identity, String username);
 
     //某一个店铺的所有退款订单信息
 

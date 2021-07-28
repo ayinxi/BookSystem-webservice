@@ -66,6 +66,8 @@
     <select id="fuzzyOrderID" resultType="String">
         select id from `order`
                 where user_id in (select id from user where username like #{content})
+                  or shop_id in (select id from shop where shop_name like #{content})
+                    or id in (select order_id from order_book where book_id in (select id from book where book_name like #{content}))
             <choose>
                 <when test="status==0">
                 </when>
@@ -74,6 +76,21 @@
                 </otherwise>
             </choose>
         order by update_time desc limit #{start},#{order_num}
+    </select>
+
+    <select id="fuzzyOrderCount" resultType="int">
+        select count(id) from `order`
+        where user_id in (select id from user where username like #{content})
+        or shop_id in (select id from shop where shop_name like #{content})
+        or id in (select order_id from order_book where book_id in (select id from book where book_name like #{content}))
+        <choose>
+            <when test="status==0">
+            </when>
+            <otherwise>
+                and status=#{status}
+            </otherwise>
+        </choose>
+        order by update_time desc
     </select>
 
 

@@ -159,6 +159,17 @@ public class UserController {
         }
     }
 
+
+    //修改头像
+    @PostMapping("/admin/updateAvatar")
+    public Result updateAvatar(@RequestParam("img") MultipartFile img,
+                               @RequestParam("user_id")String user_id){
+
+        User user=userService.getUserByID(user_id);
+        uploadImgService.uploadUserImg(img,user.getUsername());
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
+    }
+
     //修改头像
     @PostMapping("/admin/updateUser")
     public Result updateEmail(@RequestParam("user_id")  String user_id,

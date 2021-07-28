@@ -187,21 +187,16 @@ public class OrderController {
      * @param page_num 第几页
      * @param order_num 一页多少订单
      * @param status 0:全部,1：已取消，2：未付款，3：未发货,4:未确认，5：未评价
+     * @param content
      * @return
      */
     @RequestMapping("/order/fuzzyQuery")
     public Result fuzzyQuery(@RequestParam("page_num")String page_num,
                            @RequestParam("order_num")String order_num,
-                           @RequestParam("status")String status,
-                           @RequestParam("content") String content,
-                           ServletRequest request
+                             @RequestParam("status")String status,
+                           @RequestParam("content") String content
     ){
 
-        String token=((HttpServletRequest)request).getHeader("token");
-        int identity= Integer.parseInt(TokenUtils.parseToken(token).get("identity").toString());
-        if(identity==0){
-            return Result.error(ResultEnum.AUTHORITY_FAIL.getCode(),ResultEnum.AUTHORITY_FAIL.getMsg());
-        }
         if(page_num.isEmpty()||order_num.isEmpty()){
             return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
         }
@@ -210,6 +205,24 @@ public class OrderController {
                 (Integer.parseInt(page_num)-1)*Integer.parseInt(order_num),Integer.parseInt(order_num),
                 Integer.parseInt(status),"%"+content+"%"
         ));
+    }
+
+    /**
+     * @param status 0:全部,1：已取消，2：未付款，3：未发货,4:未确认，5：未评价
+     * @param content
+     * @return
+     */
+    @RequestMapping("/order/fuzzyQueryCount")
+    public Result fuzzyQueryCount(@RequestParam("status")String status,
+                                  @RequestParam("content") String content
+    ){
+
+        if(status.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+
+        return Result.ok(ResultEnum.SUCCESS.getMsg())
+                .put("data",orderDao.fuzzyOrderCount(Integer.parseInt(status),"%"+content+"%"));
     }
 
     /**

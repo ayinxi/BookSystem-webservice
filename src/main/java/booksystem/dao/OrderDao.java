@@ -43,4 +43,5 @@ public interface OrderDao {
     void deleteOrder(List<String> Order_Ids);
 
 
+    int fuzzyOrderCount(int status, String content);
 }

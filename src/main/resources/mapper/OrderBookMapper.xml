@@ -179,7 +179,9 @@
         from order_book
         <choose>
             <when test="identity==1">
-                where order_id in (select id from `order` where shop_id=(select id from shop where user_id=(select id from user where username=#{username}))) and remark_status=1
+                where order_id in (select id from `order` where shop_id=
+        (select id from shop where user_id=(select id from user where username=#{username})
+                and apply_status=2 and pass_status=1 and exist_status=1 )) and remark_status=1
             </when>
             <otherwise>
             </otherwise>
@@ -198,7 +200,9 @@
         select count(*) from order_book
         <choose>
             <when test="identity==1">
-                where order_id in (select id from `order` where shop_id=(select id from shop where user_id=(select id from user where username=#{username}))) and remark_status=1
+                where order_id in (select id from `order` where shop_id=
+    (select id from shop where user_id=(select id from user where username=#{username})
+                and apply_status=2 and pass_status=1 and exist_status=1)) and remark_status=1
             </when>
             <otherwise>
             </otherwise>
@@ -210,5 +214,112 @@
             <otherwise>
             </otherwise>
         </choose>
+    </select>
+
+    <select id="getReback" resultType="java.util.Map">
+        select *,id as order_book_id,
+        (SELECT name FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as name,
+        (SELECT avatar_b FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as avatar_b,
+        (SELECT avatar_s FROM user WHERE id=(SELECT user_id FROM `order` WHERE id=order_id)) as avatar_s,
+        (SELECT shop_name from shop where id=(SELECT shop_id from book where id=book_id)) as shop_name,
+        (SELECT firm_time from `order` where id=order_id) as firm_time,
+        (SELECT status from `order` where id=order_id) as status
+        from order_book
+        <choose>
+            <when test="identity==0">
+                where order_id in (select id from `order` where user_id=
+                                        (select id from user where username=#{username}))
+                <choose>
+                    <when test="status!=0">
+                        and return_status=#{status}
+                    </when>
+                    <otherwise>
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="identity==1">
+                where order_id in (select id from `order` where shop_id=
+                (select id from shop where user_id=
+                (select id from user where username=#{username})
+                    and apply_status=2 and pass_status=1 and exist_status=1))
+                <choose>
+                    <when test="status==0">
+                    </when>
+                    <otherwise>
+                        and return_status=#{status}
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="identity==2">
+                <choose>
+                    <when test="status==0">
+                    </when>
+                    <otherwise>
+                        and status=#{status}
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        ORDER BY return_time DESC limit #{start},#{order_num}
+    </select>
+
+    <select id="getRebackCount" resultType="int">
+        select count(id) from order_book
+        <choose>
+            <when test="identity==0">
+                where order_id in (select id from `order` where user_id=
+                (select id from user where username=#{username}))
+                <choose>
+                    <when test="status!=0">
+                        and return_status=#{status}
+                    </when>
+                    <otherwise>
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="identity==1">
+                where order_id in (select id from `order` where shop_id=
+                (select id from shop where user_id=
+                (select id from user where username=#{username})
+                and apply_status=2 and pass_status=1 and exist_status=1))
+                <choose>
+                    <when test="status==0">
+                    </when>
+                    <otherwise>
+                        and return_status=#{status}
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="identity==2">
+                <choose>
+                    <when test="status==0">
+                    </when>
+                    <otherwise>
+                        and status=#{status}
+                    </otherwise>
+                </choose>
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        ORDER BY return_time DESC
     </select>
 </mapper>

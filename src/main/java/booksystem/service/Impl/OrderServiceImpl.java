@@ -56,7 +56,7 @@ public class OrderServiceImpl implements OrderService {
                 return -1;//订单不存在
 
             //判断取消订单是在 未付款的时候
-            if(Integer.valueOf(order.get(0).get("status").toString())!=2||3!=Integer.valueOf(order.get(0).get("status").toString()))
+            if(Integer.valueOf(order.get(0).get("status").toString())!=2&&3!=Integer.valueOf(order.get(0).get("status").toString()))
             {
                 return 0;
             }
