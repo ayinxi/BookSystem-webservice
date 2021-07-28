@@ -1,5 +1,7 @@
 package booksystem.controller;
 
+import booksystem.dao.BookDao;
+import booksystem.dao.OrderBookDao;
 import booksystem.dao.OrderDao;
 import booksystem.pojo.AliPay;
 import booksystem.service.PayService;
@@ -10,6 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 public class AlipayController {
@@ -17,6 +21,10 @@ public class AlipayController {
     private PayService payService;//调用支付服务
     @Autowired
     OrderDao orderDao;
+    @Autowired
+    BookDao bookDao;
+    @Autowired
+    OrderBookDao orderBookDao;
 
     /*阿里支付*/
 //    https://opendocs.alipay.com/apis/api_1/alipay.trade.precreate/      api文档
@@ -27,6 +35,17 @@ public class AlipayController {
                          @RequestParam("body") String body//商品描述，（可缺省
                          ) throws AlipayApiException {
 
+        orderDao.updateStatus(3,order_id);
+        //获得订单中所有书的目录项
+        List<Map<String,Object>> mapList=orderBookDao.getOrderBookByID(order_id);
+        //遍历所有目录项
+        for(Map<String,Object> map:mapList)
+        {
+            int number=Integer.valueOf(map.get("number").toString());
+            int volume=Integer.valueOf(map.get("volume").toString());
+            String book_id=map.get("book_id").toString();
+            bookDao.updateVolume(book_id,volume+number);
+        }
         return  payService.aliPay(new AliPay(order_id,subject,total_amount,body));
     }
 
