@@ -179,7 +179,7 @@
         from order_book
         <choose>
             <when test="identity==1">
-                where order_id in (select id from `order` where shop_id=(select id from shop where user_id=(select id from user where username="shopper@qq.com"))) and remark_status=1
+                where order_id in (select id from `order` where shop_id=(select id from shop where user_id=(select id from user where username=#{username))) and remark_status=1
             </when>
             <otherwise>
             </otherwise>
@@ -191,6 +191,24 @@
             <otherwise>
             </otherwise>
         </choose>
-         order by remark_time desc
+         order by remark_time desc limit #{page_num},#{remark_num}
+    </select>
+
+    <select id="getRemarkNum" resultType="int">
+        select count(*) from order_book
+        <choose>
+            <when test="identity==1">
+                where order_id in (select id from `order` where shop_id=(select id from shop where user_id=(select id from user where username=#{username}))) and remark_status=1
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
+        <choose>
+            <when test="identity==2">
+                where remark_status=1
+            </when>
+            <otherwise>
+            </otherwise>
+        </choose>
     </select>
 </mapper>

@@ -1,5 +1,6 @@
 package booksystem.service.Impl;
 
+import booksystem.dao.BookDao;
 import booksystem.dao.OrderBookDao;
 import booksystem.dao.OrderDao;
 import booksystem.service.OrderBookService;
@@ -16,6 +17,8 @@ public class OrderBookServiceImpl implements OrderBookService{
     OrderBookDao  orderBookDao;
     @Autowired
     OrderDao orderDao;
+    @Autowired
+    BookDao bookDao;
 
     @Override
     public Map<String,Object> getOrderByOrderID(String order_id) {
@@ -257,10 +260,19 @@ public class OrderBookServiceImpl implements OrderBookService{
         for(int i=0;i<remark.size();i++){
             HashMap<String,Object>tmp=new HashMap<>();
             tmp.put("remark",remark.get(i));
-            Map<String,Object>book=;
+            remark.get(i).put("remark_time",remark.get(i).get("remark_time").toString().replace("T"," "));
+            Map<String,Object>book=bookDao.getBookByID(remark.get(i).get("book_id").toString());
+            book.put("update_time",book.get("update_time").toString().replace("T"," "));
+            book.put("create_time",book.get("create_time").toString().replace("T"," "));
+            book.put("print_time",book.get("print_time").toString().replace("T"," "));
             tmp.put("book",book);
             res.add(tmp);
         }
         return res;
+    }
+
+    @Override
+    public int getRemarkNum(int identity, String username) {
+        return orderBookDao.getRemarkNum(identity,username);
     }
 }

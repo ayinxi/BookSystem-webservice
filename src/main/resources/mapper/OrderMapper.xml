@@ -69,22 +69,22 @@
     </update>
 
     <update id="updateFirmTime" parameterType="String">
-        update `order` set firm_time=now()  and update_time=now() where id=#{order_id}
+        update `order` set firm_time=now(),update_time=now() where id=#{order_id}
     </update>
 
     <update id="batUpdateFirmTime" parameterType="java.util.List">
-        update `order` set firm_time=now()  and update_time=now()  where id in
+        update `order` set firm_time=now(),update_time=now()  where id in
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>
     </update>
 
     <update id="updateSendTime" parameterType="String">
-        update `order` set send_time=now()  and update_time=now() where id=#{order_id}
+        update `order` set send_time=now(),update_time=now() where id=#{order_id}
     </update>
 
     <update id="batUpdateSendTime" parameterType="java.util.List">
-        update `order` set send_time=now()  and update_time=now() where id in
+        update `order` set send_time=now(),update_time=now() where id in
         <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
             #{item}
         </foreach>

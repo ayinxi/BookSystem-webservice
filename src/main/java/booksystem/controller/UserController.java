@@ -160,10 +160,14 @@ public class UserController {
     }
 
     //修改头像
-    @PostMapping("/admin/updateEmail")
+    @PostMapping("/admin/updateUser")
     public Result updateEmail(@RequestParam("user_id")  String user_id,
+                              @RequestParam("name") String name,
+                              @RequestParam("password") String password,
                               @RequestParam("email") String email){
-        userService.updateEmail(user_id,email);
+        User user=userService.getUserByID(user_id);
+        userService.updateUser(user.getUsername(),password,name);
+        userService.updateEmail(user_id, email);
         return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 }
