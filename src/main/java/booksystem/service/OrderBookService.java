@@ -48,6 +48,9 @@ public interface OrderBookService {
     //获取某本书的所有评价
     List<Map<String,Object>> getBookRemark(String book_id);
 
+    List<Map<String,Object>> getRemark(int page_num,int remark_num,int identity,String username);
+    int getRemarkNum(int identity,String username);
+
     //某一个店铺的所有退款订单信息
 
     //某一个退款订单的详情

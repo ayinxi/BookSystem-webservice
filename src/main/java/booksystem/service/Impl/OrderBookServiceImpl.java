@@ -1,5 +1,6 @@
 package booksystem.service.Impl;
 
+import booksystem.dao.BookDao;
 import booksystem.dao.OrderBookDao;
 import booksystem.dao.OrderDao;
 import booksystem.service.OrderBookService;
@@ -8,16 +9,16 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
+
 @Service
 public class OrderBookServiceImpl implements OrderBookService{
     @Autowired
     OrderBookDao  orderBookDao;
     @Autowired
     OrderDao orderDao;
+    @Autowired
+    BookDao bookDao;
 
     @Override
     public Map<String,Object> getOrderByOrderID(String order_id) {
@@ -242,6 +243,36 @@ public class OrderBookServiceImpl implements OrderBookService{
 
     @Override
     public List<Map<String, Object>> getBookRemark(String book_id) {
-        return orderBookDao.getBookRemark(book_id);
+        List<Map<String,Object>> remarkList=orderBookDao.getBookRemark(book_id);
+        if(!remarkList.isEmpty()) {
+            for (Map<String, Object> remark : remarkList) {
+                remark.put("remark_time",remark.get("remark_time").toString().replace("T", " "));
+            }
+        }
+        return remarkList;
+    }
+
+    @Override
+    public List<Map<String, Object>> getRemark(int page_num, int remark_num, int identity, String username) {
+        List<Map<String,Object>> remark=orderBookDao.getRemark(page_num,remark_num,identity,username);
+        System.out.println(remark);
+        List<Map<String,Object>>res=new ArrayList<>();
+        for(int i=0;i<remark.size();i++){
+            HashMap<String,Object>tmp=new HashMap<>();
+            tmp.put("remark",remark.get(i));
+            remark.get(i).put("remark_time",remark.get(i).get("remark_time").toString().replace("T"," "));
+            Map<String,Object>book=bookDao.getBookByID(remark.get(i).get("book_id").toString());
+            book.put("update_time",book.get("update_time").toString().replace("T"," "));
+            book.put("create_time",book.get("create_time").toString().replace("T"," "));
+            book.put("print_time",book.get("print_time").toString().replace("T"," "));
+            tmp.put("book",book);
+            res.add(tmp);
+        }
+        return res;
+    }
+
+    @Override
+    public int getRemarkNum(int identity, String username) {
+        return orderBookDao.getRemarkNum(identity,username);
     }
 }

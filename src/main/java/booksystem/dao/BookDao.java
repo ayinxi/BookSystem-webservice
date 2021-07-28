@@ -16,6 +16,7 @@ public interface BookDao {
     //获取所有图书
     HashMap<String,Object> getAllBook();
 
+
     //添加
     int addBook(Book book);
     //查找用户
@@ -44,4 +45,5 @@ public interface BookDao {
 
 
     void updateStatus(String shop_id);
+
 }

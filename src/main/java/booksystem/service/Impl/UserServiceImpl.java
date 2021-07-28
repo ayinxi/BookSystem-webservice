@@ -194,4 +194,16 @@ public class UserServiceImpl implements UserService {
             //跳转成功页面
             return 2;
     }
+
+    @Override
+    public void updateEmail(String user_id, String email) {
+        User user=userDao.getUserByID(user_id);
+        List<Shop> shopList=shopDao.getShopByUser(user.getUsername());
+        for (Shop shop:shopList)
+        {
+            shop.setUsername(email);
+            shopDao.updateShop(shop);
+        }
+        userDao.updateEmail(user_id,email);
+    }
 }

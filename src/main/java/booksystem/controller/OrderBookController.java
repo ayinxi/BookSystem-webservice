@@ -41,7 +41,6 @@ public class OrderBookController {
         }
     }
 
-
     //用户退货
     @PostMapping("/order/return")
     public Result returnBook(@RequestParam("order_book_id") String order_book_id,
@@ -273,5 +272,43 @@ public class OrderBookController {
         else
             return Result.error(ResultEnum.UNKNOWN_ERROR.getCode(), ResultEnum.UNKNOWN_ERROR.getMsg());
     }
+    //获取书的评价
+    @RequestMapping("/book/getRemark")
+    public Result getBookRemark(@RequestParam("book_id")String book_id){
+        List<Map<String,Object>> remarkList=orderBookService.getBookRemark(book_id);
+        return Result.ok(ResultEnum.SUCCESS.getMsg()).put("data",remarkList);
+    }
 
+    //获取书的评价
+    @RequestMapping("/getRemarkPage")
+    public Result getAllRemark(@RequestParam("page_num")String page_num,
+                               @RequestParam("remark_num")String remark_num,
+                               ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int identity= Integer.valueOf(TokenUtils.parseToken(token).get("identity").toString());
+        if(identity==0)
+        {
+            return Result.error(ResultEnum.AUTHORITY_FAIL.getCode(),ResultEnum.AUTHORITY_FAIL.getMsg());
+        }
+        if(page_num.isEmpty()||remark_num.isEmpty()){
+            return Result.error(ResultEnum.DATA_IS_NULL.getCode(),ResultEnum.DATA_IS_NULL.getMsg());
+        }
+        return Result.ok().put("data",orderBookService.getRemark(
+                (Integer.parseInt(page_num)-1)*Integer.parseInt(remark_num),
+                Integer.parseInt(remark_num),identity,username
+        ));
+    }
+    //获取书的评价
+    @RequestMapping("/getRemarkNum")
+    public Result getRemarkNum(ServletRequest request){
+        String token=((HttpServletRequest)request).getHeader("token");
+        String username= TokenUtils.parseToken(token).get("username").toString();
+        int identity= Integer.valueOf(TokenUtils.parseToken(token).get("identity").toString());
+        if(identity==0)
+        {
+            return Result.error(ResultEnum.AUTHORITY_FAIL.getCode(),ResultEnum.AUTHORITY_FAIL.getMsg());
+        }
+        return Result.ok().put("data",orderBookService.getRemarkNum(identity,username));
+    }
 }

@@ -50,4 +50,8 @@
         update user set access_time=now() where username=#{username}
     </update>
 
+    <update id="updateEmail" parameterType="String">
+        update user set username=#{email},email={email} where id=#{user_id}
+    </update>
+
 </mapper>

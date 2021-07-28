@@ -28,4 +28,7 @@ public interface UserService {
     //注册用户
     int register(String password,String email,String name,String activationCode);
 
+    //修改绑定邮箱
+    void updateEmail(String user_id,String email);
+
 }
