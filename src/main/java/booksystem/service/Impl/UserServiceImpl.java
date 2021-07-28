@@ -125,9 +125,9 @@ public class UserServiceImpl implements UserService {
                     return -1;//用户已存在
                 }
             }
-            userDao.addUser(email, password, name, 0, null);
             SimpleMailMessage mailMessage = new SimpleMailMessage();
             mailMessage.setSubject("【教我编程图书商城】验证码邮件");//主题
+            userDao.addUser(email, password, name, 0, "");
             //生成随机数
             String Code = randomCode();
             //更新验证码

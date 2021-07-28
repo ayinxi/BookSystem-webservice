@@ -317,15 +317,11 @@ public class ShopController {
     //修改头像
     @PostMapping("/shop/updateAvatar")
     public Result updateAvatar(@RequestParam("username") String username,
-                               @RequestParam("img") MultipartFile img){
-        List<Shop> shopList=shopService.getShopByUserAndStatus(username,2,1,1);
-        if(!img.isEmpty()){
-            Shop shop=shopList.get(0);
-            uploadImgService.uploadShopImg(img, shop.getId());
-            return Result.ok(ResultEnum.SUCCESS.getMsg());
-        }else{
-            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
-        }
+                               @RequestParam("img") MultipartFile img) {
+        List<Shop> shopList = shopService.getShopByUserAndStatus(username, 2, 1, 1);
+        Shop shop = shopList.get(0);
+        uploadImgService.uploadShopImg(img, shop.getId());
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 
     //通过shop_id来获取信息

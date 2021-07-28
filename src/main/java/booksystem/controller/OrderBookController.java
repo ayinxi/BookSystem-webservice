@@ -104,13 +104,9 @@ public class OrderBookController {
     //退还货凭证上传
     @PostMapping("/order/returnImg")
     public Result updateReturnImg(@RequestParam("order_book_id") String order_book_id,
-                               @RequestParam("img") MultipartFile img)
-    {
-        if (img!=null) {
-            uploadImgService.uploadReturnImg(img,order_book_id);
-            return Result.ok(ResultEnum.SUCCESS.getMsg());
-        }else
-            return Result.error(ResultEnum.UPDATE_FAIL.getCode(),ResultEnum.UPDATE_FAIL.getMsg());
+                               @RequestParam("img") MultipartFile img) {
+        uploadImgService.uploadReturnImg(img, order_book_id);
+        return Result.ok(ResultEnum.SUCCESS.getMsg());
     }
 
 
@@ -170,7 +166,7 @@ public class OrderBookController {
 
     }
     //根据order_book_id拒绝退货
-    @PostMapping("/shop/ReturnFail")
+    @PostMapping("/shop/returnFail")
     public Result ReturnFail(@RequestParam("order_book_id") String order_book_id,
                                 @RequestParam("check_opinion") String check_opinion){
         int result=orderBookService.failRefundOrder(order_book_id,check_opinion,3);

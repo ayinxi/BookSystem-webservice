@@ -98,8 +98,8 @@ public class UploadImgServiceImpl implements UploadImgService {
 
     @Override
     public String uploadReturnImg(MultipartFile img, String order_book_id) {
-        String fileUrl_b=uploadImgDao.getReturnImgUrlById(order_book_id).get("image_b").toString();
-        String fileUrl_s=uploadImgDao.getReturnImgUrlById(order_book_id).get("image_s").toString();
+        String fileUrl_b = uploadImgDao.getReturnImgUrlById(order_book_id).get("image_b").toString();
+        String fileUrl_s= uploadImgDao.getReturnImgUrlById(order_book_id).get("image_s").toString();
 
         File imgFile=ImgUtils.multipartFileToFile(img);
 

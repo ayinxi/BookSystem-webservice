@@ -23,7 +23,7 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public int addBook(String book_name, String author, double price, int repertory, String press, String edition, String print_time, String main_category_id, String second_category_id, String shop_id) {
-        Book book=new Book(null,book_name,author,price,0,repertory,press,edition,print_time,"null","null",main_category_id,second_category_id,shop_id,null,null);
+        Book book=new Book(null,book_name,author,price,0,repertory,press,edition,print_time,"","",main_category_id,second_category_id,shop_id,null,null);
         return bookDao.addBook(book);
     }
 

@@ -217,7 +217,9 @@ public class OrderBookServiceImpl implements OrderBookService{
     @Override
     public int failRefundOrder(String order_book_id, String check_opinion,int return_status) {
         Map<String,Object> bookMap=orderBookDao.getBookByID(order_book_id);
-        if (Integer.valueOf(bookMap.get("return_status").toString()) != 7&&Integer.valueOf(bookMap.get("return_status").toString()) != 1&&Integer.valueOf(bookMap.get("return_status").toString()) != 4)
+        if (Integer.valueOf(bookMap.get("return_status").toString()) != 7
+                &&Integer.valueOf(bookMap.get("return_status").toString()) != 1
+                &&Integer.valueOf(bookMap.get("return_status").toString()) != 4)
             return -1;
         //更改状态
         orderBookDao.updateReturnStatus(order_book_id,check_opinion,return_status);
